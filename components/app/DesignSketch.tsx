@@ -120,7 +120,7 @@ export function DesignSketch({ kind, notes, className = "" }: { kind: CategoryId
         <path d="M168 132L232 156" />
         <path d="M232 36L262 22" />
       </g>
-      <g className="fill-maroon font-display" fontStyle="italic" fontSize="13">
+      <g className="fill-maroon font-sans" fontSize="12">
         <text x="236" y="162">{notes[0]}</text>
         <text x="206" y="16">{notes[1]}</text>
       </g>

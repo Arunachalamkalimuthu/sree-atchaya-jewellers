@@ -59,56 +59,56 @@ function PaymentInner({ amount, onPaid, onClose, note }: Props) {
 
   const footer = processing ? null : (
     <div>
-      <Button variant="gold" size="lg" full onClick={pay}>
+      <Button variant="maroon" size="lg" full onClick={pay}>
         <Icon name="lock" size={16} />
         {t("payNow", { amount: formatINR(amount) })}
       </Button>
-      <p className="mt-2.5 text-center text-xs text-maroon-deep/60">{t("payDemo")}</p>
+      <p className="mt-2.5 text-center text-[13px] text-mute">{t("payDemo")}</p>
     </div>
   );
 
   return (
     <Sheet open onClose={onClose} title={t("payTitle")} locked={processing} footer={footer} width="md">
-      <div className="rounded-[4px] bg-maroon-deep px-5 py-4 text-ivory">
-        <p className="text-[13px] text-gold-light/80">{t("payAmount")}</p>
-        <Price value={amount} size="xl" className="mt-1 block text-gold-light" />
-        {note && <p className="mt-1.5 text-[13px] text-ivory/70">{note}</p>}
+      <div className="rounded-[6px] border border-line bg-cream px-5 py-4">
+        <p className="text-[14px] text-mute">{t("payAmount")}</p>
+        <Price value={amount} size="lg" className="mt-0.5 block text-maroon" />
+        {note && <p className="mt-1 text-[14px] text-mute">{note}</p>}
       </div>
 
       {processing ? (
         <div role="status" aria-live="polite" className="flex flex-col items-center py-12 text-center">
           <span className="relative grid size-16 place-items-center">
-            <span className="absolute inset-0 rounded-full border-2 border-gold/20" />
-            <span className="absolute inset-0 animate-spin rounded-full border-2 border-transparent border-t-gold motion-reduce:animate-none" />
+            <span className="absolute inset-0 rounded-full border-2 border-line" />
+            <span className="absolute inset-0 animate-spin rounded-full border-2 border-transparent border-t-maroon motion-reduce:animate-none" />
             <Icon name="lock" size={20} className="text-maroon" />
           </span>
-          <p className="mt-5 font-display text-xl font-semibold text-maroon">{t("payProcessing")}</p>
-          <p className="mt-1 text-sm text-maroon-deep/60">{t("payProcessingNote")}</p>
-          <p className="mt-6 text-xs text-maroon-deep/50">{t("payDemo")}</p>
+          <p className="mt-5 text-[20px] font-semibold text-ink">{t("payProcessing")}</p>
+          <p className="mt-1 text-[14px] text-mute">{t("payProcessingNote")}</p>
+          <p className="mt-6 text-[13px] text-mute">{t("payDemo")}</p>
         </div>
       ) : (
         <fieldset className="mt-5">
-          <legend className="mb-2.5 text-sm text-maroon-deep/70">{t("payChoose")}</legend>
+          <legend className="mb-2.5 text-[14px] font-semibold text-ink">{t("payChoose")}</legend>
           <div className="space-y-2.5">
             {options.map((o) => {
               const active = method === o.id;
               return (
-                <div key={o.id} className={`rounded-[4px] border transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-gold ${active ? "border-gold bg-white/80 shadow-[0_1px_0_rgba(201,162,74,.4)]" : "border-maroon/15 bg-white/40"}`}>
+                <div key={o.id} className={`rounded-[4px] border transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-gold ${active ? "border-maroon bg-maroon/[0.03]" : "border-line bg-white hover:border-maroon/50"}`}>
                   <label className="flex cursor-pointer items-center gap-3.5 px-4 py-3.5">
                     <input type="radio" name="pay-method" value={o.id} checked={active} onChange={() => setMethod(o.id)} className="sr-only" />
-                    <span className={`grid size-10 shrink-0 place-items-center rounded-full ${active ? "bg-maroon text-gold-light" : "bg-maroon/[0.06] text-maroon"}`}>
+                    <span className={`grid size-10 shrink-0 place-items-center rounded-full ${active ? "bg-maroon text-white" : "bg-cream text-maroon"}`}>
                       <Icon name={o.icon} size={19} />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block text-[15px] font-medium text-maroon-deep">{o.label}</span>
-                      <span className="block text-[12.5px] text-maroon-deep/60">{o.hint}</span>
+                      <span className="block text-[16px] font-semibold text-ink">{o.label}</span>
+                      <span className="block text-[13.5px] leading-snug text-mute">{o.hint}</span>
                     </span>
-                    <span aria-hidden className={`grid size-5 shrink-0 place-items-center rounded-full border ${active ? "border-maroon" : "border-maroon/30"}`}>
+                    <span aria-hidden className={`grid size-5 shrink-0 place-items-center rounded-full border ${active ? "border-maroon" : "border-ink/25"}`}>
                       {active && <span className="size-2.5 rounded-full bg-maroon" />}
                     </span>
                   </label>
                   {active && (
-                    <div className="border-t border-gold/25 px-4 py-3.5">
+                    <div className="border-t border-line px-4 py-3.5">
                       {o.id === "upi" && <DemoInput label={t("payUpiId")} value={DEMO_UPI} />}
                       {o.id === "card" && (
                         <div className="grid grid-cols-[1fr_6rem] gap-3">
@@ -118,11 +118,11 @@ function PaymentInner({ amount, onPaid, onClose, note }: Props) {
                       )}
                       {o.id === "netbanking" && (
                         <label className="block">
-                          <span className="text-xs text-maroon-deep/60">{t("payBank")}</span>
+                          <span className="text-[13px] text-mute">{t("payBank")}</span>
                           <select
                             value={bank}
                             onChange={(e) => setBank(e.target.value)}
-                            className="mt-1 h-11 w-full rounded-[3px] border border-maroon/20 bg-white px-3 text-[15px] text-maroon-deep focus-visible:outline-2 focus-visible:outline-gold"
+                            className="mt-1 h-11 w-full rounded-[4px] border border-line bg-white px-3 text-[16px] text-ink focus-visible:border-gold focus-visible:outline-2 focus-visible:outline-gold"
                           >
                             {BANKS.map((b) => <option key={b}>{b}</option>)}
                           </select>
@@ -143,11 +143,11 @@ function PaymentInner({ amount, onPaid, onClose, note }: Props) {
 function DemoInput({ label, value }: { label: string; value: string }) {
   return (
     <label className="block min-w-0">
-      <span className="text-xs text-maroon-deep/60">{label}</span>
+      <span className="text-[13px] text-mute">{label}</span>
       <input
         readOnly
         value={value}
-        className="mt-1 h-11 w-full rounded-[3px] border border-maroon/20 bg-white px-3 text-[15px] tracking-wide text-maroon-deep [font-feature-settings:'tnum'] focus-visible:outline-2 focus-visible:outline-gold"
+        className="mt-1 h-11 w-full rounded-[4px] border border-line bg-white px-3 text-[16px] tracking-wide text-ink tabular-nums focus-visible:border-gold focus-visible:outline-2 focus-visible:outline-gold"
       />
     </label>
   );

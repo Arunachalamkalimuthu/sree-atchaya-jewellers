@@ -30,9 +30,9 @@ export function OtpField({ phone, onVerified, className = "" }: { phone: string;
 
   if (state === "ok") {
     return (
-      <div className={`flex items-center gap-3 rounded-[4px] border border-emerald/30 bg-emerald/[0.06] px-4 py-3 text-emerald ${className}`}>
-        <span className="grid size-7 place-items-center rounded-full bg-emerald text-ivory"><Icon name="check" size={16} /></span>
-        <span className="text-sm font-medium">{t("otpVerified", { phone })}</span>
+      <div className={`flex items-center gap-3 rounded-[4px] border border-line bg-cream px-4 py-3 ${className}`}>
+        <span className="grid size-7 shrink-0 place-items-center rounded-full bg-maroon text-white"><Icon name="check" size={16} /></span>
+        <span className="text-[15px] font-medium text-ink">{t("otpVerified", { phone })}</span>
       </div>
     );
   }
@@ -40,8 +40,8 @@ export function OtpField({ phone, onVerified, className = "" }: { phone: string;
   const digits = code.padEnd(6, " ").split("");
   return (
     <div className={className}>
-      <label htmlFor={id} className="block text-sm text-maroon-deep/80">{t("otpSentTo", { phone })}</label>
-      <div className="relative mt-3">
+      <label htmlFor={id} className="block text-[14px] text-ink">{t("otpSentTo", { phone })}</label>
+      <div className="group relative mt-3">
         {/* One real input (autofill, paste, screen readers) under six drawn boxes. */}
         <input
           id={id}
@@ -53,14 +53,14 @@ export function OtpField({ phone, onVerified, className = "" }: { phone: string;
           aria-invalid={state === "wrong"}
           onChange={(e) => { setCode(e.target.value.replace(/\D/g, "").slice(0, 6)); if (state === "wrong") setState("idle"); }}
           onKeyDown={(e) => { if (e.key === "Enter") verify(); }}
-          className="peer absolute inset-0 z-10 w-full cursor-text opacity-0"
+          className="absolute inset-0 z-10 w-full cursor-text opacity-0"
         />
         <div aria-hidden className="grid grid-cols-6 gap-2">
           {digits.map((d, i) => (
             <span
               key={i}
-              className={`grid h-13 place-items-center rounded-[4px] border bg-white/70 font-display text-2xl font-semibold text-maroon-deep [font-feature-settings:'lnum'] transition-colors peer-focus:border-gold ${
-                state === "wrong" ? "border-maroon/60" : i === code.length ? "border-gold" : "border-maroon/20"
+              className={`grid h-13 place-items-center rounded-[4px] border bg-white text-[22px] font-semibold text-ink tabular-nums transition-colors ${
+                state === "wrong" ? "border-maroon" : i === Math.min(code.length, 5) ? "border-line group-focus-within:border-gold group-focus-within:ring-1 group-focus-within:ring-gold" : "border-line"
               }`}
             >
               {d.trim()}
@@ -75,7 +75,7 @@ export function OtpField({ phone, onVerified, className = "" }: { phone: string;
           {state === "checking" ? t("otpVerifying") : t("otpVerify")}
         </Button>
       </div>
-      <p className="mt-3 text-xs text-maroon-deep/55">{t("otpDemo")}</p>
+      <p className="mt-3 text-[13px] text-mute">{t("otpDemo")}</p>
     </div>
   );
 }

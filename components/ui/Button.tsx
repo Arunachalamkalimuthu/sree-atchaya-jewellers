@@ -3,10 +3,9 @@ import type { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from "react";
 
 /**
  * v2 tune. On white: `maroon` (primary, solid) and `ghost` (secondary, maroon outline). On photos: `light` (white
- * solid, maroon text) and `ghost-light` (white outline). `gold` is legacy for the remaining dark bands; don't use it
- * on white pages.
+ * solid, maroon text) and `ghost-light` (white outline). There is no gold button.
  */
-export type ButtonVariant = "maroon" | "ghost" | "light" | "ghost-light" | "gold";
+export type ButtonVariant = "maroon" | "ghost" | "light" | "ghost-light";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const base =
@@ -19,7 +18,6 @@ const variants: Record<ButtonVariant, string> = {
   ghost: "border border-maroon/45 bg-white/0 text-maroon hover:border-maroon hover:bg-maroon/[0.04]",
   light: "bg-white text-maroon hover:bg-cream",
   "ghost-light": "border border-white/70 bg-transparent text-white hover:border-white hover:bg-white/10",
-  gold: "bg-gold text-maroon-deep hover:bg-gold-light",
 };
 
 const sizes: Record<ButtonSize, string> = {
@@ -49,7 +47,7 @@ function linkSafe(rest: Record<string, unknown>): Record<string, unknown> {
 }
 
 /**
- * `<Button variant="maroon"|"ghost"|"light"|"ghost-light"|"gold" href? onClick?>`. Pass `href` (from `routes`) for navigation:
+ * `<Button variant="maroon"|"ghost"|"light"|"ghost-light" href? onClick?>`. Pass `href` (from `routes`) for navigation:
  * aria-*, data-*, id, title, tabIndex, lang and role pass through to the link; `disabled` becomes aria-disabled
  * (not focusable, not clickable, dimmed).
  */
