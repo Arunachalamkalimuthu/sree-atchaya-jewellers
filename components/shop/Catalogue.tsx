@@ -152,7 +152,7 @@ function AllGlyph() {
 
 /**
  * Gold and pawn: the shop's buy-back and loan-release desk, as a photo promo banner. The copy is longer than a home
- * promo, so the text column is widened (the Banner's inner text box) from 640 px up.
+ * promo, so it uses the Banner's wide text column.
  */
 function SellBanner() {
   const t = useT(shop);
@@ -160,7 +160,8 @@ function SellBanner() {
     <Banner
       src={BANNERS.oldgold}
       focal="78% 50%"
-      className="h-[380px] rounded-[6px] sm:h-[280px] lg:h-[270px] [&>div>div]:max-w-none sm:[&>div>div]:max-w-[31rem]"
+      className="h-[380px] rounded-[6px] sm:h-[280px] lg:h-[270px]"
+      textWidth="wide"
       headline={t("sellTitle")}
       detail={t("sellBody", { g22: formatINR(PURCHASE_RATES.g22), g18: formatINR(PURCHASE_RATES.g18) })}
       action={(photo) => (

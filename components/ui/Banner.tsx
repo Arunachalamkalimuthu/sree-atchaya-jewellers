@@ -24,6 +24,11 @@ export interface BannerProps {
   as?: "h1" | "h2" | "h3";
   /** Text sits in the page container (full-bleed hero) or with the banner's own padding (promo). Default by size. */
   contained?: boolean;
+  /**
+   * Text column width. "default" keeps the copy narrow on the calm side (hero 34rem, promo 19rem). "wide" is for
+   * longer copy: full width on phones, then hero 40rem or promo 31rem from 640 px up.
+   */
+  textWidth?: "default" | "wide";
   /** Extra content under the action (rarely needed). */
   children?: ReactNode;
 }
@@ -36,12 +41,13 @@ export interface BannerProps {
  * `action` may be a function of `photo` so the button can switch variant: `(photo) => <Button variant={photo ? "light" : "maroon"} …/>`.
  */
 export function Banner({
-  src, alt = "", headline, detail, action, className = "", focal = "50% 50%", size = "promo", eager = false, as: H = "h2", contained, children,
+  src, alt = "", headline, detail, action, className = "", focal = "50% 50%", size = "promo", eager = false, as: H = "h2", contained, textWidth = "default", children,
 }: BannerProps) {
   const photo = hasImage(src);
   const hero = size === "hero";
   const inContainer = contained ?? hero;
   const act = typeof action === "function" ? action(photo) : action;
+  const width = textWidth === "wide" ? (hero ? "max-w-none sm:max-w-[40rem]" : "max-w-none sm:max-w-[31rem]") : hero ? "max-w-[34rem]" : "max-w-[19rem]";
 
   return (
     <div className={`relative isolate overflow-hidden ${photo ? "bg-[#1d0d0b]" : "bg-cream"} ${className}`}>
@@ -69,7 +75,7 @@ export function Banner({
         </>
       )}
       <div className={`flex h-full items-end sm:items-center ${inContainer ? "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" : "px-5 sm:px-8 lg:px-10"}`}>
-        <div className={`${hero ? "max-w-[34rem] pb-14 sm:pb-0" : "max-w-[19rem] pb-6 sm:pb-0"}`}>
+        <div className={`${width} ${hero ? "pb-14 sm:pb-0" : "pb-6 sm:pb-0"}`}>
           <H
             className={`${
               hero
