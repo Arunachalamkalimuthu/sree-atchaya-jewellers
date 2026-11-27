@@ -12,6 +12,8 @@ import { routes } from "@/lib/routes";
 import type { CustomSpec } from "@/lib/demo-state";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { Banner } from "@/components/ui/Banner";
+import { BANNERS } from "@/lib/images";
 import { OtpField } from "@/components/ui/OtpField";
 import { PaymentSheet } from "@/components/ui/PaymentSheet";
 import { PriceBreakdownTable } from "@/components/site/PriceBreakdownTable";
@@ -136,26 +138,27 @@ export function CustomWizard() {
 
   return (
     <>
-      <section className="bg-maroon text-ivory">
-        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-          <h1 className="max-w-3xl font-display text-[2.25rem] font-semibold leading-[1.1] [text-wrap:balance] sm:text-5xl">{t("pageTitle")}</h1>
-          <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-ivory/85">
-            {t("pageIntro", { off: OFFER.prebookOffPerGram, pct: OFFER.prebookAdvancePct })}
-          </p>
-        </div>
-      </section>
+      <Banner
+        src={BANNERS.prebook}
+        size="hero"
+        as="h1"
+        eager
+        headline={t("pageTitle")}
+        detail={t("pageIntro", { off: OFFER.prebookOffPerGram, pct: OFFER.prebookAdvancePct })}
+        className="h-[320px] sm:h-[340px]"
+      />
 
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
-        <ol aria-label={t("stepsLabel")} className="mb-9 flex gap-2 border-b border-gold/60 pb-4 sm:gap-6">
+      <div className="mx-auto max-w-7xl px-4 py-8 pb-20 sm:px-6 sm:py-10 lg:px-8">
+        <ol aria-label={t("stepsLabel")} className="mb-8 flex gap-2 border-b border-line pb-4 sm:gap-6">
           {stepNames.map((n, i) => {
             const k = i + 1;
             const cur = k === step;
             return (
-              <li key={n} aria-current={cur ? "step" : undefined} className={`flex min-w-0 items-center gap-2.5 ${cur ? "flex-1" : "shrink-0 sm:flex-1"} ${cur ? "text-maroon" : k < step ? "text-emerald" : "text-ink/45"}`}>
-                <span className={`flex size-7 shrink-0 items-center justify-center rounded-full border text-[13px] font-medium num ${cur ? "border-maroon bg-maroon text-ivory" : k < step ? "border-emerald bg-emerald text-ivory" : "border-current"}`}>
+              <li key={n} aria-current={cur ? "step" : undefined} className={`flex min-w-0 items-center gap-2.5 ${cur ? "flex-1" : "shrink-0 sm:flex-1"} ${cur ? "text-maroon" : k < step ? "text-ink" : "text-mute"}`}>
+                <span className={`flex size-7 shrink-0 items-center justify-center rounded-full border text-[13px] font-semibold num ${cur ? "border-maroon bg-maroon text-white" : k < step ? "border-maroon text-maroon" : "border-current"}`}>
                   {k < step ? <Icon name="check" size={14} /> : k}
                 </span>
-                <span className={`min-w-0 truncate text-sm font-medium ${cur ? "" : "hidden sm:inline"}`}>{n}</span>
+                <span className={`min-w-0 truncate text-sm font-semibold ${cur ? "" : "hidden sm:inline"}`}>{n}</span>
               </li>
             );
           })}
@@ -163,27 +166,27 @@ export function CustomWizard() {
 
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-16">
           <div>
-            <p className="mb-2 text-sm text-ink/65 sm:hidden">{t("stepOf", { n: step, total: TOTAL })}</p>
+            <p className="mb-2 text-sm text-mute sm:hidden">{t("stepOf", { n: step, total: TOTAL })}</p>
 
             {step === 1 && (
               <section aria-labelledby="s1">
-                <h2 id="s1" tabIndex={-1} className="outline-none font-display text-3xl font-semibold text-maroon">{t("photoTitle")}</h2>
-                <p className="mt-3 max-w-xl text-[16px] leading-relaxed text-ink/80">{t("photoHelp")}</p>
+                <h2 id="s1" tabIndex={-1} className="outline-none text-[22px] font-semibold text-ink sm:text-[28px]">{t("photoTitle")}</h2>
+                <p className="mt-3 max-w-xl text-[16px] leading-relaxed text-mute">{t("photoHelp")}</p>
                 <input
                   ref={fileRef} id="ref-photo" type="file" accept="image/*" className="sr-only"
                   onChange={(e) => onFile(e.target.files?.[0])} aria-describedby={photoErr ? "photo-err" : undefined}
                 />
                 <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-start">
-                  <div className="flex aspect-[4/5] w-44 shrink-0 items-center justify-center overflow-hidden rounded-t-[88px] border border-gold bg-maroon/5">
+                  <div className="flex aspect-[4/5] w-44 shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-line bg-cream">
                     {photo ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={photo} alt={t("photoAlt")} className="size-full object-cover" data-testid="ref-preview" />
                     ) : (
-                      <p className="px-4 text-center text-[13px] text-ink/55">{t("photoEmpty")}</p>
+                      <p className="px-4 text-center text-[13px] text-mute">{t("photoEmpty")}</p>
                     )}
                   </div>
                   <div className="flex flex-col items-start gap-3">
-                    <label htmlFor="ref-photo" className="inline-flex min-h-11 cursor-pointer items-center rounded-[3px] bg-maroon px-5 text-sm font-medium text-ivory hover:bg-maroon-deep has-[:focus-visible]:outline-2">
+                    <label htmlFor="ref-photo" className="inline-flex min-h-11 cursor-pointer items-center rounded-[4px] bg-maroon px-5 text-sm font-semibold text-white hover:bg-maroon-deep has-[:focus-visible]:outline-2">
                       {photo ? t("photoChange") : t("photoChoose")}
                     </label>
                     {photo && (
@@ -192,7 +195,7 @@ export function CustomWizard() {
                       </Button>
                     )}
                     {photoErr && <p id="photo-err" role="alert" className="max-w-sm text-sm font-medium text-maroon">{photoErr}</p>}
-                    <p className="max-w-sm text-[13px] leading-snug text-ink/65">{t("photoNote")}</p>
+                    <p className="max-w-sm text-[13px] leading-snug text-mute">{t("photoNote")}</p>
                   </div>
                 </div>
                 <div className="mt-9 flex flex-wrap items-center gap-4">
@@ -204,7 +207,7 @@ export function CustomWizard() {
 
             {step === 2 && (
               <section aria-labelledby="s2">
-                <h2 id="s2" tabIndex={-1} className="outline-none font-display text-3xl font-semibold text-maroon">{t("detailsTitle")}</h2>
+                <h2 id="s2" tabIndex={-1} className="outline-none text-[22px] font-semibold text-ink sm:text-[28px]">{t("detailsTitle")}</h2>
                 <div className="mt-6 max-w-xl space-y-6">
                   <Field label={t("typeLabel")}>
                     {({ id }) => (
@@ -234,7 +237,7 @@ export function CustomWizard() {
                               onChange={(e) => onWeightText(e.target.value)} aria-describedby={describedBy} aria-invalid={invalid}
                               className={`${inputCls} w-24 num`}
                             />
-                            <span className="text-sm text-ink/70">{t("weightUnit")}</span>
+                            <span className="text-sm text-mute">{t("weightUnit")}</span>
                           </div>
                         </div>
                       )}
@@ -261,9 +264,9 @@ export function CustomWizard() {
 
             {step === 3 && (
               <section aria-labelledby="s3">
-                <h2 id="s3" tabIndex={-1} className="outline-none font-display text-3xl font-semibold text-maroon">{t("quoteTitle")}</h2>
-                <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-ink/75">{t("quoteBasis", { g: weight, purity: purityLabel })}</p>
-                <p className="mt-4 inline-block bg-emerald px-3 py-1.5 text-sm font-medium text-ivory" data-testid="quote-off">
+                <h2 id="s3" tabIndex={-1} className="outline-none text-[22px] font-semibold text-ink sm:text-[28px]">{t("quoteTitle")}</h2>
+                <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-mute">{t("quoteBasis", { g: weight, purity: purityLabel })}</p>
+                <p className="mt-4 inline-block rounded-[3px] bg-emerald px-3 py-1.5 text-sm font-semibold text-white" data-testid="quote-off">
                   {t("quoteOffApplied", { off: OFFER.prebookOffPerGram })}
                 </p>
                 <div className="mt-6 grid gap-8 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] md:gap-12">
@@ -277,8 +280,8 @@ export function CustomWizard() {
                         ...(budgetNum !== undefined && !budgetErr ? [[t("quoteSummaryBudget"), formatINR(budgetNum)]] : []),
                         [photo ? t("quotePhotoYes") : t("quotePhotoNo"), ""],
                       ].map(([k, v]) => (
-                        <div key={k} className="flex justify-between gap-4 border-b border-gold/30 py-2">
-                          <dt className="text-ink/70">{k}</dt><dd className="text-right text-ink">{v}</dd>
+                        <div key={k} className="flex justify-between gap-4 border-b border-line py-2">
+                          <dt className="text-mute">{k}</dt><dd className="text-right text-ink">{v}</dd>
                         </div>
                       ))}
                     </dl>
@@ -294,7 +297,7 @@ export function CustomWizard() {
 
             {step === 4 && (
               <section aria-labelledby="s4">
-                <h2 id="s4" tabIndex={-1} className="outline-none font-display text-3xl font-semibold text-maroon">{t("verifyTitle")}</h2>
+                <h2 id="s4" tabIndex={-1} className="outline-none text-[22px] font-semibold text-ink sm:text-[28px]">{t("verifyTitle")}</h2>
                 <div className="mt-6 max-w-md space-y-5">
                   <Field label={t("nameLabel")} error={verifyTried && nameErr ? t("nameRequired") : null}>
                     {({ id, describedBy, invalid }) => (
@@ -310,7 +313,7 @@ export function CustomWizard() {
                     )}
                   </Field>
                   {!codeAsked && (
-                    <Button variant="gold" onClick={() => { setVerifyTried(true); if (!nameErr && !phoneErr) setCodeAsked(true); }}>{t("sendCode")}</Button>
+                    <Button variant="maroon" onClick={() => { setVerifyTried(true); if (!nameErr && !phoneErr) setCodeAsked(true); }}>{t("sendCode")}</Button>
                   )}
                   {codeAsked && <OtpField phone={`+91 ${cleanPhone}`} onVerified={() => setVerified(true)} />}
                 </div>
@@ -319,16 +322,16 @@ export function CustomWizard() {
                   <Button variant="maroon" size="lg" disabled={!verified} onClick={() => setPaying(true)}>
                     {t("payAdvance", { amount: formatINR(bd.advance) })}
                   </Button>
-                  {!verified && <p className="text-[13px] text-ink/65">{t("payFirst")}</p>}
+                  {!verified && <p className="text-[13px] text-mute">{t("payFirst")}</p>}
                 </div>
-                <p className="mt-4 text-[13px] text-ink/65">{t("demoLine")}</p>
+                <p className="mt-4 text-[13px] text-mute">{t("demoLine")}</p>
               </section>
             )}
           </div>
 
-          <aside className="self-start border-t-2 border-gold pt-5 lg:sticky lg:top-24">
-            <h2 className="font-display text-xl font-semibold text-maroon">{t("asideTitle")}</h2>
-            <ul className="mt-3 space-y-2.5 text-[14px] leading-snug text-ink/80">
+          <aside className="self-start rounded-[6px] border border-line bg-white px-5 py-5 lg:sticky lg:top-24">
+            <h2 className="text-[18px] font-semibold text-ink">{t("asideTitle")}</h2>
+            <ul className="mt-3 space-y-2.5 text-[14px] leading-snug text-mute">
               <li>{t("aside1")}</li>
               <li>{t("aside2")}</li>
               <li>{t("aside3")}</li>
