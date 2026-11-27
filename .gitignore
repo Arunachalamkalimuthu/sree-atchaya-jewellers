@@ -4,3 +4,4 @@ out
 .superpowers
 *.tsbuildinfo
 .DS_Store
+next-env.d.ts

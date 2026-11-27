@@ -6,9 +6,9 @@ const q = (id: string) => `?id=${encodeURIComponent(id)}`;
 
 export const routes = {
   home: () => "/",
-  shop: (cat?: CategoryId) => (cat ? `/shop/?cat=${cat}` : "/shop/"),
-  product: (slug: string) => `/shop/${slug}/`,
-  custom: () => "/custom/",
+  shop: (cat?: CategoryId) => (cat ? `/shop/?c=${cat}` : "/shop/"),
+  product: (slug: string) => `/product/${slug}/`,
+  custom: () => "/custom-order/",
   sellGold: () => "/sell-gold/",
   scheme: () => "/scheme/",
   schemeJoin: (plan: "monthly" | "digi") => `/scheme/join/?plan=${plan}`,
@@ -18,8 +18,8 @@ export const routes = {
   account: () => "/account/",
   app: {
     home: () => "/app/",
-    shop: (cat?: CategoryId) => (cat ? `/app/shop/?cat=${cat}` : "/app/shop/"),
-    product: (slug: string) => `/app/shop/${slug}/`,
+    shop: (cat?: CategoryId) => (cat ? `/app/shop/?c=${cat}` : "/app/shop/"),
+    product: (slug: string) => `/app/product/${slug}/`,
     scheme: () => "/app/scheme/",
     orders: () => "/app/orders/",
     order: (id: string) => `/app/orders/view/${q(id)}`,
