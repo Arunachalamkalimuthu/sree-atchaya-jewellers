@@ -12,7 +12,7 @@ import { shop } from "@/lib/i18n/dict/shop";
 import { Button } from "@/components/ui/Button";
 import { Price } from "@/components/ui/Price";
 import { ContactSheet } from "@/components/ui/ContactSheet";
-import { BreakdownTable } from "./BreakdownTable";
+import { PriceBreakdownTable } from "@/components/site/PriceBreakdownTable";
 
 export interface BuyBoxProps {
   product: Product;
@@ -137,7 +137,7 @@ export function BuyBox({ product: p, compact = false, cartHref = routes.cart() }
       </div>
       <p className="mt-3 max-w-[52ch] text-[13.5px] leading-snug text-mute">{t("collectNote")}</p>
 
-      <BreakdownTable breakdown={b} mode={prebook ? "prebook" : "buy"} purity={p.purity} className={compact ? "mt-7" : "mt-9"} />
+      <PriceBreakdownTable breakdown={b} mode={prebook ? "prebook" : "buy"} purity={p.purity} className={compact ? "mt-7" : "mt-9"} />
 
       <ContactSheet open={contact} onClose={() => setContact(false)} topic={p.category === "coin" ? "goldCoins" : "general"} />
     </div>
