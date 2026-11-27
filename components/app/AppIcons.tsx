@@ -1,7 +1,9 @@
 /** App line icons (1.5 px stroke, 24 grid), drawn from the shop's own objects. No emoji, no icon font. */
 import type { SVGProps } from "react";
 
-export type AppIconName = "home" | "shop" | "scheme" | "orders" | "profile" | "passbook" | "coin" | "sketch" | "scale" | "bell" | "back";
+export type AppIconName =
+  | "home" | "shop" | "scheme" | "orders" | "profile" | "passbook" | "coin" | "sketch" | "scale" | "bell" | "back"
+  | "bangle" | "ring" | "earring" | "chain" | "lamp" | "diamond";
 
 const paths: Record<AppIconName, React.ReactNode> = {
   // A showroom niche: arch, plinth and a small door arch.
@@ -22,6 +24,18 @@ const paths: Record<AppIconName, React.ReactNode> = {
   scale: <><path d="M12 4.5v14.5M8 19h8M5 7.5h14" /><path d="M5 7.5L2.8 13a2.3 2.3 0 004.4 0zM19 7.5L16.8 13a2.3 2.3 0 004.4 0z" /><circle cx="12" cy="4" r="1" /></>,
   bell: <><path d="M6.5 16.5V11a5.5 5.5 0 0111 0v5.5l1.5 1.5h-14z" /><path d="M10 20a2 2 0 004 0" /></>,
   back: <path d="M14.5 6l-6 6 6 6" />,
+  bangle: <><ellipse cx="12" cy="12" rx="8.5" ry="5" /><ellipse cx="12" cy="12" rx="6" ry="3.2" /></>,
+  ring: <><circle cx="12" cy="14.5" r="6" /><path d="M12 4.5l2.5 2.5-2.5 2.5-2.5-2.5z" /></>,
+  earring: <><circle cx="12" cy="4.5" r="1.5" /><path d="M12 6v3" /><path d="M7 17c0-4.5 2.2-8 5-8s5 3.5 5 8z" /><path d="M8 19.5h8" /></>,
+  chain: <><path d="M4 6c1 7 4.5 10.5 8 10.5S19 13 20 6" strokeDasharray="2.2 1.6" /></>,
+  lamp: <><path d="M12 3c1.5 2 2 3.2 2 4a2 2 0 01-4 0c0-.8.5-2 2-4z" /><path d="M7 10h10l-2 3H9z" /><path d="M12 13v6M8.5 20.5h7" /></>,
+  diamond: <><path d="M6 9l3-4h6l3 4-6 10z" /><path d="M6 9h12M10 5l2 4 2-4M12 9v10" /></>,
+};
+
+/** The line icon that stands for a jewellery category (light-grey photo fallbacks, round category thumbnails). */
+export const CATEGORY_ICON: Record<string, AppIconName> = {
+  necklace: "shop", haaram: "shop", temple: "shop", bangle: "bangle", chain: "chain", earring: "earring",
+  ring: "ring", coin: "coin", silver: "lamp", diamond: "diamond",
 };
 
 export function AppIcon({ name, size = 24, strokeWidth = 1.5, ...rest }: { name: AppIconName; size?: number; strokeWidth?: number } & SVGProps<SVGSVGElement>) {
