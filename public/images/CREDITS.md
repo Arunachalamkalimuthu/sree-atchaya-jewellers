@@ -33,3 +33,5 @@ Generated with Canva AI (generate-image), exported via create-design + export-de
 | products/temple-jhumka.jpg | MAHcFYHc4lU | DAHcFVN4nFU |
 | products/silver-pooja-plate.jpg | MAHcFbVeyVI | DAHcFQuY2ZY |
 | products/lakshmi-kasu-necklace.jpg (regenerated with margin; first version MAHcFH6dmeo/DAHcFANc9dM) | MAHcFVduAbM | DAHcFZsyDNo |
+| products/lakshmi-gold-coin-4g.jpg (redone on plain ivory; first attempt MAHcFaWDEGw/DAHcFfcpImA rejected, glowing gold background) | MAHcFXFINxQ | DAHcFXZnkkM |
+| brand/mark.png, icon-192.png, icon-512.png, og.jpg (mark; og composites hero-prebook banner + mark) | MAHcFSJVAcE | DAHcFSniPYs |
