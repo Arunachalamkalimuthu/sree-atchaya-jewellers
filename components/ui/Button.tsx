@@ -1,27 +1,31 @@
 import Link from "next/link";
 import type { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from "react";
 
-/** "ghost-light" is the outline button for dark grounds (maroon, emerald, plum bands, OrnateFrame, footer). */
-export type ButtonVariant = "gold" | "maroon" | "ghost" | "ghost-light";
+/**
+ * v2 tune. On white: `maroon` (primary, solid) and `ghost` (secondary, maroon outline). On photos: `light` (white
+ * solid, maroon text) and `ghost-light` (white outline). `gold` is legacy for the remaining dark bands; don't use it
+ * on white pages.
+ */
+export type ButtonVariant = "maroon" | "ghost" | "light" | "ghost-light" | "gold";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const base =
-  "group relative inline-flex select-none items-center justify-center gap-2 rounded-[3px] font-medium tracking-[0.01em] " +
-  "transition-[background-color,color,box-shadow,border-color] duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 " +
-  "focus-visible:outline-gold disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 text-center";
+  "group relative inline-flex select-none items-center justify-center gap-2 rounded-[4px] font-semibold " +
+  "transition-[background-color,color,border-color] duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 " +
+  "focus-visible:outline-gold disabled:pointer-events-none disabled:opacity-45 aria-disabled:pointer-events-none aria-disabled:opacity-45 text-center";
 
 const variants: Record<ButtonVariant, string> = {
-  // Antique-gold face: the primary action.
-  gold: "bg-gold text-maroon-deep shadow-[inset_0_1px_0_rgba(255,255,255,.35)] hover:bg-gold-light",
-  maroon: "bg-maroon text-ivory shadow-[inset_0_1px_0_rgba(232,199,122,.25)] hover:bg-maroon-deep",
-  ghost: "border border-current/35 bg-transparent text-maroon hover:border-gold hover:bg-gold/10",
-  "ghost-light": "border border-gold/60 bg-transparent text-gold-light hover:border-gold-light hover:bg-gold/10",
+  maroon: "bg-maroon text-white hover:bg-maroon-deep",
+  ghost: "border border-maroon/45 bg-white/0 text-maroon hover:border-maroon hover:bg-maroon/[0.04]",
+  light: "bg-white text-maroon hover:bg-cream",
+  "ghost-light": "border border-white/70 bg-transparent text-white hover:border-white hover:bg-white/10",
+  gold: "bg-gold text-maroon-deep hover:bg-gold-light",
 };
 
 const sizes: Record<ButtonSize, string> = {
-  sm: "min-h-9 px-3.5 text-[13px]",
-  md: "min-h-11 px-5 text-sm",
-  lg: "min-h-13 px-7 text-[15px]",
+  sm: "min-h-9 px-3.5 text-[13.5px]",
+  md: "min-h-11 px-5 text-[15px]",
+  lg: "min-h-12 px-7 text-[15.5px]",
 };
 
 interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className" | "children"> {
@@ -45,11 +49,11 @@ function linkSafe(rest: Record<string, unknown>): Record<string, unknown> {
 }
 
 /**
- * `<Button variant="gold"|"maroon"|"ghost"|"ghost-light" href? onClick?>`. Pass `href` (from `routes`) for navigation:
+ * `<Button variant="maroon"|"ghost"|"light"|"ghost-light"|"gold" href? onClick?>`. Pass `href` (from `routes`) for navigation:
  * aria-*, data-*, id, title, tabIndex, lang and role pass through to the link; `disabled` becomes aria-disabled
  * (not focusable, not clickable, dimmed).
  */
-export function Button({ variant = "gold", size = "md", href, full, className = "", children, type = "button", onClick, disabled, ...rest }: Props) {
+export function Button({ variant = "maroon", size = "md", href, full, className = "", children, type = "button", onClick, disabled, ...rest }: Props) {
   const cls = `${base} ${variants[variant]} ${sizes[size]} ${full ? "w-full" : ""} ${className}`;
   if (href) {
     return (

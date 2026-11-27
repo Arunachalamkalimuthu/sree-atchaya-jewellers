@@ -16,10 +16,10 @@ export function WhatsAppFab() {
         onClick={() => setOpen(true)}
         aria-label={t("fabLabel")}
         aria-haspopup="dialog"
-        className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 inline-flex size-14 items-center justify-center gap-2 rounded-full border border-gold/70 bg-emerald text-gold-light shadow-[0_6px_18px_rgba(15,77,58,.35)] transition-colors hover:bg-[#0c3f30] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:bottom-6 sm:right-6 sm:h-12 sm:w-auto sm:px-5"
+        className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 inline-flex size-13 items-center justify-center gap-2 rounded-full bg-maroon text-white shadow-[0_6px_20px_rgba(42,26,20,.28)] transition-colors hover:bg-maroon-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:bottom-6 sm:right-6 sm:h-12 sm:w-auto sm:px-5"
       >
         <Icon name="chat" size={22} />
-        <span className="hidden text-[15px] text-ivory sm:inline">{t("fabLabel")}</span>
+        <span className="hidden text-[15px] font-semibold sm:inline">{t("fabLabel")}</span>
       </button>
       <ContactSheet open={open} onClose={() => setOpen(false)} />
     </>

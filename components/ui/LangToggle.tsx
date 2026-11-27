@@ -8,7 +8,7 @@ const OPTIONS: { id: Lang; label: string; lang: string }[] = [
 ];
 
 /**
- * English / தமிழ் switch. `tone="dark"` on maroon grounds (header, drawer), `"light"` on ivory.
+ * English / தமிழ் switch. `tone="light"` on white (header, drawer), `"dark"` on maroon or photos.
  * `compact`: one small button naming the other language (phone headers).
  */
 export function LangToggle({ tone = "light", compact = false, className = "" }: { tone?: "light" | "dark"; compact?: boolean; className?: string }) {
@@ -24,7 +24,7 @@ export function LangToggle({ tone = "light", compact = false, className = "" }: 
         onClick={() => setLang(other.id)}
         aria-label={`${t("language")}: ${other.label}`}
         className={`min-h-8 rounded-full border px-2.5 text-[13px] leading-none transition-colors focus-visible:outline-2 focus-visible:outline-gold ${
-          dark ? "border-gold/45 text-gold-light hover:bg-gold/10" : "border-maroon/25 text-maroon hover:bg-maroon/5"
+          dark ? "border-white/45 text-white hover:bg-white/10" : "border-line text-maroon hover:border-maroon/40"
         } ${className}`}
       >
         {other.id === "en" ? "EN" : other.label}
@@ -32,7 +32,7 @@ export function LangToggle({ tone = "light", compact = false, className = "" }: 
     );
   }
   return (
-    <div role="group" aria-label={t("language")} className={`inline-flex rounded-full border p-0.5 ${dark ? "border-gold/45" : "border-maroon/25"} ${className}`}>
+    <div role="group" aria-label={t("language")} className={`inline-flex rounded-full border p-0.5 ${dark ? "border-white/40" : "border-line"} ${className}`}>
       {OPTIONS.map((o) => {
         const active = lang === o.id;
         return (
@@ -44,8 +44,8 @@ export function LangToggle({ tone = "light", compact = false, className = "" }: 
             onClick={() => setLang(o.id)}
             className={`min-h-8 rounded-full px-3 text-[13px] leading-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-gold ${
               active
-                ? dark ? "bg-gold text-maroon-deep" : "bg-maroon text-ivory"
-                : dark ? "text-ivory/80 hover:text-gold-light" : "text-maroon/75 hover:text-maroon"
+                ? dark ? "bg-white text-maroon" : "bg-maroon text-white"
+                : dark ? "text-white/80 hover:text-white" : "text-mute hover:text-maroon"
             }`}
           >
             {o.label}

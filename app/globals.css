@@ -9,6 +9,11 @@
   --emerald: #0f4d3a;
   --plum: #5b1a47;
   --ink: #2a1a14; /* warm near-black for body text */
+  /* v2 "premium retailer" surfaces */
+  --mute: #6b5e57; /* secondary text */
+  --line: #ece6df; /* borders and hairlines */
+  --cream: #faf7f2; /* alternating bands only; the page is white */
+  --tile: #f3f1ee; /* empty photo tile */
   color-scheme: light;
 }
 
@@ -21,6 +26,10 @@
   --color-emerald: var(--emerald);
   --color-plum: var(--plum);
   --color-ink: var(--ink);
+  --color-mute: var(--mute);
+  --color-line: var(--line);
+  --color-cream: var(--cream);
+  --color-tile: var(--tile);
   --font-display: var(--font-cormorant), var(--font-noto-serif-tamil), Georgia, serif;
   --font-sans: var(--font-mukta), system-ui, sans-serif;
   --font-tamil: var(--font-mukta), var(--font-noto-serif-tamil), sans-serif;
@@ -28,9 +37,12 @@
 }
 
 body {
-  background: var(--ivory);
+  background: #fff;
   color: var(--ink);
   font-family: var(--font-sans);
+  /* Mukta Malar's proportional figures are old-style (and ignore lnum); its tabular figures are lining. Rates,
+     weights and "916" must read at full height, so the whole site uses the tabular set. */
+  font-variant-numeric: lining-nums tabular-nums;
   padding-top: 1.75rem; /* room for the fixed demo ribbon */
 }
 
@@ -53,6 +65,10 @@ html[lang="ta"] .font-display { letter-spacing: 0; }
 @media (prefers-reduced-motion: reduce) {
   .sa-fade, .sa-sheet, .sa-drawer, .sa-settle { animation: none }
 }
+
+/* Rows that scroll sideways on phones: no visible scrollbar. */
+.no-scrollbar { scrollbar-width: none }
+.no-scrollbar::-webkit-scrollbar { display: none }
 
 /* Lining figures in the display face (Cormorant defaults to old-style). */
 .num { font-variant-numeric: lining-nums tabular-nums; }

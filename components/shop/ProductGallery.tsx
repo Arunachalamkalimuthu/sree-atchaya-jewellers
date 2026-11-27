@@ -6,7 +6,8 @@ import { OFFER } from "@/lib/site.config";
 import { useL10n, useT } from "@/lib/i18n";
 import { common } from "@/lib/i18n/dict/common";
 import { shop } from "@/lib/i18n/dict/shop";
-import { IMAGES_READY, ProductImage } from "@/components/ui/ProductImage";
+import { ProductImage } from "@/components/ui/ProductImage";
+import { hasImage } from "@/lib/images";
 
 /** Full piece, then three close-ups cut from the same photo with object-position (and a scale to zoom). */
 const VIEWS: { pos: string; zoom: number }[] = [
@@ -17,11 +18,11 @@ const VIEWS: { pos: string; zoom: number }[] = [
 ];
 
 /**
- * `<ProductGallery product>`. With photos (IMAGES_READY, or `available`): the main view in the arch niche and
+ * `<ProductGallery product>`. With a photo (in lib/image-manifest.ts, or `available`): the main view in the arch niche and
  * three zoom-crops as thumbnails. Without a photo it does not fake thumbnails: one niche with the gold sketch,
  * then the piece's purity, counter-scale weight and 0% wastage, the way the tag reads at the counter.
  */
-export function ProductGallery({ product: p, available = IMAGES_READY, className = "" }: { product: Product; available?: boolean; className?: string }) {
+export function ProductGallery({ product: p, available = hasImage(p.image), className = "" }: { product: Product; available?: boolean; className?: string }) {
   const t = useT(shop);
   const l = useL10n();
   const [view, setView] = useState(0);

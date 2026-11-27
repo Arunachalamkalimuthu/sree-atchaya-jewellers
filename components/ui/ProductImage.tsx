@@ -1,79 +1,64 @@
 "use client";
 import { useState } from "react";
 import { asset } from "@/lib/asset";
+import { hasImage } from "@/lib/images";
 import type { CategoryId } from "@/lib/catalog";
-import { Mark } from "@/components/brand/Wordmark";
-
-/**
- * Photos are not made yet (Canva on cooldown). While this is false, ProductImage never requests the file
- * (no 404 storm) and draws the showroom-niche placeholder. When photos land in /public/images, flip it to
- * true: every ProductImage then loads its `src` once and falls back to the placeholder only on error.
- * A single instance can opt in early with `available`.
- */
-export const IMAGES_READY = false;
 
 interface Props {
   src: string;
   alt: string;
-  /** Size the box here (e.g. "aspect-[4/5] w-full"). The niche fills it. */
+  /** Size the tile here, e.g. "aspect-square w-full". Photos are square (1200×1200) and fill it with object-cover. */
   className?: string;
-  /** Override IMAGES_READY for this image. */
+  /** Force the photo on or off. Default: whether `src` is in lib/image-manifest.ts. */
   available?: boolean;
-  /** Placeholder draws a gold line sketch of this kind of piece instead of the plain mark. */
+  /** The empty tile shows this kind's small line icon. */
   kind?: CategoryId;
-  /** Placeholder caption in the display serif (use where no caption sits under the image). */
+  /** Zoom the photo slightly while an ancestor `.group` is hovered (product tiles). Off under reduced motion. */
+  zoom?: boolean;
+  /** Load straight away (first screen). Default lazy. */
+  eager?: boolean;
+  /** @deprecated v1 niche options; ignored. */
   label?: string;
-  /** "maroon" velvet (default) or "ivory" for light bands. */
+  /** @deprecated v1 niche options; ignored. */
   tone?: "maroon" | "ivory";
-  /** Draw the arch niche. Turn off for full-bleed banners. Default true. */
+  /** @deprecated v1 niche options; ignored. */
   arch?: boolean;
 }
 
-// A faint velvet nap: fractal noise, tinted, at low opacity. A texture, not a gradient wash.
-const VELVET =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E\")";
-
 /**
- * `<ProductImage src alt className>`: the jewel sits in an arch-topped niche, as on the showroom walls.
- * Placeholder: maroon velvet field, the niche in a fine double gold line, a gold sketch or mark inside.
+ * `<ProductImage src alt className kind? zoom?>`: a plain photo tile. With a photo (listed in the image manifest), the
+ * photo fills the box on white. Without one, a light-grey tile with the category's small grey line icon, never a
+ * placeholder frame. Nothing is requested for a missing file, so there are no 404s.
  */
-export function ProductImage({ src, alt, className = "", available = IMAGES_READY, kind, label, tone = "maroon", arch = true }: Props) {
+export function ProductImage({ src, alt, className = "", available, kind, zoom = false, eager = false }: Props) {
   const [failed, setFailed] = useState(false);
-  const showPhoto = available && !failed;
-  const dark = tone === "maroon";
+  const show = (available ?? hasImage(src)) && !failed;
 
-  return (
-    <div
-      className={`@container relative isolate overflow-hidden ${dark ? "bg-maroon" : "bg-[#f3e9d6]"} ${className}`}
-      style={{ backgroundImage: `${dark ? `${VELVET}, ` : ""}radial-gradient(120% 80% at 50% 30%, ${dark ? "#7c1d20, #4a0d0f" : "#fbf3e4, #efe0c4"})` }}
-    >
-      <div
-        className={`absolute inset-x-[9%] top-[7%] bottom-[6%] overflow-hidden ${arch ? "rounded-t-[999px]" : ""} ${
-          dark ? "bg-maroon-deep/55 shadow-[inset_0_10px_24px_rgba(0,0,0,.35)]" : "bg-white/45 shadow-[inset_0_8px_20px_rgba(110,21,23,.08)]"
-        }`}
-      >
-        {showPhoto ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={asset(src)} alt={alt} loading="lazy" decoding="async" onError={() => setFailed(true)} className="absolute inset-0 size-full object-cover" />
-        ) : (
-          <div role="img" aria-label={alt} className="absolute inset-0 flex flex-col items-center justify-center px-[10%] text-center">
-            {kind ? <Sketch kind={kind} className="w-[72%] max-w-60 text-gold" /> : <Mark size={40} className="w-[16%] max-w-12 text-gold" />}
-            {label && (
-              <span className={`mt-[6%] font-display text-[clamp(13px,8cqw,26px)] font-medium leading-tight ${dark ? "text-gold-light" : "text-maroon"}`}>{label}</span>
-            )}
-          </div>
-        )}
+  if (!show) {
+    return (
+      <div role="img" aria-label={alt || undefined} aria-hidden={alt ? undefined : true} className={`relative grid place-items-center overflow-hidden bg-tile ${className}`}>
+        {kind && <CategorySketch kind={kind} className="w-[30%] max-w-20 text-[#b9b0a8]" />}
       </div>
-      {/* The niche's double gold line sits above the photo so photos are framed the same way. */}
-      <div aria-hidden className={`pointer-events-none absolute inset-x-[9%] top-[7%] bottom-[6%] border border-gold/80 ${arch ? "rounded-t-[999px]" : ""}`} />
-      <div aria-hidden className={`pointer-events-none absolute inset-x-[calc(9%+5px)] top-[calc(7%+5px)] bottom-[calc(6%+5px)] border border-gold/35 ${arch ? "rounded-t-[999px]" : ""}`} />
+    );
+  }
+  return (
+    <div className={`relative overflow-hidden bg-white ${className}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={asset(src)}
+        alt={alt}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        onError={() => setFailed(true)}
+        className={`absolute inset-0 size-full object-cover ${zoom ? "transition-transform duration-500 ease-out group-hover:scale-[1.06] motion-reduce:transition-none motion-reduce:group-hover:scale-100" : ""}`}
+      />
     </div>
   );
 }
 
-/** Gold line sketches, one per kind of piece, like a jeweller's order-book drawing. */
-function Sketch({ kind, className }: { kind: CategoryId; className?: string }) {
-  const common = { fill: "none", stroke: "currentColor", strokeWidth: 1.1, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+/** Line sketches, one per kind of piece (currentColor). The empty-tile icon, and the category bar's fallback. */
+export function CategorySketch({ kind, className }: { kind: CategoryId; className?: string }) {
+  const common = { fill: "none", stroke: "currentColor", strokeWidth: 2.2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
   const beads = (pts: [number, number][]) => pts.map(([x, y], i) => <circle key={i} cx={x} cy={y} r={1.6} fill="currentColor" stroke="none" />);
   let body: React.ReactNode;
   switch (kind) {

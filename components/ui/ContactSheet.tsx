@@ -27,18 +27,18 @@ export function ContactSheet({ open, onClose, topic = "general" }: { open: boole
 
   return (
     <Sheet open={open} onClose={onClose} title={title} width="md">
-      <p className="text-[15px] leading-relaxed text-maroon-deep/80">{intro}</p>
+      <p className="text-[15px] leading-relaxed text-mute">{intro}</p>
 
-      <ul className="mt-5 divide-y divide-gold/25 border-y border-gold/25">
+      <ul className="mt-5 divide-y divide-line border-y border-line">
         {lines.map((l) => <NumberRow key={l.label} {...l} />)}
       </ul>
 
       <dl className="mt-5 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2.5 text-sm">
-        <dt className="flex items-center gap-2 text-maroon/60"><Icon name="clock" size={16} />{t("contactHoursLabel")}</dt>
+        <dt className="flex items-center gap-2 text-mute"><Icon name="clock" size={16} />{t("contactHoursLabel")}</dt>
         <dd>{t("footerHours")}</dd>
-        <dt className="flex items-center gap-2 text-maroon/60"><Icon name="pin" size={16} />{t("contactMain")}</dt>
+        <dt className="flex items-center gap-2 text-mute"><Icon name="pin" size={16} />{t("contactMain")}</dt>
         <dd>{t("footerAddress", { pin: SITE.address.pin })}</dd>
-        <dt className="flex items-center gap-2 text-maroon/60"><Icon name="instagram" size={16} />{t("contactInstagramLabel")}</dt>
+        <dt className="flex items-center gap-2 text-mute"><Icon name="instagram" size={16} />{t("contactInstagramLabel")}</dt>
         <dd>@{SITE.instagram}</dd>
       </dl>
 
@@ -62,13 +62,13 @@ function NumberRow({ label, number }: { label: string; number: string }) {
     <li className="flex items-center justify-between gap-3 py-3.5">
       <div className="min-w-0">
         <p className="text-[13px] text-maroon/65">{label}</p>
-        <p className="mt-0.5 select-all font-display text-[1.45rem] font-semibold tracking-wide text-maroon-deep [font-feature-settings:'lnum']">{number}</p>
+        <p className="mt-0.5 select-all text-[1.35rem] font-semibold tracking-wide text-ink tabular-nums">{number}</p>
         <p className="text-xs text-ink/55">{t("contactWays")}</p>
       </div>
       <button
         type="button"
         onClick={copy}
-        className="inline-flex min-h-9 shrink-0 items-center gap-1.5 rounded-full border border-gold/60 px-3 text-[13px] text-maroon transition-colors hover:bg-gold/15 focus-visible:outline-2 focus-visible:outline-gold"
+        className="inline-flex min-h-9 shrink-0 items-center gap-1.5 rounded-full border border-maroon/35 px-3 text-[13px] text-maroon transition-colors hover:bg-maroon/5 focus-visible:outline-2 focus-visible:outline-gold"
       >
         <Icon name={copied ? "check" : "copy"} size={15} />
         <span aria-live="polite">{copied ? t("copied") : t("copy")}</span>

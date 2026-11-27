@@ -1,6 +1,8 @@
 "use client";
 import { useT } from "@/lib/i18n";
 import { common } from "@/lib/i18n/dict/common";
+import { asset } from "@/lib/asset";
+import { BRAND_IMAGES, hasImage } from "@/lib/images";
 
 /**
  * The gold mark: a temple niche (the arch of a shrine) holding a lit deepam, for "Atchaya" (the undying).
@@ -24,26 +26,34 @@ export function Mark({ size = 32, className = "", title }: { size?: number; clas
 }
 
 type Size = "sm" | "md" | "lg";
-const sizes: Record<Size, { mark: number; name: string; sub: string; gap: string }> = {
-  sm: { mark: 26, name: "text-[1.3rem]", sub: "text-[0.72rem]", gap: "gap-2" },
-  md: { mark: 34, name: "text-[1.65rem]", sub: "text-[0.8rem]", gap: "gap-2.5" },
-  lg: { mark: 52, name: "text-[2.6rem]", sub: "text-base", gap: "gap-3.5" },
+const sizes: Record<Size, { mark: number; logo: string; name: string; sub: string; gap: string }> = {
+  sm: { mark: 26, logo: "size-10", name: "text-[1.3rem]", sub: "text-[0.7rem]", gap: "gap-2" },
+  md: { mark: 34, logo: "size-12", name: "text-[1.6rem]", sub: "text-[0.78rem]", gap: "gap-2.5" },
+  lg: { mark: 52, logo: "size-16", name: "text-[2.2rem]", sub: "text-[0.9rem]", gap: "gap-3" },
 };
 
-/** Typographic wordmark. `tone="ivory"` on dark (maroon) grounds, `"maroon"` on ivory. */
+/**
+ * Logo lock-up: the shop's SA monogram (public/images/brand/mark.png, when present; else the drawn Mark) beside the
+ * name in the display serif and "Jewellers, Coimbatore" in small type. `tone="ivory"` on maroon grounds (footer),
+ * `"maroon"` on white (header).
+ */
 export function Wordmark({ tone = "maroon", size = "md", className = "" }: { tone?: "maroon" | "ivory"; size?: Size; className?: string }) {
   const t = useT(common);
   const s = sizes[size];
-  const nameColour = tone === "ivory" ? "text-ivory" : "text-maroon";
+  const dark = tone === "ivory";
+  const logo = hasImage(BRAND_IMAGES.mark);
   return (
     <span className={`inline-flex items-center ${s.gap} ${className}`}>
-      <Mark size={s.mark} className="shrink-0 text-gold" />
+      {logo ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={asset(BRAND_IMAGES.mark)} alt="" width={64} height={64} className={`${s.logo} shrink-0 object-contain`} />
+      ) : (
+        <Mark size={s.mark} className="shrink-0 text-gold" />
+      )}
       <span className="flex flex-col leading-none">
-        <span className={`font-display font-semibold tracking-[0.01em] whitespace-nowrap ${s.name} ${nameColour}`}>{t("brandName")}</span>
-        <span className={`mt-1 flex items-center gap-1.5 font-display italic text-gold ${s.sub}`}>
-          <span aria-hidden className="h-px w-3 bg-gold/60" />
-          <span className="whitespace-nowrap">{t("brandSub")}</span>
-          <span aria-hidden className="h-px flex-1 min-w-3 bg-gold/60" />
+        <span className={`font-display font-semibold tracking-[0.01em] whitespace-nowrap ${s.name} ${dark ? "text-white" : "text-maroon"}`}>{t("brandName")}</span>
+        <span className={`mt-1 whitespace-nowrap ${s.sub} tracking-[0.02em] ${dark ? "text-white/70" : "text-mute"}`}>
+          {t("brandSub")}, {t("brandPlace")}
         </span>
       </span>
     </span>

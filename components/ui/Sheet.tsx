@@ -78,7 +78,7 @@ export function Sheet({ open, onClose, title, children, footer, width = "md", lo
     <div className="fixed inset-0 z-[90] flex items-end justify-center sm:items-center sm:p-6">
       <div
         aria-hidden
-        className="sa-fade absolute inset-0 bg-maroon-deep/60"
+        className="sa-fade absolute inset-0 bg-[#1d0d0b]/55"
         onClick={() => !locked && onClose()}
       />
       <div
@@ -87,12 +87,11 @@ export function Sheet({ open, onClose, title, children, footer, width = "md", lo
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className={`sa-sheet relative flex max-h-[88dvh] w-full flex-col overflow-hidden rounded-t-[18px] bg-ivory text-maroon-deep shadow-[0_-12px_40px_rgba(74,13,15,.25)] outline-none sm:rounded-[6px] sm:shadow-[0_24px_60px_rgba(74,13,15,.35)] ${widths[width]}`}
+        className={`sa-sheet relative flex max-h-[88dvh] w-full flex-col overflow-hidden rounded-t-[16px] bg-white text-ink shadow-[0_-12px_40px_rgba(42,26,20,.18)] outline-none sm:rounded-[8px] sm:shadow-[0_24px_60px_rgba(42,26,20,.25)] ${widths[width]}`}
       >
-        <div aria-hidden className="h-[3px] shrink-0 bg-gold" />
-        <div aria-hidden className="mx-auto mt-2 h-1 w-10 shrink-0 rounded-full bg-maroon/15 sm:hidden" />
+        <div aria-hidden className="mx-auto mt-2 h-1 w-10 shrink-0 rounded-full bg-ink/15 sm:hidden" />
         <div className="flex shrink-0 items-start justify-between gap-4 px-5 pt-3 pb-3 sm:px-7 sm:pt-6">
-          <h2 id={titleId} className="font-display text-[1.6rem] font-semibold leading-tight text-maroon">
+          <h2 id={titleId} className="text-[1.375rem] font-semibold leading-tight text-ink">
             {title}
           </h2>
           {!locked && (
@@ -108,7 +107,7 @@ export function Sheet({ open, onClose, title, children, footer, width = "md", lo
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-5 sm:px-7 sm:pb-7">{children}</div>
         {footer && (
-          <div className="shrink-0 border-t border-gold/25 bg-ivory px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-7">{footer}</div>
+          <div className="shrink-0 border-t border-line bg-white px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-7">{footer}</div>
         )}
       </div>
     </div>,

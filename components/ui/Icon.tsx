@@ -3,7 +3,8 @@ import type { SVGProps } from "react";
 
 export type IconName =
   | "menu" | "close" | "bag" | "user" | "chat" | "phone" | "copy" | "check" | "chevron-right" | "chevron-left"
-  | "upi" | "card" | "bank" | "pin" | "clock" | "instagram" | "lock";
+  | "upi" | "card" | "bank" | "pin" | "clock" | "instagram" | "lock"
+  | "search" | "heart" | "hallmark" | "percent" | "scale" | "unlock" | "pause" | "play";
 
 const paths: Record<IconName, React.ReactNode> = {
   menu: <path d="M4 7h16M4 12h16M4 17h10" />,
@@ -23,6 +24,15 @@ const paths: Record<IconName, React.ReactNode> = {
   clock: <><circle cx="12" cy="12" r="8" /><path d="M12 7.5V12l3 2" /></>,
   instagram: <><rect x="4" y="4" width="16" height="16" rx="4.5" /><circle cx="12" cy="12" r="3.6" /><path d="M16.8 7.2h.01" strokeWidth={2.2} /></>,
   lock: <><rect x="5.5" y="10.5" width="13" height="9" rx="1.5" /><path d="M8.5 10.5V8a3.5 3.5 0 017 0v2.5" /></>,
+  search: <><circle cx="10.5" cy="10.5" r="6" /><path d="M15 15l4.5 4.5" /></>,
+  heart: <path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0112 7.6a3.9 3.9 0 017 2.5c0 5.1-7 9.4-7 9.4z" />,
+  // A hallmark seal: shield with a tick.
+  hallmark: <><path d="M12 3.5l6.5 2.5v5.2c0 4.3-2.8 7.5-6.5 9.3-3.7-1.8-6.5-5-6.5-9.3V6z" /><path d="M9 12l2.2 2.2L15.2 10" /></>,
+  percent: <><path d="M18 6L6 18" /><circle cx="7.5" cy="7.5" r="2.2" /><circle cx="16.5" cy="16.5" r="2.2" /></>,
+  scale: <><path d="M12 4v15M7 19.5h10M5 7.5h14" /><path d="M5 7.5l-2.5 6a2.5 2.5 0 005 0zM19 7.5l-2.5 6a2.5 2.5 0 005 0z" /></>,
+  unlock: <><rect x="5.5" y="10.5" width="13" height="9" rx="1.5" /><path d="M8.5 10.5V8a3.5 3.5 0 016.7-1.4" /><path d="M12 14v2" /></>,
+  pause: <path d="M9 6.5v11M15 6.5v11" strokeWidth={2} />,
+  play: <path d="M8.5 6v12l9.5-6z" />,
 };
 
 export function Icon({ name, size = 20, ...rest }: { name: IconName; size?: number } & SVGProps<SVGSVGElement>) {

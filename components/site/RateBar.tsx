@@ -19,26 +19,30 @@ function useStamp() {
 
 /**
  * `<RateBar compact?>`.
- * - `compact`: the thin maroon-deep strip above the site header ("Today's rate, 26 Nov 2026, 10:00 AM" and four rates).
- * - otherwise: the full rate board (same as `<RateBoard />`), for the home page and app home.
+ * - `compact` (the site layout): the slim rate ticker above the header. Same as `<RateTicker />`.
+ * - otherwise: the compact rate card, same as `<RateBoard />`.
  */
 export function RateBar({ compact = false, className = "" }: { compact?: boolean; className?: string }) {
-  return compact ? <RateStrip className={className} /> : <RateBoard className={className} />;
+  return compact ? <RateTicker className={className} /> : <RateBoard className={className} />;
 }
 
-function RateStrip({ className }: { className: string }) {
+/**
+ * `<RateTicker />`: one slim maroon-deep line above the header. "Today's rate, 26 Nov 2026, 10:00 AM" and the four
+ * rates with gold numerals. On phones the date sits on its own short line above the rates.
+ */
+export function RateTicker({ className = "" }: { className?: string }) {
   const t = useT(common);
   const stamp = useStamp();
   return (
-    <div className={`bg-maroon-deep text-ivory ${className}`}>
-      <div className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-1.5 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:gap-6 lg:px-8 lg:py-2">
-        <p className="text-[12px] leading-tight text-gold-light/85 lg:text-[13px]">{t("rateStripLabel", stamp)}</p>
-        <dl className="grid grid-cols-4 divide-x divide-gold/25 lg:flex lg:items-baseline">
+    <div className={`bg-maroon-deep text-white ${className}`}>
+      <div className="mx-auto flex max-w-7xl flex-col gap-0.5 px-4 py-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-6 lg:px-8">
+        <p className="text-[11px] leading-tight text-white/70 sm:text-[12.5px]">{t("rateStripLabel", stamp)}</p>
+        <dl className="flex items-baseline justify-between gap-x-3 sm:justify-end sm:gap-x-5">
           {ROWS.map((r) => (
-            <div key={r.key} className="flex flex-col items-start px-2 first:pl-0 last:pr-0 lg:flex-row lg:items-baseline lg:gap-2 lg:px-4">
-              <dt className="text-[11px] leading-tight text-ivory/65 lg:text-[12.5px]">{t(r.label)}</dt>
-              <dd className="font-display text-[15px] font-semibold leading-tight text-gold-light num lg:text-[17px]">
-                {formatINR(RATES[r.key])}<span className="ml-0.5 font-sans text-[10.5px] font-normal text-ivory/55">{t("perGram")}</span>
+            <div key={r.key} className="flex items-baseline gap-1.5 whitespace-nowrap">
+              <dt className="text-[11.5px] leading-tight text-white/75 sm:text-[12.5px]">{t(r.label)}</dt>
+              <dd className="text-[12.5px] font-semibold leading-tight text-gold-light tabular-nums sm:text-[13.5px]">
+                {formatINR(RATES[r.key])}<span className="font-normal text-white/55 max-[400px]:hidden">{t("perGram")}</span>
               </dd>
             </div>
           ))}
@@ -49,50 +53,31 @@ function RateStrip({ className }: { className: string }) {
 }
 
 /**
- * `<RateBoard />`: the shop's daily gold-rate board, the site's signature. Large display numerals on maroon in a
- * fine gold frame. The numerals settle in once on load (the one orchestrated motion; off under reduced motion).
+ * `<RateBoard />`: a compact rate card (white, fine border) for the app home or any page that wants the rates in
+ * the body. The website home no longer uses it: the ticker carries the rates there.
  */
 export function RateBoard({ className = "" }: { className?: string }) {
   const t = useT(common);
   const stamp = useStamp();
   return (
-    <section aria-labelledby="rate-board-title" className={`relative bg-maroon text-ivory ${className}`}>
-      <div aria-hidden className="pointer-events-none absolute inset-[8px] border border-gold/70 sm:inset-[10px]" />
-      <div aria-hidden className="pointer-events-none absolute inset-[12px] border border-gold/25 sm:inset-[14px]" />
-      <div className="relative px-6 py-7 sm:px-10 sm:py-9">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-          <h2 id="rate-board-title" className="font-display text-[1.7rem] font-semibold leading-tight text-ivory sm:text-[2rem]">
-            {t("rateBoardTitle")}
-          </h2>
-          <p className="text-sm text-gold-light/90">{t("rateStamp", stamp)}</p>
-        </div>
-        <div aria-hidden className="mt-4 h-px bg-gold/45" />
-        <dl className="grid grid-cols-2 lg:grid-cols-[1.35fr_1fr_1fr_1fr]">
-          {ROWS.map((r, i) => {
-            const lead = i === 0;
-            return (
-              <div
-                key={r.key}
-                className={`py-5 sm:py-6 ${i % 2 === 1 ? "border-l border-gold/25 pl-4 sm:pl-6" : "pr-4"} ${i >= 2 ? "border-t border-gold/25 lg:border-t-0" : ""} ${i === 2 ? "lg:border-l lg:border-gold/25 lg:pl-6" : ""} ${i > 0 ? "lg:pr-0" : "lg:pr-6"}`}
-              >
-                <dt className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-2">
-                  <span className="font-display text-xl font-semibold text-ivory">{t(r.label)}</span>
-                  <span className="text-[12px] leading-snug text-ivory/60 sm:text-[12.5px]">{t(r.sub)}</span>
-                </dt>
-                <dd
-                  className={`sa-settle mt-2 whitespace-nowrap font-display font-semibold leading-none text-gold-light num ${lead ? "text-[1.7rem] min-[360px]:text-[2.15rem] sm:text-[3.2rem] lg:text-[4rem]" : "text-[1.5rem] min-[360px]:text-[1.85rem] sm:text-[2.4rem] lg:text-[2.9rem]"}`}
-                  style={{ animationDelay: `${120 + i * 110}ms` }}
-                >
-                  {formatINR(RATES[r.key])}
-                  <span className="ml-1 font-sans text-[13px] font-normal text-ivory/60 sm:text-sm">{t("perGram")}</span>
-                </dd>
-              </div>
-            );
-          })}
-        </dl>
-        <div aria-hidden className="h-px bg-gold/45" />
-        <p className="mt-3 text-[13px] text-ivory/65">{t("rateNote")}</p>
+    <section aria-labelledby="rate-board-title" className={`rounded-[6px] border border-line bg-white ${className}`}>
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 border-b border-line px-4 py-3 sm:px-5">
+        <h2 id="rate-board-title" className="text-[16px] font-semibold text-ink">{t("rateBoardTitle")}</h2>
+        <p className="text-[12.5px] text-mute">{t("rateStamp", stamp)}</p>
       </div>
+      <dl className="grid grid-cols-2 sm:grid-cols-4">
+        {ROWS.map((r, i) => (
+          <div key={r.key} className={`px-4 py-3 sm:px-5 ${i % 2 === 1 ? "border-l border-line" : ""} ${i >= 2 ? "border-t border-line sm:border-t-0" : ""} ${i === 2 ? "sm:border-l" : ""}`}>
+            <dt className="text-[12.5px] leading-snug text-mute">
+              <span className="font-semibold text-ink">{t(r.label)}</span> {t(r.sub)}
+            </dt>
+            <dd className="mt-0.5 whitespace-nowrap text-[20px] font-semibold leading-tight text-maroon tabular-nums">
+              {formatINR(RATES[r.key])}<span className="ml-0.5 text-[12.5px] font-normal text-mute">{t("perGram")}</span>
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p className="border-t border-line px-4 py-2 text-[12px] text-mute sm:px-5">{t("rateNote")}</p>
     </section>
   );
 }
