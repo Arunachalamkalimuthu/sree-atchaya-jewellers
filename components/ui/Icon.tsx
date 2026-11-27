@@ -3,7 +3,7 @@ import type { SVGProps } from "react";
 
 export type IconName =
   | "menu" | "close" | "bag" | "user" | "chat" | "phone" | "copy" | "check" | "chevron-right" | "chevron-left"
-  | "upi" | "card" | "bank" | "pin" | "clock" | "instagram" | "lock"
+  | "upi" | "card" | "bank" | "pin" | "clock" | "instagram" | "facebook" | "mail" | "lock"
   | "search" | "heart" | "hallmark" | "percent" | "scale" | "unlock" | "pause" | "play";
 
 const paths: Record<IconName, React.ReactNode> = {
@@ -23,6 +23,8 @@ const paths: Record<IconName, React.ReactNode> = {
   pin: <><path d="M12 20.5s-6-5.6-6-10.5a6 6 0 0112 0c0 4.9-6 10.5-6 10.5z" /><circle cx="12" cy="10" r="2.2" /></>,
   clock: <><circle cx="12" cy="12" r="8" /><path d="M12 7.5V12l3 2" /></>,
   instagram: <><rect x="4" y="4" width="16" height="16" rx="4.5" /><circle cx="12" cy="12" r="3.6" /><path d="M16.8 7.2h.01" strokeWidth={2.2} /></>,
+  facebook: <><rect x="4" y="4" width="16" height="16" rx="4.5" /><path d="M15.5 8.5h-1.3c-1 0-1.7.7-1.7 1.7V20M10 13h5" /></>,
+  mail: <><rect x="3.5" y="6" width="17" height="12" rx="1.5" /><path d="M4 7l8 6 8-6" /></>,
   lock: <><rect x="5.5" y="10.5" width="13" height="9" rx="1.5" /><path d="M8.5 10.5V8a3.5 3.5 0 017 0v2.5" /></>,
   search: <><circle cx="10.5" cy="10.5" r="6" /><path d="M15 15l4.5 4.5" /></>,
   heart: <path d="M12 19.5s-7-4.3-7-9.4A3.9 3.9 0 0112 7.6a3.9 3.9 0 017 2.5c0 5.1-7 9.4-7 9.4z" />,

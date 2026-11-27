@@ -81,6 +81,7 @@ export const home = {
 
     visitTitle: "Visit us in Coimbatore",
     visitBring: "For gold release, bring your loan receipt and an ID card.",
+    visitServe: "We serve customers across {towns}.",
     visitMapTitle: "Map of Coimbatore {pin}",
     visitMapNote: "The map shows the {pin} area. The shop's exact pin comes later.",
     visitMapPlace: "Coimbatore {pin}",
@@ -165,6 +166,7 @@ export const home = {
 
     visitTitle: "கோயம்புத்தூர் ஷோரூமுக்கு வாருங்கள்",
     visitBring: "நகை மீட்புக்கு கடன் ரசீதும் அடையாள அட்டையும் கொண்டு வாருங்கள்.",
+    visitServe: "{towns} ஆகிய ஊர்களைச் சேர்ந்த வாடிக்கையாளர்களுக்குச் சேவை செய்கிறோம்.",
     visitMapTitle: "கோயம்புத்தூர் {pin} வரைபடம்",
     visitMapNote: "வரைபடம் {pin} பகுதியைக் காட்டுகிறது. கடையின் சரியான இடம் பின்னர் சேர்க்கப்படும்.",
     visitMapPlace: "கோயம்புத்தூர் {pin}",

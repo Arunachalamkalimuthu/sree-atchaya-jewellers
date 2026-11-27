@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { SITE } from "@/lib/site.config";
+import { ADDRESS_VARS, SITE } from "@/lib/site.config";
 import { routes } from "@/lib/routes";
 import { CATEGORIES } from "@/lib/catalog";
 import { useL10n, useT } from "@/lib/i18n";
@@ -19,6 +19,7 @@ export function Footer() {
   const [topic, setTopic] = useState<ContactTopic | null>(null);
 
   const phones: { label: string; number: string }[] = [
+    { label: t("contactEnquiry"), number: SITE.phones.enquiry },
     { label: t("footerMainRelease"), number: SITE.phones.main },
     { label: t("contactAlt"), number: SITE.phones.alt },
     { label: t("footerGoldCoins"), number: SITE.phones.goldCoins },
@@ -33,11 +34,19 @@ export function Footer() {
           <div>
             <Wordmark tone="ivory" size="md" />
             <p className="mt-5 max-w-sm text-[14.5px] leading-relaxed text-white/75">{t("footerIntro")}</p>
-            <p className="mt-4 flex items-center gap-2 text-[14.5px] text-white/85">
-              <Icon name="instagram" size={18} className="text-gold-light" />
-              <span>{t("footerInstagram")}</span>
-              <span className="font-medium text-white">@{SITE.instagram}</span>
-            </p>
+            <ul className="mt-4 space-y-2 text-[14.5px] text-white/85">
+              <li className="flex flex-wrap items-center gap-x-2">
+                <Icon name="instagram" size={18} className="text-gold-light" />
+                <span>{t("footerInstagram")}</span>
+                <span className="select-all font-medium text-white">@{SITE.social.instagram}</span>
+              </li>
+              <li className="flex flex-wrap items-center gap-x-2">
+                <Icon name="facebook" size={18} className="text-gold-light" />
+                <span>{t("footerFacebook")}</span>
+                <span className="select-all font-medium text-white">{SITE.social.facebook}</span>
+              </li>
+            </ul>
+            <p className="mt-2 text-[13px] text-white/60">{t("footerFollowers", { ig: SITE.social.instagramFollowers, fb: SITE.social.facebookFollowers })}</p>
           </div>
 
           <nav aria-labelledby="footer-shop">
@@ -67,8 +76,13 @@ export function Footer() {
             <h2 className={head}>{t("footerVisit")}</h2>
             <address className="mt-4 not-italic text-[14.5px] leading-relaxed text-white/80">
               {t("brandName")} {t("brandSub")}<br />
-              {t("footerAddress", { pin: SITE.address.pin })}
+              {t("footerAddress", ADDRESS_VARS)}
             </address>
+            <p className="mt-2 flex items-center gap-2 text-[14.5px] text-white/80">
+              <Icon name="mail" size={16} className="shrink-0 text-gold-light" />
+              <span className="sr-only">{t("footerEmail")}</span>
+              <span className="min-w-0 select-all break-all">{SITE.email}</span>
+            </p>
             <p className="mt-2 flex items-center gap-2 text-[14.5px] text-white/80"><Icon name="clock" size={16} className="text-gold-light" />{t("footerHours")}</p>
             <ul className="mt-5 space-y-2.5">
               {phones.map((p) => (

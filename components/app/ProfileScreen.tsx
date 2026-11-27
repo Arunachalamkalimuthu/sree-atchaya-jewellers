@@ -1,6 +1,6 @@
 "use client";
 import { useState, type ReactNode } from "react";
-import { SITE } from "@/lib/site.config";
+import { ADDRESS_VARS } from "@/lib/site.config";
 import { routes } from "@/lib/routes";
 import { useDemo } from "@/lib/use-demo";
 import { useT } from "@/lib/i18n";
@@ -105,7 +105,7 @@ export function ProfileScreen() {
             </Group>
 
             <Group title={t("addresses")}>
-              <Line label={t("addrPickup")} value={`${tc("footerAddress", { pin: SITE.address.pin })}. ${t("addrPickupSub")}`}>
+              <Line label={t("addrPickup")} value={`${tc("footerAddress", ADDRESS_VARS)}. ${t("addrPickupSub")}`}>
                 <Icon name="pin" size={18} className={chev} />
               </Line>
               <button type="button" className={rowBtn} onClick={() => setSheet("address")} aria-haspopup="dialog">

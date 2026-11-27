@@ -19,7 +19,7 @@ export function InstagramStrip() {
   const [open, setOpen] = useState(false);
   return (
     <section aria-labelledby="ig-title" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
-      <SectionHead id="ig-title" title={t("igTitle")} intro={t("igBody", { handle: SITE.instagram })} />
+      <SectionHead id="ig-title" title={t("igTitle")} intro={t("igBody", { handle: SITE.social.instagram })} />
       <ul className="no-scrollbar -mx-4 mt-6 grid auto-cols-[calc((100%-3rem)/2.4)] grid-flow-col gap-x-2 overflow-x-auto px-4 pb-1 sm:-mx-6 sm:auto-cols-[calc((100%-5rem)/3.4)] sm:gap-x-3 sm:px-6 lg:mx-0 lg:grid-flow-row lg:grid-cols-6 lg:gap-x-3 lg:overflow-visible lg:px-0">
         {INSTAGRAM_PICKS.map((p) => (
           <li key={p.slug} className="min-w-0">
@@ -43,7 +43,7 @@ export function InstagramStrip() {
         <p className="text-[15px] leading-relaxed text-mute">{t("igSheetBody")}</p>
         <p className="mt-4 flex items-center gap-2 border-y border-line py-3 text-[17px] text-ink">
           <Icon name="instagram" size={20} className="text-maroon" />
-          <span className="select-all font-semibold">@{SITE.instagram}</span>
+          <span className="select-all font-semibold">@{SITE.social.instagram}</span>
         </p>
         <p className="mt-4 text-[13.5px] text-mute">{t("igSheetDemo")}</p>
       </Sheet>

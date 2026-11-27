@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { OFFER, SCHEME, SITE } from "@/lib/site.config";
+import { ADDRESS_VARS, OFFER, SCHEME } from "@/lib/site.config";
 import { demoSeed } from "@/lib/demo-state";
 import { planSummary } from "@/lib/scheme";
 import { routes } from "@/lib/routes";
@@ -111,7 +111,7 @@ function RedeemSheet({ open, onClose, digi, onTalk }: { open: boolean; onClose: 
       <p className="text-[15px] leading-relaxed text-ink">{digi ? t("redeemDigi") : t("redeemBody", { pct: OFFER.wastagePct })}</p>
       <dl className="mt-5 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2.5 border-y border-[#ECE6DF] py-4 text-sm">
         <dt className="flex items-center gap-2 text-[#6B5E57]"><Icon name="pin" size={16} />{tc("contactMain")}</dt>
-        <dd>{tc("footerAddress", { pin: SITE.address.pin })}</dd>
+        <dd>{tc("footerAddress", ADDRESS_VARS)}</dd>
         <dt className="flex items-center gap-2 text-[#6B5E57]"><Icon name="clock" size={16} />{tc("contactHoursLabel")}</dt>
         <dd>{tc("footerHours")}</dd>
       </dl>

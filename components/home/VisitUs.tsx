@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import { SITE } from "@/lib/site.config";
-import { useT } from "@/lib/i18n";
+import { ADDRESS_VARS, SITE } from "@/lib/site.config";
+import { useLang, useT } from "@/lib/i18n";
 import { common } from "@/lib/i18n/dict/common";
 import { home } from "@/lib/i18n/dict/home";
 import { Button } from "@/components/ui/Button";
@@ -9,8 +9,9 @@ import { ContactSheet, type ContactTopic } from "@/components/ui/ContactSheet";
 import { Icon } from "@/components/ui/Icon";
 
 /**
- * Centre of the 641001 area (Town Hall, Coimbatore) for the OpenStreetMap embed. The shop's exact location is not
- * in site.config yet; swap these when it is.
+ * Centre of the 641001 area (Town Hall, Coimbatore) for the OpenStreetMap embed. The OSM embed takes only a bounding
+ * box and a marker, not a search query, so it cannot centre on "Swarnalaya Complex" by name; swap these for the
+ * shop's coordinates once they are confirmed.
  */
 const MAP = { lat: 10.995, lon: 76.961, span: 0.016 };
 const MAP_SRC =
@@ -25,8 +26,11 @@ const MAP_SRC =
 export function VisitUs() {
   const t = useT(home);
   const c = useT(common);
+  const [lang] = useLang();
   const [topic, setTopic] = useState<ContactTopic | null>(null);
+  const towns = (lang === "ta" ? SITE.serviceAreaTa : SITE.serviceArea).join(", ");
   const phones = [
+    { label: c("contactEnquiry"), number: SITE.phones.enquiry },
     { label: c("footerMainRelease"), number: SITE.phones.main },
     { label: c("contactAlt"), number: SITE.phones.alt },
     { label: c("footerGoldCoins"), number: SITE.phones.goldCoins },
@@ -39,10 +43,16 @@ export function VisitUs() {
           <h2 id="visit-title" className="text-[22px] font-semibold leading-tight text-ink sm:text-[28px]">{t("visitTitle")}</h2>
           <address className="mt-5 not-italic">
             <span className="block text-[17px] font-semibold text-ink">{c("brandName")} {c("brandSub")}</span>
-            <span className="mt-0.5 block text-[15px] text-mute">{c("footerAddress", { pin: SITE.address.pin })}</span>
+            <span className="mt-0.5 block text-[15px] leading-relaxed text-mute">{c("footerAddress", ADDRESS_VARS)}</span>
           </address>
+          <p className="mt-2 flex items-center gap-2 text-[15px] text-mute">
+            <Icon name="mail" size={17} className="shrink-0 text-maroon" />
+            <span className="sr-only">{c("footerEmail")}</span>
+            <span className="min-w-0 select-all break-all">{SITE.email}</span>
+          </p>
           <p className="mt-2 flex items-center gap-2 text-[15px] text-mute"><Icon name="clock" size={17} className="text-maroon" />{c("footerHours")}</p>
           <p className="mt-2 text-[14.5px] leading-relaxed text-mute">{t("visitBring")}</p>
+          <p className="mt-2 text-[14.5px] leading-relaxed text-mute">{t("visitServe", { towns })}</p>
 
           <ul className="mt-6 divide-y divide-line border-y border-line">
             {phones.map((p) => (
