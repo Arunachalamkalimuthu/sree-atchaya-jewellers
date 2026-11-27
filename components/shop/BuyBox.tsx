@@ -12,7 +12,7 @@ import { shop } from "@/lib/i18n/dict/shop";
 import { Button } from "@/components/ui/Button";
 import { Price } from "@/components/ui/Price";
 import { ContactSheet } from "@/components/ui/ContactSheet";
-import { PriceBreakdownTable } from "@/components/site/PriceBreakdownTable";
+import { BreakdownTable } from "./BreakdownTable";
 
 export interface BuyBoxProps {
   product: Product;
@@ -60,19 +60,23 @@ export function BuyBox({ product: p, compact = false, cartHref = routes.cart() }
 
   return (
     <div className={compact ? "" : "lg:max-w-[34rem]"}>
-      <Name className={`font-display font-semibold leading-[1.1] text-maroon-deep ${compact ? "text-[1.75rem]" : "text-[2.2rem] sm:text-[2.75rem]"}`}>
+      <Name
+        className={`font-display font-semibold leading-[1.1] text-ink [html[lang=ta]_&]:font-sans [html[lang=ta]_&]:leading-snug ${
+          compact ? "text-[1.9rem] [html[lang=ta]_&]:text-[22px]" : "text-[2.4rem] sm:text-[2.9rem] [html[lang=ta]_&]:text-[26px] sm:[html[lang=ta]_&]:text-[32px]"
+        }`}
+      >
         {l(p.name)}
       </Name>
       <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-2">
-        <p className="text-[15px] text-ink/70">{purity}, {tc("weightG", { g: p.weightG })}</p>
+        <p className="text-[15px] text-mute">{purity}, {tc("weightG", { g: p.weightG })}</p>
         {p.purity === "22K" && <HallmarkBadge label={t("hallmarkBadge")} />}
-        {p.isNew && <span className="font-display text-[15px] font-semibold text-maroon">{tc("newArrival")}</span>}
+        {p.isNew && <span className="rounded-[3px] bg-maroon px-2 py-[3px] text-[11.5px] font-semibold leading-none text-white">{tc("newArrival")}</span>}
       </div>
 
       {p.prebookable && (
         <fieldset className={compact ? "mt-5" : "mt-7"}>
-          <legend id={ids.mode} className="mb-2.5 text-[14px] text-ink/70">{t("modeLabel")}</legend>
-          <div className="grid grid-cols-2 gap-2">
+          <legend id={ids.mode} className="mb-2.5 text-[15px] font-semibold text-ink">{t("modeLabel")}</legend>
+          <div className="grid grid-cols-2 gap-2.5">
             <ModeOption name={ids.mode} checked={!prebook} onSelect={() => setMode("buy")} title={t("modeBuy")} hint={t("modeBuyHint")} />
             <ModeOption
               name={ids.mode}
@@ -85,21 +89,21 @@ export function BuyBox({ product: p, compact = false, cartHref = routes.cart() }
         </fieldset>
       )}
 
-      <div className={`border-b border-gold/40 pb-5 ${compact ? "mt-5" : "mt-7"}`} aria-live="polite">
-        <p className="text-[14px] text-ink/65">{prebook ? t("prebookTotalLabel") : t("totalLabel")}</p>
-        <div className="mt-1 flex flex-wrap items-baseline gap-x-3">
-          <Price value={b.total} size="xl" className={`text-maroon ${compact ? "text-[2.3rem]!" : ""}`} />
-          {regular && <Price value={regular.total} size="md" strike className="text-ink" />}
-          <span className="text-[13px] text-ink/55">{tc("priceInclGst")}</span>
+      <div className={compact ? "mt-5" : "mt-7"} aria-live="polite">
+        <p className="text-[14px] text-mute">{prebook ? t("prebookTotalLabel") : t("totalLabel")}</p>
+        <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <Price value={b.total} size={compact ? "lg" : "xl"} className="text-maroon" />
+          {regular && <Price value={regular.total} size="md" strike className="text-mute" />}
+          <span className="text-[13px] text-mute">{tc("priceInclGst")}</span>
         </div>
         {prebook && (
-          <p className="mt-2 max-w-[48ch] text-[14.5px] leading-snug text-emerald num">{t("payTodayLine", { amount: formatINR(b.advance) })}</p>
+          <p className="mt-3 max-w-[52ch] rounded-[4px] bg-cream px-3.5 py-2.5 text-[14px] leading-snug text-ink">{t("payTodayLine", { amount: formatINR(b.advance) })}</p>
         )}
       </div>
 
       {p.sizes?.length ? (
         <div className="mt-5">
-          <label htmlFor={ids.size} className="mb-2 block text-[14px] text-ink/70">{sizeLabel}</label>
+          <label htmlFor={ids.size} className="mb-2 block text-[15px] font-semibold text-ink">{sizeLabel}</label>
           <div className="relative max-w-60">
             <select
               ref={sizeRef}
@@ -108,8 +112,8 @@ export function BuyBox({ product: p, compact = false, cartHref = routes.cart() }
               aria-invalid={sizeError || undefined}
               aria-describedby={sizeError ? ids.sizeErr : undefined}
               onChange={(e) => { setSize(e.target.value); setSizeError(false); }}
-              className={`min-h-11 w-full appearance-none rounded-[3px] border bg-white/60 py-2 pl-3.5 pr-10 text-[15px] text-maroon-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${
-                sizeError ? "border-maroon" : "border-maroon/30 hover:border-gold"
+              className={`min-h-11 w-full appearance-none rounded-[4px] border bg-white py-2 pl-3.5 pr-10 text-[15px] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${
+                sizeError ? "border-maroon ring-1 ring-maroon" : "border-line hover:border-maroon/50"
               }`}
             >
               <option value="" disabled>{t("sizeChoose")}</option>
@@ -131,34 +135,38 @@ export function BuyBox({ product: p, compact = false, cartHref = routes.cart() }
           {t("ctaWhatsApp")}
         </Button>
       </div>
-      <p className="mt-3 max-w-[52ch] text-[13.5px] leading-snug text-ink/60">{t("collectNote")}</p>
+      <p className="mt-3 max-w-[52ch] text-[13.5px] leading-snug text-mute">{t("collectNote")}</p>
 
-      <PriceBreakdownTable breakdown={b} mode={prebook ? "prebook" : "buy"} purity={p.purity} className={compact ? "mt-7" : "mt-9"} />
+      <BreakdownTable breakdown={b} mode={prebook ? "prebook" : "buy"} purity={p.purity} className={compact ? "mt-7" : "mt-9"} />
 
       <ContactSheet open={contact} onClose={() => setContact(false)} topic={p.category === "coin" ? "goldCoins" : "general"} />
     </div>
   );
 }
 
+/** A v2 radio card: a drawn radio dot, the choice in semibold ink and a grey hint. Checked: maroon border and dot. */
 function ModeOption({ name, checked, onSelect, title, hint }: { name: string; checked: boolean; onSelect: () => void; title: string; hint: string }) {
   return (
     <label
-      className={`relative flex cursor-pointer flex-col rounded-[3px] border px-3.5 py-3 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-gold ${
-        checked ? "border-maroon bg-maroon text-ivory" : "border-maroon/25 text-maroon-deep hover:border-gold"
+      className={`relative flex cursor-pointer items-start gap-2.5 rounded-[6px] border bg-white px-3.5 py-3 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-gold sm:gap-3 sm:px-4 sm:py-3.5 ${
+        checked ? "border-maroon ring-1 ring-maroon" : "border-line hover:border-maroon/50"
       }`}
     >
       <input type="radio" name={name} checked={checked} onChange={onSelect} className="sr-only" />
-      <span className="font-display text-[1.2rem] font-semibold leading-tight">{title}</span>
-      <span className={`mt-0.5 text-[13px] leading-snug ${checked ? "text-gold-light" : "text-ink/60"}`}>{hint}</span>
+      <span aria-hidden className={`mt-[3px] grid size-[18px] shrink-0 place-items-center rounded-full border-[1.5px] ${checked ? "border-maroon" : "border-[#b9b0a8]"}`}>
+        {checked && <span className="size-2.5 rounded-full bg-maroon" />}
+      </span>
+      <span className="min-w-0">
+        <span className="block text-[16px] font-semibold leading-tight text-ink">{title}</span>
+        <span className="mt-1 block text-[13px] leading-snug text-mute">{hint}</span>
+      </span>
     </label>
   );
 }
 
-/** A struck-metal look: fine double gold rule around the words. Text only; the BIS logo itself is not drawn. */
+/** BIS 916: a small tag with a gold hairline and ink text (never gold text on white). The BIS logo itself is not drawn. */
 function HallmarkBadge({ label }: { label: string }) {
   return (
-    <span className="inline-flex items-center border border-gold p-[2px]">
-      <span className="border border-gold/50 px-2 py-[1px] text-[12.5px] font-semibold leading-tight text-maroon">{label}</span>
-    </span>
+    <span className="inline-flex items-center rounded-[3px] border border-gold/60 px-2 py-[3px] text-[12px] font-semibold leading-none text-ink">{label}</span>
   );
 }

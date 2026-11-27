@@ -6,17 +6,24 @@ import { CATEGORIES, PRODUCTS } from "@/lib/catalog";
 import { OFFER, RATES, PURCHASE_RATES } from "@/lib/site.config";
 import { formatINR } from "@/lib/pricing";
 import { routes } from "@/lib/routes";
+import { BANNERS } from "@/lib/images";
 import { useL10n, useT } from "@/lib/i18n";
 import { common } from "@/lib/i18n/dict/common";
 import { shop } from "@/lib/i18n/dict/shop";
+import { Banner } from "@/components/ui/Banner";
 import { Button } from "@/components/ui/Button";
+import { ProductImage } from "@/components/ui/ProductImage";
+import { ProductCard } from "@/components/site/ProductCard";
+import { CATEGORY_COVERS } from "@/components/home/picks";
 import { Filters } from "./Filters";
-import { ShopTile } from "./ShopTile";
 import { filterProducts, parseQuery, purityOfCategory, toQueryString, type ShopQuery } from "./query";
 
 const RATE_OF = { "22K": RATES.g22, "24K": RATES.g24, "18K": RATES.g18, silver: RATES.silver } as const;
-/** The sell-gold strip breaks the grid after this many tiles (a whole number of rows at 2, 3 and 4 columns). */
-const BREAK_AT = 12;
+/**
+ * The sell-gold banner breaks the grid after a whole number of rows: 12 tiles at 2 and 3 across, 10 at 5 across
+ * (1024 px up). Both are rendered and CSS shows the one that fits, so a row is never left half full.
+ */
+const BREAK_AT = { narrow: 12, wide: 10 } as const;
 
 /** Reads the query from the URL (call inside <Suspense>) and writes changes back with router.replace. */
 export function Catalogue() {
@@ -56,89 +63,112 @@ function CatalogueView({ query, onChange }: { query: ShopQuery; onChange: (q: Sh
     if (nav && on && nav.scrollWidth > nav.clientWidth) nav.scrollLeft += on.getBoundingClientRect().left - nav.getBoundingClientRect().left - 16;
   }, [query.cat]);
 
+  const wide = list.length > BREAK_AT.wide;
+  const narrow = list.length > BREAK_AT.narrow;
+
   return (
-    <>
-      <section className="bg-maroon text-ivory">
-        <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 sm:pt-10 lg:px-8">
-          <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-            <h1 className="font-display text-[2.1rem] font-semibold leading-tight sm:text-[2.6rem]">{cat ? l(cat) : t("allJewellery")}</h1>
-            <p className="text-[14px] text-gold-light num" aria-live="polite">
-              {list.length === 1 ? t("piecesOne") : t("pieces", { n: list.length })}
-            </p>
-          </div>
-          <p className="mt-2 max-w-[62ch] text-[15px] leading-relaxed text-ivory/80">
-            {t("shopIntro", { purity: purityLabel, rate: formatINR(RATE_OF[purity]), wastage: OFFER.wastagePct, gst: OFFER.gstPct })}
-          </p>
+    <div className="mx-auto max-w-7xl px-4 pb-16 pt-7 sm:px-6 sm:pt-9 lg:px-8">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+        <h1 className="text-[28px] font-semibold leading-tight text-ink sm:text-[36px]">{cat ? l(cat) : t("allJewellery")}</h1>
+        <p className="text-[14px] text-mute" aria-live="polite">
+          {list.length === 1 ? t("piecesOne") : t("pieces", { n: list.length })}
+        </p>
+      </div>
+      <p className="mt-1.5 max-w-[68ch] text-[14.5px] leading-relaxed text-mute">
+        {t("shopIntro", { purity: purityLabel, rate: formatINR(RATE_OF[purity]), wastage: OFFER.wastagePct, gst: OFFER.gstPct })}
+      </p>
 
-          <nav ref={navRef} aria-label={t("categoriesLabel")} className="-mx-4 mt-6 overflow-x-auto px-4 [scrollbar-width:none] sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-            <ul className="flex min-w-max gap-1 border-b border-gold/40">
-              {[undefined, ...CATEGORIES].map((c) => {
-                const on = c?.id === query.cat;
-                return (
-                  <li key={c?.id ?? "all"}>
-                    <Link
-                      href={routes.shop(c?.id)}
-                      scroll={false}
-                      aria-current={on ? "page" : undefined}
-                      className={`relative block whitespace-nowrap rounded-t-sm px-3 pb-3 pt-1 text-[15px] transition-colors focus-visible:outline-2 focus-visible:outline-gold ${
-                        on ? "text-gold-light" : "text-ivory/75 hover:text-ivory"
-                      }`}
-                    >
-                      {c ? l(c) : t("catAll")}
-                      {on && <span aria-hidden className="absolute inset-x-3 -bottom-px h-[2px] bg-gold" />}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-        </div>
-      </section>
+      <nav ref={navRef} aria-label={t("categoriesLabel")} className="no-scrollbar -mx-4 mt-6 overflow-x-auto px-4 sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0">
+        <ul className="flex w-max gap-3 pb-1 pt-1 sm:gap-4 lg:grid lg:w-auto lg:grid-cols-11 lg:gap-3">
+          {[undefined, ...CATEGORY_COVERS].map((c) => {
+            const on = c?.id === query.cat;
+            return (
+              <li key={c?.id ?? "all"} className="w-[72px] shrink-0 sm:w-[84px] lg:w-auto">
+                <Link
+                  href={routes.shop(c?.id)}
+                  scroll={false}
+                  aria-current={on ? "page" : undefined}
+                  className="group block rounded-sm text-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+                >
+                  <span className={`block rounded-full p-[3px] transition-shadow ${on ? "ring-2 ring-maroon" : "ring-1 ring-line group-hover:ring-maroon/50"}`}>
+                    {c ? (
+                      <ProductImage src={c.product?.image ?? ""} alt="" kind={c.id} className="aspect-square w-full rounded-full" />
+                    ) : (
+                      <AllGlyph />
+                    )}
+                  </span>
+                  <span className={`mt-2 block text-[13px] leading-snug sm:text-[14px] ${on ? "font-semibold text-maroon" : "font-medium text-ink group-hover:text-maroon"}`}>
+                    {c ? l(c) : t("catAll")}
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
 
-      <section className="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 sm:pt-8 lg:px-8">
+      <div className="mt-6 border-t border-line pt-5">
         <Filters query={query} onChange={onChange} base={base} resultCount={list.length} />
+      </div>
 
-        {list.length === 0 ? (
-          <div className="mt-12 max-w-lg border-l-2 border-gold pl-5">
-            <p className="font-display text-2xl font-semibold text-maroon">{t("noMatch")}</p>
-            <p className="mt-2 text-[15px] leading-relaxed text-ink/75">{t("noMatchHint")}</p>
-            <Button variant="maroon" className="mt-5" onClick={() => onChange({ cat: query.cat, sort: query.sort })}>
-              {t("clearFilters")}
-            </Button>
-          </div>
-        ) : (
-          <ul className="mt-7 grid grid-cols-2 gap-x-4 gap-y-9 sm:gap-x-5 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-11">
-            {list.map((p, i) => (
-              <Fragment key={p.slug}>
-                {i === BREAK_AT && <li className="col-span-full"><SellStrip /></li>}
-                <li><ShopTile product={p} /></li>
-              </Fragment>
-            ))}
-            {list.length <= BREAK_AT && <li className="col-span-full mt-2"><SellStrip /></li>}
-          </ul>
-        )}
-      </section>
-    </>
+      {list.length === 0 ? (
+        <div className="mt-8 max-w-xl rounded-[6px] border border-line bg-white px-5 py-6 sm:px-8 sm:py-8">
+          <p className="text-[20px] font-semibold text-ink">{t("noMatch")}</p>
+          <p className="mt-1.5 text-[15px] leading-relaxed text-mute">{t("noMatchHint")}</p>
+          <Button variant="maroon" className="mt-5" onClick={() => onChange({ cat: query.cat, sort: query.sort })}>
+            {t("clearFilters")}
+          </Button>
+        </div>
+      ) : (
+        <ul className="mt-6 grid grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-3 sm:gap-x-4 lg:grid-cols-5 lg:gap-x-5">
+          {list.map((p, i) => (
+            <Fragment key={p.slug}>
+              {wide && i === BREAK_AT.wide && <li className="col-span-full hidden py-2 lg:block"><SellBanner /></li>}
+              {narrow && i === BREAK_AT.narrow && <li className="col-span-full py-2 lg:hidden"><SellBanner /></li>}
+              <li className="min-w-0"><ProductCard product={p} eager={i < 5} /></li>
+            </Fragment>
+          ))}
+          {!wide && <li className="col-span-full hidden pt-2 lg:block"><SellBanner /></li>}
+          {!narrow && <li className="col-span-full pt-2 lg:hidden"><SellBanner /></li>}
+        </ul>
+      )}
+    </div>
   );
 }
 
-/** Gold and pawn: the shop's buy-back and loan-release desk, on emerald like their sell-gold posters. */
-function SellStrip() {
+/** "All" in the category row: a soft maroon disc with a small four-square grid, the same size as the photo thumbnails. */
+function AllGlyph() {
+  return (
+    <span className="grid aspect-square w-full place-items-center rounded-full bg-[#F6EDEC] text-maroon">
+      <svg aria-hidden viewBox="0 0 24 24" className="w-[36%]" fill="none" stroke="currentColor" strokeWidth="1.4">
+        <rect x="4" y="4" width="6.5" height="6.5" rx="1" />
+        <rect x="13.5" y="4" width="6.5" height="6.5" rx="1" />
+        <rect x="4" y="13.5" width="6.5" height="6.5" rx="1" />
+        <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1" />
+      </svg>
+    </span>
+  );
+}
+
+/**
+ * Gold and pawn: the shop's buy-back and loan-release desk, as a photo promo banner. The copy is longer than a home
+ * promo, so the text column is widened (the Banner's inner text box) from 640 px up.
+ */
+function SellBanner() {
   const t = useT(shop);
   return (
-    <div className="bg-emerald text-ivory">
-      <div className="flex flex-col gap-5 px-6 py-7 sm:px-9 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-        <div className="max-w-[60ch]">
-          <h2 className="font-display text-[1.6rem] font-semibold leading-tight">{t("sellTitle")}</h2>
-          <p className="mt-1.5 text-[15px] leading-relaxed text-ivory/85 num">
-            {t("sellBody", { g22: formatINR(PURCHASE_RATES.g22), g18: formatINR(PURCHASE_RATES.g18) })}
-          </p>
+    <Banner
+      src={BANNERS.oldgold}
+      focal="78% 50%"
+      className="h-[380px] rounded-[6px] sm:h-[280px] lg:h-[270px] [&>div>div]:max-w-none sm:[&>div>div]:max-w-[31rem]"
+      headline={t("sellTitle")}
+      detail={t("sellBody", { g22: formatINR(PURCHASE_RATES.g22), g18: formatINR(PURCHASE_RATES.g18) })}
+      action={(photo) => (
+        <div className="flex flex-wrap gap-3">
+          <Button href={routes.sellGold()} variant={photo ? "light" : "maroon"}>{t("sellCta")}</Button>
+          <Button href={routes.custom()} variant={photo ? "ghost-light" : "ghost"}>{t("customCta")}</Button>
         </div>
-        <div className="flex shrink-0 flex-wrap gap-3">
-          <Button href={routes.sellGold()} variant="gold">{t("sellCta")}</Button>
-          <Button href={routes.custom()} variant="ghost" className="text-ivory! hover:bg-ivory/10">{t("customCta")}</Button>
-        </div>
-      </div>
-    </div>
+      )}
+    />
   );
 }

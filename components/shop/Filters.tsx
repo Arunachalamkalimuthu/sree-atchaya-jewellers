@@ -52,7 +52,7 @@ export function Filters({ query, onChange, base, resultCount }: FiltersProps) {
         <button
           type="button"
           onClick={clear}
-          className="hidden min-h-9 rounded-sm text-[14px] text-maroon underline decoration-gold underline-offset-4 hover:text-maroon-deep focus-visible:outline-2 focus-visible:outline-gold md:block"
+          className="hidden min-h-9 rounded-sm text-[14px] font-semibold text-maroon underline decoration-maroon/35 underline-offset-[5px] hover:decoration-maroon focus-visible:outline-2 focus-visible:outline-gold md:block"
         >
           {t("clearFilters")}
         </button>
@@ -116,8 +116,8 @@ function ChipRow<V extends string>({
   const all = [{ value: undefined, label: anyLabel, count: undefined }, ...options];
   return (
     <div role="group" aria-labelledby={id}>
-      <p id={id} className="mb-2 text-[13px] text-ink/60">{label}</p>
-      <div className="flex flex-wrap gap-1.5">
+      <p id={id} className="mb-2 text-[13px] text-mute">{label}</p>
+      <div className="flex flex-wrap gap-2">
         {all.map((o) => {
           const on = o.value === value;
           return (
@@ -126,12 +126,12 @@ function ChipRow<V extends string>({
               type="button"
               aria-pressed={on}
               onClick={() => onChange(o.value)}
-              className={`min-h-9 rounded-[2px] border px-3 text-[14px] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${
-                on ? "border-maroon bg-maroon text-ivory" : "border-maroon/25 text-maroon-deep hover:border-gold hover:bg-gold/10"
+              className={`min-h-9 rounded-full border px-3.5 text-[14px] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${
+                on ? "border-maroon bg-maroon font-medium text-white" : "border-line bg-white text-ink hover:border-maroon/50 hover:text-maroon"
               }`}
             >
               {o.label}
-              {o.count !== undefined && <span className={`ml-1.5 text-[12px] num ${on ? "text-gold-light" : "text-ink/45"}`}>{o.count}</span>}
+              {o.count !== undefined && <span className={`ml-1.5 text-[12px] ${on ? "text-white/75" : "text-mute"}`}>{o.count}</span>}
             </button>
           );
         })}
@@ -144,14 +144,14 @@ function SortSelect({ t, value, onChange }: { t: T; value: Sort; onChange: (s: S
   const id = useId();
   return (
     <div className="ml-auto">
-      <label htmlFor={id} className="mb-2 hidden text-[13px] text-ink/60 md:block">{t("sortLabel")}</label>
+      <label htmlFor={id} className="mb-2 hidden text-[13px] text-mute md:block">{t("sortLabel")}</label>
       <div className="relative">
         <select
           id={id}
           value={value}
           onChange={(e) => onChange(e.target.value as Sort)}
           aria-label={t("sortLabel")}
-          className="min-h-9 appearance-none rounded-[2px] border border-maroon/25 bg-transparent py-1 pl-3 pr-9 text-[14px] text-maroon-deep hover:border-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+          className="min-h-9 appearance-none rounded-[4px] border border-line bg-white py-1 pl-3 pr-9 text-[14px] text-ink hover:border-maroon/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
         >
           {SORTS.map((s) => <option key={s} value={s}>{t(sortKey[s])}</option>)}
         </select>
@@ -168,9 +168,9 @@ function FilterGlyph() {
   return (
     <svg aria-hidden viewBox="0 0 20 20" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
       <path d="M3 5.5h14M3 10h14M3 14.5h14" opacity=".55" />
-      <circle cx="7" cy="5.5" r="1.8" fill="var(--ivory)" />
-      <circle cx="13" cy="10" r="1.8" fill="var(--ivory)" />
-      <circle cx="9" cy="14.5" r="1.8" fill="var(--ivory)" />
+      <circle cx="7" cy="5.5" r="1.8" fill="#fff" />
+      <circle cx="13" cy="10" r="1.8" fill="#fff" />
+      <circle cx="9" cy="14.5" r="1.8" fill="#fff" />
     </svg>
   );
 }

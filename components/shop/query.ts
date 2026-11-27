@@ -66,13 +66,6 @@ export function related(p: Product, n = 4, list: Product[] = PRODUCTS): Product[
   return [...same, ...rest].slice(0, n);
 }
 
-/**
- * Niche tone by where the piece sits in the showroom: neck pieces hang on maroon velvet busts, the smaller
- * pieces sit on light trays. Breaks up a catalogue of identical maroon placeholders until photos land.
- */
-export const nicheTone = (cat: CategoryId): "maroon" | "ivory" =>
-  cat === "necklace" || cat === "haaram" || cat === "temple" || cat === "diamond" ? "maroon" : "ivory";
-
 /** The rate a category is priced at, for the catalogue intro line. */
 export const purityOfCategory = (cat?: CategoryId): Purity =>
   cat === "coin" ? "24K" : cat === "silver" ? "silver" : cat === "diamond" ? "18K" : "22K";
