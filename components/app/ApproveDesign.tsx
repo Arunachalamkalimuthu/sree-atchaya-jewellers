@@ -30,27 +30,27 @@ export function ApproveDesign({ order }: { order: Order }) {
   const purity = spec.purity === "22K" ? tc("purity916") : spec.purity === "silver" ? tc("rateSilver") : spec.purity;
 
   return (
-    <section aria-labelledby="approve-title" className="border border-maroon/25 bg-white/75" data-testid="approve-card">
-      <div className="flex items-start justify-between gap-3 border-b border-gold/40 px-4 pb-3 pt-4">
-        <h2 id="approve-title" className="font-display text-[1.4rem] font-semibold leading-tight text-maroon">
+    <section aria-labelledby="approve-title" className="overflow-hidden rounded-[12px] border border-[#ECE6DF] bg-white" data-testid="approve-card">
+      <div className="flex items-start justify-between gap-3 px-4 pb-3 pt-3.5">
+        <h2 id="approve-title" className="text-[16px] font-semibold leading-tight text-ink">
           {approved ? t("apApprovedTitle") : t("apTitle")}
         </h2>
-        {approved && <Icon name="check" size={22} className="mt-0.5 shrink-0 text-emerald" />}
+        {approved && <Icon name="check" size={20} className="shrink-0 text-emerald" />}
       </div>
-      <figure className="border-b border-gold/30 bg-[#fdfaf3] px-2 py-2">
+      <figure className="border-y border-[#ECE6DF] bg-[#FAF8F5] px-2 py-2">
         <DesignSketch kind={spec.type} notes={[purity, t("apWeight", { g: spec.approxWeightG })]} className="block h-auto w-full" />
         <figcaption className="sr-only">{t("apSketchAlt", { type })}</figcaption>
       </figure>
       <div className="px-4 py-4">
-        {spec.notes && <p className="font-display text-[1.05rem] italic text-maroon-deep">{spec.notes}</p>}
+        {spec.notes && <p className="text-[14.5px] leading-snug text-ink">&ldquo;{spec.notes}&rdquo;</p>}
         {approved ? (
           <div role="status" className={spec.notes ? "mt-3" : ""}>
             <p className="text-[15px] leading-snug text-emerald">{t("apDone")}</p>
-            {localApproved && <p className="mt-1.5 text-[12.5px] text-ink/55">{t("apLocal")}</p>}
+            {localApproved && <p className="mt-1.5 text-[12.5px] text-[#6B5E57]">{t("apLocal")}</p>}
           </div>
         ) : (
           <>
-            <p className={`text-[14.5px] leading-snug text-ink/75 ${spec.notes ? "mt-2" : ""}`}>{t("apBody")}</p>
+            <p className={`text-[14.5px] leading-snug text-[#6B5E57] ${spec.notes ? "mt-2" : ""}`}>{t("apBody")}</p>
             <div className="mt-4 grid gap-2.5">
               <Button variant="maroon" size="lg" full onClick={() => update({ approved: [...local.approved, order.id] })}>{t("apApprove")}</Button>
               <Button variant="ghost" full onClick={() => setContact(true)} aria-haspopup="dialog">{t("apChanges")}</Button>

@@ -47,7 +47,7 @@ export function PhoneFrame() {
   return (
     <div style={{ width: OUTER.w * scale, height: OUTER.h * scale }} className="relative shrink-0">
       <div
-        className="absolute left-0 top-0 origin-top-left rounded-[62px] bg-[#1f1512] shadow-[0_30px_70px_-20px_rgba(74,13,15,.55),inset_0_0_0_1.5px_rgba(201,162,74,.35)]"
+        className="absolute left-0 top-0 origin-top-left rounded-[62px] bg-[#1f1512] shadow-[0_30px_70px_-24px_rgba(31,21,18,.45),inset_0_0_0_1.5px_rgba(255,255,255,.08)]"
         style={{ width: OUTER.w, height: OUTER.h, padding: BEZEL, transform: `scale(${scale})` }}
       >
         {/* Side buttons */}
@@ -66,7 +66,7 @@ export function PhoneFrame() {
             data-testid="app-frame"
           />
           <StatusBar time={t("statusTime")} />
-          <span aria-hidden className="pointer-events-none absolute bottom-[7px] left-1/2 h-[5px] w-[134px] -translate-x-1/2 rounded-full bg-ivory/75" />
+          <span aria-hidden className="pointer-events-none absolute bottom-[7px] left-1/2 h-[5px] w-[134px] -translate-x-1/2 rounded-full bg-ink/85" />
         </div>
       </div>
     </div>

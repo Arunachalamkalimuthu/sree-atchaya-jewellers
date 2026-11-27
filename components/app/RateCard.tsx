@@ -13,7 +13,7 @@ const ROWS = [
 
 /**
  * `<RateCard />`: today's rates as a slim maroon card for the app home: 22K, 24K, 18K and silver per gram in
- * gold numerals, with the date and time from SITE. The numerals settle in once on load (off under reduced motion).
+ * gold numerals, with the date and time from SITE. No entrance animation.
  */
 export function RateCard({ className = "" }: { className?: string }) {
   const t = useT(common);
@@ -30,10 +30,7 @@ export function RateCard({ className = "" }: { className?: string }) {
         {ROWS.map((r, i) => (
           <div key={r.key} className={`min-w-0 ${i > 0 ? "border-l border-white/15 pl-2.5" : "pr-1"}`}>
             <dt className="text-[12px] leading-tight text-white/70">{t(r.label)}</dt>
-            <dd
-              className="sa-settle mt-0.5 whitespace-nowrap text-[16px] font-semibold leading-tight text-gold-light num min-[380px]:text-[17px]"
-              style={{ animationDelay: `${100 + i * 90}ms` }}
-            >
+            <dd className="mt-0.5 whitespace-nowrap text-[16px] font-semibold leading-tight text-gold-light num min-[380px]:text-[17px]">
               {formatINR(RATES[r.key])}
             </dd>
           </div>

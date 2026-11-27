@@ -13,7 +13,7 @@ import { AppIcon } from "./AppIcons";
 import { SiteLink } from "./frame";
 
 /**
- * `<AppHeader title? back? />`: the maroon app bar. Without `title` it shows the wordmark (home tab).
+ * `<AppHeader title? back? />`: the maroon app bar, title in the body font. Without `title` it shows the wordmark (home tab).
  * `back` is an app route for the back chevron. On the right: the language switch and the cart, which is the
  * website's cart (opens in the top window inside the phone frame). Sits under the status bar in the frame.
  */
@@ -24,7 +24,7 @@ export function AppHeader({ title, back, children }: { title?: string; back?: st
   const n = state.cart.reduce((s, l) => s + l.qty, 0);
 
   return (
-    <header className="sticky top-[var(--app-top)] z-30 bg-maroon pt-[var(--status)] text-ivory">
+    <header className="sticky top-[var(--app-top)] z-30 bg-maroon pt-[var(--status)] text-white">
       <div className="mx-auto flex h-14 max-w-xl items-center gap-2 px-3">
         {back ? (
           <Link
@@ -37,7 +37,7 @@ export function AppHeader({ title, back, children }: { title?: string; back?: st
         ) : null}
         <div className={`min-w-0 flex-1 ${back ? "" : "pl-1"}`}>
           {title ? (
-            <h1 className="truncate font-display text-[1.45rem] font-semibold leading-tight text-ivory">{title}</h1>
+            <h1 className="truncate text-[18px] font-semibold leading-tight text-white">{title}</h1>
           ) : (
             <Link href={routes.app.home()} className="inline-block rounded-sm focus-visible:outline-2 focus-visible:outline-gold">
               <Wordmark tone="ivory" size="sm" />
@@ -59,7 +59,6 @@ export function AppHeader({ title, back, children }: { title?: string; back?: st
         </SiteLink>
       </div>
       {children}
-      <div aria-hidden className="h-px bg-gold/50" />
     </header>
   );
 }

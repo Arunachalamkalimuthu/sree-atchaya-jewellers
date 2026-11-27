@@ -18,11 +18,11 @@ export function QrPanel({ qr }: { qr: { size: number; d: string } }) {
   return (
     <aside className="w-full max-w-[380px]">
       <Wordmark size="md" />
-      <h1 className="mt-10 font-display text-[2.35rem] font-semibold leading-[1.08] text-maroon">{t("qrTitle")}</h1>
-      <p className="mt-3 text-[18px] leading-snug text-ink/80">{t("qrLead")}</p>
+      <h1 className="mt-10 text-[30px] font-semibold leading-[1.15] text-ink">{t("qrTitle")}</h1>
+      <p className="mt-2 text-[18px] leading-snug text-[#6B5E57]">{t("qrLead")}</p>
 
-      <figure className="mt-8 inline-block border border-gold p-[3px]">
-        <div className="border border-gold/45 bg-white p-4">
+      <figure className="mt-8 inline-block">
+        <div className="rounded-[14px] border border-[#ECE6DF] bg-white p-4">
           <svg
             role="img"
             aria-label={t("qrAlt")}
@@ -39,9 +39,9 @@ export function QrPanel({ qr }: { qr: { size: number; d: string } }) {
           </svg>
         </div>
       </figure>
-      <p className="mt-3 break-all text-[13px] text-ink/60">{shown}</p>
+      <p className="mt-3 break-all text-[13px] text-[#8A7F78]">{shown}</p>
 
-      <div className="mt-8 space-y-3 border-t border-gold/40 pt-6 text-[15px] leading-relaxed text-ink/75">
+      <div className="mt-8 space-y-3 border-t border-[#ECE6DF] pt-6 text-[15px] leading-relaxed text-[#6B5E57]">
         <p>{t("qrInstall")}</p>
         <p>{t("qrShared")}</p>
       </div>
@@ -50,7 +50,7 @@ export function QrPanel({ qr }: { qr: { size: number; d: string } }) {
         <LangToggle />
         <Link
           href={routes.home()}
-          className="text-[15px] text-maroon underline decoration-gold decoration-1 underline-offset-4 hover:text-maroon-deep focus-visible:outline-2 focus-visible:outline-gold"
+          className="text-[15px] font-medium text-maroon underline decoration-maroon/40 decoration-1 underline-offset-4 hover:decoration-maroon focus-visible:outline-2 focus-visible:outline-maroon"
         >
           {t("qrWebsite")}
         </Link>

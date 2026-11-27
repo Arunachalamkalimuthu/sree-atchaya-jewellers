@@ -70,8 +70,7 @@ export const app = {
 
     alertApp: "Sree Atchaya",
     alertNow: "now",
-    alertText: "Gold dropped ₹{drop}/g today — 22K {rate}",
-    alertOpen: "Open the scheme tab",
+    alertText: "Today's gold rate: 22K {rate}/g. Tap to buy Digi Gold.",
     alertDismiss: "Dismiss",
 
     shopTitle: "Jewellery",
@@ -218,8 +217,7 @@ export const app = {
 
     alertApp: "ஸ்ரீ அட்சயா",
     alertNow: "இப்போது",
-    alertText: "இன்று தங்கம் கிராமுக்கு ₹{drop} குறைந்தது — 22K {rate}",
-    alertOpen: "சேமிப்பு பகுதியைத் திற",
+    alertText: "இன்றைய தங்க விலை: 22K கிராம் {rate}. டிஜி தங்கம் வாங்க தட்டுங்கள்.",
     alertDismiss: "மூடு",
 
     shopTitle: "நகைகள்",

@@ -9,6 +9,7 @@ import { PhoneFrame } from "./PhoneFrame";
 import { QrPanel } from "./QrPanel";
 import { TabBar } from "./TabBar";
 import { RateAlertToast } from "./RateAlertToast";
+import { PhotosProvider } from "./photos";
 
 // Inside the phone frame the outer page already shows the preview ribbon: hide the iframe's copy and its body offset.
 const HIDE_RIBBON = "body{padding-top:0!important}body>[role=note]{display:none!important}";
@@ -20,14 +21,14 @@ const HIDE_RIBBON = "body{padding-top:0!important}body>[role=note]{display:none!
  * - desktop (1024 px and up): PhoneFrame (an iframe of this same route with ?framed=1) beside QrPanel;
  * - pending (server and hydration): a maroon splash, the same first frame a native app shows.
  */
-export function AppShell({ qr, children }: { qr: { size: number; d: string }; children: ReactNode }) {
+export function AppShell({ qr, photos, children }: { qr: { size: number; d: string }; photos: string[]; children: ReactNode }) {
   const mode = useAppMode();
 
   if (mode === "pending") return <Splash />;
 
   if (mode === "desktop") {
     return (
-      <div className="flex min-h-[calc(100dvh-1.75rem)] items-center justify-center gap-16 bg-ivory px-10 py-7 xl:gap-28">
+      <div className="flex min-h-[calc(100dvh-1.75rem)] items-center justify-center gap-16 bg-white px-10 py-7 xl:gap-28">
         <PhoneFrame />
         <QrPanel qr={qr} />
       </div>
@@ -42,15 +43,17 @@ export function AppShell({ qr, children }: { qr: { size: number; d: string }; ch
   } as CSSProperties;
 
   return (
-    <FramedProvider value={framed}>
-      {framed && <style>{HIDE_RIBBON}</style>}
-      {framed && <Suspense fallback={null}><SyncParentUrl /></Suspense>}
-      <div style={vars} className="flex min-h-[calc(100dvh-var(--app-top))] flex-col bg-ivory">
-        <div className="flex flex-1 flex-col pb-[calc(60px+var(--home-ind))]">{children}</div>
-        <TabBar />
-        <RateAlertToast />
-      </div>
-    </FramedProvider>
+    <PhotosProvider photos={photos}>
+      <FramedProvider value={framed}>
+        {framed && <style>{HIDE_RIBBON}</style>}
+        {framed && <Suspense fallback={null}><SyncParentUrl /></Suspense>}
+        <div style={vars} className="flex min-h-[calc(100dvh-var(--app-top))] flex-col bg-white">
+          <div className="flex flex-1 flex-col pb-[calc(60px+var(--home-ind))]">{children}</div>
+          <TabBar />
+          <RateAlertToast />
+        </div>
+      </FramedProvider>
+    </PhotosProvider>
   );
 }
 

@@ -36,9 +36,11 @@ export function SchemeScreen() {
 
   return (
     <>
-      <AppHeader title={t("schemeTitle")}>
-        <nav aria-label={t("segLabel")} className="mx-auto max-w-xl px-4 pb-3">
-          <ul className="grid grid-cols-2 border border-gold/50">
+      <AppHeader title={t("schemeTitle")} />
+
+      <main className="mx-auto w-full max-w-xl px-4 pb-8 pt-4">
+        <nav aria-label={t("segLabel")} className="mb-5">
+          <ul className="grid grid-cols-2 gap-1 rounded-[10px] bg-[#F2EEE9] p-1">
             {segs.map((s) => (
               <li key={s.id}>
                 <Link
@@ -46,8 +48,8 @@ export function SchemeScreen() {
                   replace
                   scroll={false}
                   aria-current={tab === s.id ? "page" : undefined}
-                  className={`flex min-h-10 items-center justify-center px-2 text-center text-[14px] leading-tight focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold ${
-                    tab === s.id ? "bg-gold font-semibold text-maroon-deep" : "text-ivory/85 hover:bg-white/5"
+                  className={`flex min-h-10 items-center justify-center rounded-[8px] px-2 text-center text-[14px] leading-tight focus-visible:outline-2 focus-visible:outline-maroon ${
+                    tab === s.id ? "bg-maroon font-semibold text-white" : "text-ink hover:bg-white/70"
                   }`}
                 >
                   {s.label}
@@ -56,12 +58,9 @@ export function SchemeScreen() {
             ))}
           </ul>
         </nav>
-      </AppHeader>
-
-      <main className="mx-auto w-full max-w-xl px-4 pb-8 pt-5">
         {!state.user ? (
-          <div className="border border-maroon/20 bg-white/60 px-5 py-5">
-            <p className="text-[15px] leading-snug text-ink/80 num">
+          <div className="rounded-[12px] border border-[#ECE6DF] bg-white px-4 py-4">
+            <p className="text-[15px] leading-snug text-ink num">
               {t("schemeSignedOut", { paid: planSummary(demoSeed.plans[0]).paidCount, months: SCHEME.months })}
             </p>
             <Button variant="maroon" full className="mt-4" onClick={() => dispatch({ type: "signInDemo" })}>{t("demoCta")}</Button>
@@ -69,8 +68,8 @@ export function SchemeScreen() {
         ) : tab === "monthly" ? (
           <>
             {state.plans.length === 0 ? (
-              <div className="border border-maroon/20 bg-white/60 px-5 py-5">
-                <p className="text-[15px] leading-snug text-ink/80">{t("noPlan")}</p>
+              <div className="rounded-[12px] border border-[#ECE6DF] bg-white px-4 py-4">
+                <p className="text-[15px] leading-snug text-ink">{t("noPlan")}</p>
                 <SiteButton href={routes.schemeJoin("monthly")} className="mt-4">{t("joinMonthly")}</SiteButton>
               </div>
             ) : (
@@ -87,7 +86,7 @@ export function SchemeScreen() {
           </>
         ) : (
           <>
-            <DigiBuy className="border border-maroon/20" />
+            <DigiBuy className="overflow-hidden rounded-[12px] border border-[#ECE6DF]" />
             <Button variant="ghost" full className="mt-5" onClick={() => setRedeem(true)} aria-haspopup="dialog">{t("redeem")}</Button>
           </>
         )}
@@ -109,14 +108,14 @@ function RedeemSheet({ open, onClose, digi, onTalk }: { open: boolean; onClose: 
       title={t("redeemTitle")}
       footer={<Button variant="maroon" full onClick={onTalk}>{tc("contactTitle")}</Button>}
     >
-      <p className="text-[15px] leading-relaxed text-ink/80">{digi ? t("redeemDigi") : t("redeemBody", { pct: OFFER.wastagePct })}</p>
-      <dl className="mt-5 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2.5 border-y border-gold/30 py-4 text-sm">
-        <dt className="flex items-center gap-2 text-maroon/60"><Icon name="pin" size={16} />{tc("contactMain")}</dt>
+      <p className="text-[15px] leading-relaxed text-ink">{digi ? t("redeemDigi") : t("redeemBody", { pct: OFFER.wastagePct })}</p>
+      <dl className="mt-5 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2.5 border-y border-[#ECE6DF] py-4 text-sm">
+        <dt className="flex items-center gap-2 text-[#6B5E57]"><Icon name="pin" size={16} />{tc("contactMain")}</dt>
         <dd>{tc("footerAddress", { pin: SITE.address.pin })}</dd>
-        <dt className="flex items-center gap-2 text-maroon/60"><Icon name="clock" size={16} />{tc("contactHoursLabel")}</dt>
+        <dt className="flex items-center gap-2 text-[#6B5E57]"><Icon name="clock" size={16} />{tc("contactHoursLabel")}</dt>
         <dd>{tc("footerHours")}</dd>
       </dl>
-      <p className="mt-4 text-[13px] text-ink/55">{t("redeemDemo")}</p>
+      <p className="mt-4 text-[13px] text-[#8A7F78]">{t("redeemDemo")}</p>
     </Sheet>
   );
 }

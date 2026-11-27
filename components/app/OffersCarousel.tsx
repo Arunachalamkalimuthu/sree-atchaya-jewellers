@@ -11,7 +11,7 @@ import { SiteLink } from "./frame";
 
 const AUTO_MS = 6000;
 const cta =
-  "mt-2.5 inline-flex min-h-9 items-center rounded-[4px] bg-maroon px-3.5 text-[13.5px] font-semibold text-white hover:bg-maroon-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
+  "mt-2.5 inline-flex min-h-9 items-center rounded-[4px] bg-maroon px-3.5 text-[13.5px] font-semibold text-white hover:bg-maroon-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
 
 function scrollToSlide(el: HTMLElement | null, i: number) {
   const card = el?.children[i] as HTMLElement | undefined;
@@ -99,7 +99,7 @@ export function OffersCarousel() {
             <Banner src={s.img} />
             <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-4 text-white">
-              <h2 className="font-display text-[1.55rem] font-semibold leading-[1.1] num">{s.title}</h2>
+              <h2 className="text-[20px] font-semibold leading-tight num">{s.title}</h2>
               <p className="mt-1 max-w-[30ch] text-[13px] leading-snug text-white/90 num">{s.line}</p>
               {s.action}
             </div>
