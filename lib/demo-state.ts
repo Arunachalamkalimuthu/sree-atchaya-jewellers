@@ -70,24 +70,35 @@ export const demoSeed: DemoState = {
   }],
 };
 
+const validQty = (q: unknown): q is number => typeof q === "number" && Number.isInteger(q) && q >= 1;
 const lineId = (l: Omit<CartLine, "id">) => `${l.slug}:${l.mode}:${l.size ?? ""}`;
 
 export function reduce(s: DemoState, a: Action): DemoState {
   const now = a.now ?? SITE.ratesDate;
   switch (a.type) {
-    case "signInDemo": return { ...demoSeed };
+    case "signInDemo": {
+      // Apply the seed on top of the current state: keep cart, placed orders, nextId; never duplicate seed records.
+      const plans = [...s.plans, ...demoSeed.plans.filter((p) => !s.plans.some((x) => x.id === p.id))];
+      const key = (t: { date: string; rupees: number; grams: number }) => `${t.date}|${t.rupees}|${t.grams}`;
+      const have = new Set(s.digi.txns.map(key));
+      const digi = { txns: [...demoSeed.digi.txns.filter((t) => !have.has(key(t))), ...s.digi.txns] };
+      const orders = [...demoSeed.orders.filter((o) => !s.orders.some((x) => x.id === o.id)), ...s.orders];
+      return { ...s, user: demoSeed.user, plans, digi, orders };
+    }
     case "signIn": return { ...s, user: { name: a.name, phone: a.phone } };
     case "signOut": return { ...s, user: null };
     case "reset": return initialState;
     case "addToCart": {
       const prod = getProduct(a.line.slug);
-      if (!prod || a.line.qty < 1 || (a.line.mode === "prebook" && !prod.prebookable)) return s;
+      if (!prod || !validQty(a.line.qty) || (a.line.mode === "prebook" && !prod.prebookable)) return s;
       const id = lineId(a.line);
       const has = s.cart.some((l) => l.id === id);
       return { ...s, cart: has ? s.cart.map((l) => (l.id === id ? { ...l, qty: l.qty + a.line.qty } : l)) : [...s.cart, { ...a.line, id }] };
     }
     case "setQty":
-      return { ...s, cart: a.qty < 1 ? s.cart.filter((l) => l.id !== a.id) : s.cart.map((l) => (l.id === a.id ? { ...l, qty: a.qty } : l)) };
+      if (a.qty === 0) return { ...s, cart: s.cart.filter((l) => l.id !== a.id) };
+      if (!validQty(a.qty)) return s;
+      return { ...s, cart: s.cart.map((l) => (l.id === a.id ? { ...l, qty: a.qty } : l)) };
     case "removeLine": return { ...s, cart: s.cart.filter((l) => l.id !== a.id) };
     case "placeOrder": {
       const order: Order = { ...a.order, id: `SAJ-${s.nextId}`, status: "booked", createdAt: now };
@@ -116,8 +127,18 @@ export function load(raw: string | null): DemoState {
   if (!raw) return initialState;
   try {
     const v = JSON.parse(raw);
-    if (v && v.version === 1 && Array.isArray(v.cart) && Array.isArray(v.orders) && Array.isArray(v.plans)
-      && Array.isArray(v.appointments) && Array.isArray(v.digi?.txns) && typeof v.nextId === "number") return v as DemoState;
+    const num = (x: unknown) => typeof x === "number" && Number.isFinite(x);
+    const str = (x: unknown) => typeof x === "string";
+    const obj = (x: unknown): x is Record<string, unknown> => !!x && typeof x === "object";
+    const ok = obj(v) && v.version === 1 && num(v.nextId)
+      && (v.user === null || (obj(v.user) && str(v.user.name) && str(v.user.phone)))
+      && Array.isArray(v.cart) && v.cart.every((l) => obj(l) && str(l.id) && str(l.slug) && (l.mode === "buy" || l.mode === "prebook") && validQty(l.qty))
+      && Array.isArray(v.orders) && v.orders.every((o) => obj(o) && str(o.id) && str(o.status) && num(o.total) && Array.isArray(o.lines))
+      && Array.isArray(v.plans) && v.plans.every((p) => obj(p) && str(p.id) && num(p.monthly) && str(p.startedOn)
+        && Array.isArray(p.payments) && p.payments.every((x) => obj(x) && str(x.date) && num(x.amount)))
+      && obj(v.digi) && Array.isArray(v.digi.txns) && v.digi.txns.every((t) => obj(t) && str(t.date) && num(t.rupees) && num(t.grams) && num(t.rate))
+      && Array.isArray(v.appointments) && v.appointments.every((x) => obj(x) && str(x.id));
+    if (ok) return v as unknown as DemoState;
   } catch { /* fall through */ }
   return initialState;
 }

@@ -13,6 +13,15 @@ describe("load", () => {
     expect(load("{bad")).toEqual(initialState);
     expect(load('{"version":0}')).toEqual(initialState);
   });
+  it("falls back on malformed nested data", () => {
+    const base = JSON.parse(JSON.stringify(initialState));
+    for (const bad of [
+      { plans: [{ id: "P", monthly: 1, startedOn: "x", payments: [{ date: 1 }] }] },
+      { plans: [null] },
+      { digi: { txns: [{ date: "d" }] } },
+      { cart: [{ id: "a", slug: "rope-chain", mode: "buy", qty: "2" }] },
+    ]) expect(load(JSON.stringify({ ...base, ...bad }))).toEqual(initialState);
+  });
   it("round-trips a valid state", () => {
     const s = run(initialState, { type: "signInDemo" });
     expect(load(JSON.stringify(s))).toEqual(s);
@@ -20,6 +29,26 @@ describe("load", () => {
 });
 
 describe("reduce", () => {
+  it("signInDemo keeps cart/orders/nextId and never duplicates seed records", () => {
+    let s = run(initialState, { type: "addToCart", line: { slug: "rope-chain", mode: "buy", qty: 1 } }, { type: "signInDemo" });
+    expect(s.cart).toHaveLength(1);
+    expect(s.plans[0].id).toBe("PLN-1");
+    expect(digiBalance(s.digi)).toBe(2.35);
+    expect(s.orders.map((o) => o.id)).toEqual(["SAJ-09871"]);
+    s = run(s, { type: "placeOrder", order: catalogOrder() }, { type: "signInDemo" });
+    expect(s.plans).toHaveLength(1);
+    expect(digiBalance(s.digi)).toBe(2.35);
+    expect(s.orders.map((o) => o.id)).toEqual(["SAJ-09871", "SAJ-10001"]);
+    expect(s.nextId).toBe(10002);
+  });
+  it("setQty/addToCart reject non-positive-integer qty", () => {
+    const s = run(initialState, { type: "addToCart", line: { slug: "rope-chain", mode: "buy", qty: 2 } });
+    for (const bad of [NaN, 1.5, -1]) {
+      expect(reduce(s, { type: "setQty", id: s.cart[0].id, qty: bad })).toBe(s);
+      expect(reduce(s, { type: "addToCart", line: { slug: "box-chain", mode: "buy", qty: bad } })).toBe(s);
+    }
+    expect(reduce(s, { type: "addToCart", line: { slug: "box-chain", mode: "buy", qty: 0 } })).toBe(s);
+  });
   it("signInDemo loads the seed", () => {
     const s = reduce(initialState, { type: "signInDemo" });
     expect(s.user).not.toBeNull();
