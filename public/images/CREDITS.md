@@ -25,3 +25,11 @@ Generated with Canva AI (generate-image), exported via create-design + export-de
 | products/kemp-stone-bangles.jpg | MAHcFb9jJgs | DAHcFcabJn4 |
 | products/rope-chain.jpg | MAHcFcnPHhA | DAHcFajBWj0 |
 | products/box-chain.jpg | MAHcFWzSU_s | DAHcFakHev4 |
+| products/navaratna-ring.jpg | MAHcFVVBwbc | DAHcFdrhu8c |
+| products/silver-kuthuvilakku.jpg | MAHcFVqzg_o | DAHcFbG9528 |
+| products/mens-signet-ring.jpg | MAHcFQ4IGPY | DAHcFfWJBUs |
+| products/lakshmi-gold-coin-8g.jpg | MAHcFR5yAGw | DAHcFUR5r7s |
+| products/ruby-stud-earrings.jpg | MAHcFUByooE | DAHcFU04mTg |
+| products/temple-jhumka.jpg | MAHcFYHc4lU | DAHcFVN4nFU |
+| products/silver-pooja-plate.jpg | MAHcFbVeyVI | DAHcFQuY2ZY |
+| products/lakshmi-kasu-necklace.jpg (regenerated with margin; first version MAHcFH6dmeo/DAHcFANc9dM) | MAHcFVduAbM | DAHcFZsyDNo |
