@@ -8,6 +8,7 @@
   --ivory: #fbf6ec;
   --emerald: #0f4d3a;
   --plum: #5b1a47;
+  --ink: #2a1a14; /* warm near-black for body text */
   color-scheme: light;
 }
 
@@ -19,14 +20,39 @@
   --color-ivory: var(--ivory);
   --color-emerald: var(--emerald);
   --color-plum: var(--plum);
-  --font-display: var(--font-cormorant), Georgia, serif;
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-tamil: var(--font-noto-tamil), var(--font-inter), sans-serif;
+  --color-ink: var(--ink);
+  --font-display: var(--font-cormorant), var(--font-noto-serif-tamil), Georgia, serif;
+  --font-sans: var(--font-mukta), system-ui, sans-serif;
+  --font-tamil: var(--font-mukta), var(--font-noto-serif-tamil), sans-serif;
+  --font-tamil-display: var(--font-noto-serif-tamil), var(--font-cormorant), serif;
 }
 
 body {
   background: var(--ivory);
-  color: var(--maroon-deep);
+  color: var(--ink);
   font-family: var(--font-sans);
   padding-top: 1.75rem; /* room for the fixed demo ribbon */
 }
+
+/* Tamil runs larger and taller than Latin at the same size: give it room. */
+html[lang="ta"] body { line-height: 1.6; }
+html[lang="ta"] .font-display { letter-spacing: 0; }
+
+:focus-visible { outline-color: var(--gold); }
+
+/* Overlays: one short motion that answers the person's tap. */
+@keyframes sa-fade { from { opacity: 0 } to { opacity: 1 } }
+@keyframes sa-rise { from { transform: translateY(24px); opacity: .4 } to { transform: none; opacity: 1 } }
+@keyframes sa-drawer { from { transform: translateX(100%) } to { transform: none } }
+/* The one orchestrated moment: rate-board numerals settling in on load. */
+@keyframes sa-settle { from { opacity: 0; transform: translateY(6px); filter: blur(2px) } to { opacity: 1; transform: none; filter: none } }
+.sa-fade { animation: sa-fade .2s ease-out both }
+.sa-sheet { animation: sa-rise .28s cubic-bezier(.2,.8,.2,1) both }
+.sa-drawer { animation: sa-drawer .3s cubic-bezier(.2,.8,.2,1) both }
+.sa-settle { animation: sa-settle .7s cubic-bezier(.2,.7,.2,1) both }
+@media (prefers-reduced-motion: reduce) {
+  .sa-fade, .sa-sheet, .sa-drawer, .sa-settle { animation: none }
+}
+
+/* Lining figures in the display face (Cormorant defaults to old-style). */
+.num { font-variant-numeric: lining-nums tabular-nums; }
