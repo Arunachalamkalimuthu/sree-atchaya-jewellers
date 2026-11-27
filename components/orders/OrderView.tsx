@@ -52,7 +52,7 @@ export function OrderView() {
         <p className="mt-2 text-[15px] text-ivory/80">
           {fresh ? `${t("orderThanksBody")} ` : ""}{t("orderPlaced", { date: formatDate(order.createdAt, lang) })}
         </p>
-        <p className="mt-5 inline-block border border-gold/70 px-3 py-1.5 text-[14px] font-medium text-gold-light">{t("orderDemo")}</p>
+        <p className="mt-4 text-[15px] text-gold-light">{t("orderDemo")}</p>
       </div>
 
       <section className="mt-10" aria-labelledby="track-h">

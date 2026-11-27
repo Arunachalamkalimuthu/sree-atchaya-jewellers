@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useState } from "react";
 import { formatINR } from "@/lib/pricing";
 import { digiBalance, planSummary } from "@/lib/scheme";
 import { SCHEME } from "@/lib/site.config";
@@ -31,6 +32,7 @@ export function AccountView() {
   const hydrated = useHydrated();
   const { state, dispatch } = useDemo();
   const { user } = state;
+  const [confirmReset, setConfirmReset] = useState(false);
   const shell = "mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14";
 
   if (!hydrated) return <div className={shell}><p className="text-ink/60" role="status">{k("loading")}</p></div>;
@@ -145,8 +147,17 @@ export function AccountView() {
         <section className="border-t border-gold/50 pt-8">
           <div className="flex flex-wrap gap-3">
             <Button variant="maroon" onClick={() => dispatch({ type: "signOut" })}>{t("signOut")}</Button>
-            <Button variant="ghost" onClick={() => dispatch({ type: "reset" })}>{t("reset")}</Button>
+            {!confirmReset && <Button variant="ghost" onClick={() => setConfirmReset(true)}>{t("reset")}</Button>}
           </div>
+          {confirmReset && (
+            <div role="alertdialog" aria-label={t("resetConfirm")} className="mt-4 max-w-xl border border-maroon/40 p-4">
+              <p className="text-[15px] text-maroon-deep">{t("resetConfirm")}</p>
+              <div className="mt-3 flex flex-wrap gap-3">
+                <Button variant="maroon" onClick={() => { dispatch({ type: "reset" }); setConfirmReset(false); }}>{t("resetYes")}</Button>
+                <Button variant="ghost" onClick={() => setConfirmReset(false)}>{t("resetNo")}</Button>
+              </div>
+            </div>
+          )}
           <p className="mt-3 max-w-xl text-[14px] text-ink/65">{t("resetNote")}</p>
         </section>
       </div>

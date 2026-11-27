@@ -37,6 +37,9 @@ export const account = {
 
     signOut: "Sign out",
     reset: "Reset demo",
+    resetConfirm: "Clear everything saved in this browser?",
+    resetYes: "Yes, reset",
+    resetNo: "Keep my data",
     resetNote: "Reset clears the cart, orders, passbook and appointments saved in this browser.",
   },
   ta: {
@@ -74,6 +77,9 @@ export const account = {
 
     signOut: "வெளியேறு",
     reset: "டெமோவை மீட்டமை",
+    resetConfirm: "இந்த உலாவியில் சேமித்த அனைத்தையும் அழிக்கவா?",
+    resetYes: "ஆம், மீட்டமை",
+    resetNo: "என் தகவல் இருக்கட்டும்",
     resetNote: "மீட்டமைத்தால் இந்த உலாவியில் உள்ள கூடை, ஆர்டர்கள், புத்தகம், சந்திப்புகள் அழியும்.",
   },
 } satisfies Dict;

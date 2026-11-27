@@ -134,11 +134,14 @@ export function CheckoutView() {
                   {!codeSent ? (
                     <Button variant="ghost" onClick={sendCode} className="mt-4">{t("sendCode")}</Button>
                   ) : (
+                    <>
+                    <button type="button" onClick={() => setCodeSent(false)} className="mt-4 min-h-10 text-[14px] text-maroon underline decoration-gold decoration-1 underline-offset-4 focus-visible:outline-2 focus-visible:outline-gold">{t("changeNumber")}</button>
                     <OtpField
                       phone={`+91 ${phone}`}
                       className="mt-5"
                       onVerified={() => dispatch({ type: "signIn", name: name.trim(), phone: `+91 ${phone}` })}
                     />
+                    </>
                   )}
                 </div>
               )}
@@ -155,7 +158,7 @@ export function CheckoutView() {
                   >
                     <input type="radio" name="fulfil" value={f} checked={fulfil === f} onChange={() => setFulfil(f)} className="sr-only" />
                     <span className="block font-display text-xl font-semibold text-maroon-deep">{t(f === "pickup" ? "pickup" : "delivery")}</span>
-                    <span className="mt-1 block text-[14px] leading-snug text-ink/70">{t(f === "pickup" ? "pickupNote" : "deliveryNote")}</span>
+                    <span className="mt-1 block text-[14px] leading-snug text-ink/70">{t(f === "pickup" ? "pickupNote" : "deliveryNote")}{f === "pickup" ? ` ${c("footerHours")}.` : ""}</span>
                   </label>
                 ))}
               </div>
