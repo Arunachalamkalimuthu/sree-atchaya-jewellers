@@ -29,7 +29,7 @@ export function ShopTile({ product: p, href, dark = false, className = "" }: { p
       <div className="relative">
         <ProductImage src={p.image} alt={name} kind={p.category} tone={dark ? "ivory" : nicheTone(p.category)} className="aspect-[4/5] w-full" />
         {p.isNew && (
-          <span className="absolute left-2.5 top-2.5 border border-gold/70 bg-maroon-deep/85 px-2 py-0.5 font-display text-[13px] italic leading-tight text-gold-light">
+          <span className="absolute left-2.5 top-2.5 border border-gold/70 bg-maroon-deep/85 px-2 py-0.5 font-display text-[13px] font-semibold leading-tight text-gold-light">
             {tc("newArrival")}
           </span>
         )}

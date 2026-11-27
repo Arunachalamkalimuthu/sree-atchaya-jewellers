@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Fragment, useCallback, useEffect, useMemo, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CATEGORIES, PRODUCTS } from "@/lib/catalog";
-import { RATES, PURCHASE_RATES } from "@/lib/site.config";
+import { OFFER, RATES, PURCHASE_RATES } from "@/lib/site.config";
 import { formatINR } from "@/lib/pricing";
 import { routes } from "@/lib/routes";
 import { useL10n, useT } from "@/lib/i18n";
@@ -67,7 +67,7 @@ function CatalogueView({ query, onChange }: { query: ShopQuery; onChange: (q: Sh
             </p>
           </div>
           <p className="mt-2 max-w-[62ch] text-[15px] leading-relaxed text-ivory/80">
-            {t("shopIntro", { purity: purityLabel, rate: formatINR(RATE_OF[purity]) })}
+            {t("shopIntro", { purity: purityLabel, rate: formatINR(RATE_OF[purity]), wastage: OFFER.wastagePct, gst: OFFER.gstPct })}
           </p>
 
           <nav ref={navRef} aria-label={t("categoriesLabel")} className="-mx-4 mt-6 overflow-x-auto px-4 [scrollbar-width:none] sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
