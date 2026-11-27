@@ -10,7 +10,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "images": "node scripts/gen-image-manifest.mjs"
+    "images": "node scripts/gen-image-manifest.mjs",
+    "tamil-review": "node scripts/tamil-review.mjs"
   },
   "dependencies": {
     "next": "^16.4.6",
