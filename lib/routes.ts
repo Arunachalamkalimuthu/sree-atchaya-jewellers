@@ -1,6 +1,5 @@
 /** Every internal link goes through here (static export: ids of browser-created records use ?id=). */
-export type CategoryId =
-  | "necklace" | "haaram" | "temple" | "bangle" | "chain" | "earring" | "ring" | "coin" | "silver" | "diamond";
+import type { CategoryId } from "./catalog";
 
 const q = (id: string) => `?id=${encodeURIComponent(id)}`;
 
