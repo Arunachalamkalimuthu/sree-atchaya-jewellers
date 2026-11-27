@@ -9,11 +9,10 @@ import { checkout } from "@/lib/i18n/dict/checkout";
 import { common } from "@/lib/i18n/dict/common";
 import { Button } from "@/components/ui/Button";
 import { Price } from "@/components/ui/Price";
-import { GoldRule } from "@/components/brand/GoldRule";
 import { OrderTracker } from "./OrderTracker";
 import { useHydrated } from "./useHydrated";
 
-const shell = "mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14";
+const shell = "mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8";
 
 export function OrderView() {
   const t = useT(checkout);
@@ -25,14 +24,13 @@ export function OrderView() {
   const { state, lastOrderId } = useDemo();
   const order = state.orders.find((o) => o.id === id);
 
-  if (!hydrated) return <div className={shell}><p className="text-ink/60" role="status">{t("loading")}</p></div>;
+  if (!hydrated) return <div className={shell}><p className="text-mute" role="status">{t("loading")}</p></div>;
 
   if (!order) {
     return (
       <div className={shell}>
-        <h1 className="font-display text-3xl font-semibold text-maroon sm:text-5xl">{t("orderNotFound")}</h1>
-        <GoldRule className="mt-5 max-w-md" />
-        <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-ink/80">{t("orderNotFoundBody")}</p>
+        <h1 className="text-[28px] font-semibold leading-tight text-ink sm:text-[36px]">{t("orderNotFound")}</h1>
+        <p className="mt-4 max-w-xl text-[16px] leading-relaxed text-mute">{t("orderNotFoundBody")}</p>
         <Button href={routes.shop()} variant="maroon" size="lg" className="mt-7">{t("orderToShop")}</Button>
       </div>
     );
@@ -46,29 +44,29 @@ export function OrderView() {
 
   return (
     <div className={shell}>
-      <div className="border border-gold/60 bg-maroon px-6 py-7 text-ivory sm:px-9">
-        {fresh && <p className="font-display text-xl text-gold-light">{t("orderThanks")}</p>}
-        <h1 className="font-display text-3xl font-semibold text-ivory sm:text-5xl">{t("orderTitle", { id: order.id })}</h1>
-        <p className="mt-2 text-[15px] text-ivory/80">
+      <div className="border-b border-line pb-6">
+        {fresh && <p className="text-[18px] font-semibold text-maroon">{t("orderThanks")}</p>}
+        <h1 className="text-[28px] font-semibold leading-tight text-ink sm:text-[36px]">{t("orderTitle", { id: order.id })}</h1>
+        <p className="mt-2 text-[15px] text-mute">
           {fresh ? `${t("orderThanksBody")} ` : ""}{t("orderPlaced", { date: formatDate(order.createdAt, lang) })}
         </p>
-        <p className="mt-4 text-[15px] text-gold-light">{t("orderDemo")}</p>
+        <p className="mt-3 inline-block rounded-[3px] border border-gold/60 px-2 py-0.5 text-[13px] text-ink">{t("orderDemo")}</p>
       </div>
 
-      <section className="mt-10" aria-labelledby="track-h">
-        <h2 id="track-h" className="font-display text-2xl font-semibold text-maroon-deep">{t("orderTrack")}</h2>
+      <section className="mt-8 rounded-[6px] border border-line bg-white p-5 sm:p-6" aria-labelledby="track-h">
+        <h2 id="track-h" className="text-[20px] font-semibold text-ink">{t("orderTrack")}</h2>
         <OrderTracker status={order.status} className="mt-6" />
       </section>
 
-      <div className="mt-12 grid gap-10 border-t border-gold/50 pt-10 md:grid-cols-[1fr_20rem]">
+      <div className="mt-8 grid gap-8 md:grid-cols-[1fr_20rem]">
         <section aria-labelledby="items-h">
-          <h2 id="items-h" className="font-display text-2xl font-semibold text-maroon-deep">{t("orderItems")}</h2>
-          <ul className="mt-4 divide-y divide-gold/40 border-y border-gold/40">
+          <h2 id="items-h" className="text-[20px] font-semibold text-ink">{t("orderItems")}</h2>
+          <ul className="mt-4 divide-y divide-line border-y border-line">
             {custom && (
               <li className="py-4">
-                <p className="font-display text-xl font-semibold text-maroon-deep">{t("orderCustom")}</p>
-                <p className="text-[14px] text-ink/70">{t("orderCustomDetail", { type: catName, purity: custom.purity, g: custom.approxWeightG })}</p>
-                {custom.notes && <p className="mt-1 text-[14px] text-ink/70">{custom.notes}</p>}
+                <p className="text-[17px] font-semibold text-ink">{t("orderCustom")}</p>
+                <p className="text-[14px] text-mute">{t("orderCustomDetail", { type: catName, purity: custom.purity, g: custom.approxWeightG })}</p>
+                {custom.notes && <p className="mt-1 text-[14px] text-mute">{custom.notes}</p>}
               </li>
             )}
             {order.lines.map((line) => {
@@ -78,8 +76,8 @@ export function OrderView() {
               return (
                 <li key={line.id} className="flex items-start justify-between gap-4 py-4">
                   <div className="min-w-0">
-                    <p className="font-display text-xl font-semibold text-maroon-deep">{l(p.name)}{line.qty > 1 ? ` × ${line.qty}` : ""}</p>
-                    <p className="text-[14px] text-ink/70">
+                    <p className="text-[17px] font-semibold text-ink">{l(p.name)}{line.qty > 1 ? ` × ${line.qty}` : ""}</p>
+                    <p className="text-[14px] text-mute">
                       {line.mode === "prebook" ? t("modePrebook") : t("modeBuy")}, {c("weightG", { g: p.weightG })}
                       {line.size ? `, ${t("sizeLabel", { size: line.size })}` : ""}
                     </p>
@@ -91,14 +89,14 @@ export function OrderView() {
           </ul>
         </section>
 
-        <aside>
+        <aside className="self-start rounded-[6px] border border-line bg-white p-5">
           <dl className="space-y-3 text-[15px]">
-            <div className="flex items-baseline justify-between gap-4"><dt className="text-ink/75">{t("orderTotal")}</dt><dd><Price value={order.total} size="md" className="text-maroon" /></dd></div>
-            <div className="flex items-baseline justify-between gap-4"><dt className="text-ink/75">{t("orderPaid")}</dt><dd><Price value={order.advancePaid} size="md" className="text-emerald" /></dd></div>
-            <div className="flex items-baseline justify-between gap-4 border-t border-gold/50 pt-3"><dt className="font-medium text-maroon-deep">{t("orderBalance")}</dt><dd><Price value={balance} size="md" className="text-maroon" /></dd></div>
+            <div className="flex items-baseline justify-between gap-4"><dt className="text-mute">{t("orderTotal")}</dt><dd><Price value={order.total} size="md" className="text-maroon" /></dd></div>
+            <div className="flex items-baseline justify-between gap-4"><dt className="text-mute">{t("orderPaid")}</dt><dd><Price value={order.advancePaid} size="md" className="text-ink" /></dd></div>
+            <div className="flex items-baseline justify-between gap-4 border-t border-line pt-3"><dt className="font-semibold text-ink">{t("orderBalance")}</dt><dd><Price value={balance} size="md" className="text-maroon" /></dd></div>
           </dl>
-          <p className="mt-5 text-[14px] text-ink/70">{t("orderPaidBy", { method: methodLabel })}</p>
-          <p className="mt-1 text-[14px] text-ink/70">{t("orderCollect")}: {t(order.fulfilment === "pickup" ? "orderPickup" : "orderDelivery")}</p>
+          <p className="mt-5 text-[14px] text-mute">{t("orderPaidBy", { method: methodLabel })}</p>
+          <p className="mt-1 text-[14px] text-mute">{t("orderCollect")}: {t(order.fulfilment === "pickup" ? "orderPickup" : "orderDelivery")}</p>
           <Button href={routes.account()} variant="ghost" className="mt-6">{t("orderBackToAccount")}</Button>
         </aside>
       </div>
