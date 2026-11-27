@@ -8,7 +8,7 @@ export const shop = {
     catAll: "All",
     pieces: "{n} pieces",
     piecesOne: "1 piece",
-    shopIntro: "Priced at today's {purity} rate of {rate}/g, with 0% wastage (சேதாரம்). Every price includes 3% GST.",
+    shopIntro: "Priced at today's {purity} rate of {rate}/g, with {wastage}% wastage (சேதாரம்). Every price includes {gst}% GST.",
 
     filterPurity: "Purity",
     filterWeight: "Weight",
@@ -55,7 +55,7 @@ export const shop = {
     sizeChoose: "Choose a size",
     sizeNeeded: "Choose a size first.",
     ctaBuy: "Buy now",
-    ctaPrebook: "Pre-book, pay 10% advance ({amount})",
+    ctaPrebook: "Pre-book, pay {pct}% advance ({amount})",
     ctaWhatsApp: "Ask on WhatsApp",
     collectNote: "Collect at our Coimbatore showroom, or choose insured delivery at checkout.",
 
@@ -70,7 +70,7 @@ export const shop = {
     detWastage: "Wastage",
     detWastageSub: "சேதாரம் on every piece",
     photoSoon: "Photo of this piece coming soon",
-    exchangeLine: "Bringing old gold? We buy 22K at {g22}/g at the counter, and the amount comes off this bill.",
+    exchangeLine: "Bringing old gold? We buy 22K at {g22}/g at the counter. Ask us about using it toward this piece.",
 
     alsoLike: "You may also like",
     viewAll: "See all {category}",
@@ -81,7 +81,7 @@ export const shop = {
     catAll: "எல்லாம்",
     pieces: "{n} நகைகள்",
     piecesOne: "1 நகை",
-    shopIntro: "இன்றைய {purity} விலை கிராமுக்கு {rate}. சேதாரம் 0%. எல்லா விலைகளிலும் 3% GST சேர்ந்தது.",
+    shopIntro: "இன்றைய {purity} விலை கிராமுக்கு {rate}. சேதாரம் {wastage}%. எல்லா விலைகளிலும் {gst}% GST சேர்ந்தது.",
 
     filterPurity: "தரம்",
     filterWeight: "எடை",
@@ -128,7 +128,7 @@ export const shop = {
     sizeChoose: "அளவைத் தேர்ந்தெடுங்கள்",
     sizeNeeded: "முதலில் அளவைத் தேர்ந்தெடுங்கள்.",
     ctaBuy: "இப்போதே வாங்க",
-    ctaPrebook: "முன்பதிவு, 10% முன்பணம் ({amount})",
+    ctaPrebook: "முன்பதிவு, {pct}% முன்பணம் ({amount})",
     ctaWhatsApp: "வாட்ஸ்அப்பில் கேளுங்கள்",
     collectNote: "கோயம்புத்தூர் ஷோரூமில் பெற்றுக்கொள்ளலாம், அல்லது செக்அவுட்டில் காப்பீட்டுடன் டெலிவரி தேர்ந்தெடுக்கலாம்.",
 
@@ -143,9 +143,9 @@ export const shop = {
     detWastage: "சேதாரம்",
     detWastageSub: "எல்லா நகைகளுக்கும்",
     photoSoon: "இந்த நகையின் படம் விரைவில்",
-    exchangeLine: "பழைய தங்கம் கொண்டு வருகிறீர்களா? 22K கிராமுக்கு {g22} கொடுத்து வாங்கி, அந்தத் தொகையை இந்த பில்லில் கழித்துக்கொள்வோம்.",
+    exchangeLine: "பழைய தங்கம் கொண்டு வருகிறீர்களா? 22K கிராமுக்கு {g22} கொடுத்து கடையிலேயே வாங்குகிறோம். அதை இந்த நகைக்குப் பயன்படுத்துவது பற்றி எங்களிடம் கேளுங்கள்.",
 
     alsoLike: "இவையும் உங்களுக்குப் பிடிக்கலாம்",
-    viewAll: "எல்லா {category}",
+    viewAll: "{category} அனைத்தும் பார்க்க",
   },
 } satisfies Dict;

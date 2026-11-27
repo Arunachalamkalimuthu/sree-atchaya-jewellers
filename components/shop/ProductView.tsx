@@ -22,7 +22,8 @@ export function ProductView({ slug }: { slug: string }) {
   if (!p) return null;
   const cat = CATEGORIES.find((c) => c.id === p.category)!;
   const more = related(p);
-  const gold = p.purity !== "silver";
+  // Old-gold buy-back applies to gold jewellery only, not coins (24K) or silver.
+  const gold = p.purity === "22K" || p.purity === "18K";
 
   return (
     <>
