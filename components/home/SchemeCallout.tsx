@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { OFFER, RATES, SCHEME } from "@/lib/site.config";
 import { planSummary } from "@/lib/scheme";
 import { formatINR } from "@/lib/pricing";
@@ -9,7 +8,6 @@ import { common } from "@/lib/i18n/dict/common";
 import { home } from "@/lib/i18n/dict/home";
 import { OrnateFrame } from "@/components/brand/OrnateFrame";
 import { Button } from "@/components/ui/Button";
-import { darkAction } from "./styles";
 
 const EXAMPLE = planSummary({ id: "example", monthly: SCHEME.minMonthly, startedOn: "", payments: [] });
 
@@ -55,7 +53,7 @@ export function SchemeCallout() {
             <p className="mt-4 whitespace-nowrap font-display text-[1.45rem] font-semibold text-ivory num">
               {formatINR(RATES.g24)}<span className="ml-1 font-sans text-sm font-normal text-ivory/60">{c("perGram")}, {c("rateGold24")}</span>
             </p>
-            <Link href={routes.schemeJoin("digi")} className={`${darkAction} mt-6`}>{t("schJoinDigi")}</Link>
+            <Button href={routes.schemeJoin("digi")} variant="ghost-light" className="mt-6">{t("schJoinDigi")}</Button>
           </div>
         </div>
 

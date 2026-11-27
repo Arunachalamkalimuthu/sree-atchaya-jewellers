@@ -3,7 +3,6 @@ import { useState } from "react";
 import type { CategoryId } from "@/lib/catalog";
 import { SITE } from "@/lib/site.config";
 import { useLang, useT } from "@/lib/i18n";
-import { common } from "@/lib/i18n/dict/common";
 import { home } from "@/lib/i18n/dict/home";
 import { ProductImage } from "@/components/ui/ProductImage";
 import { Sheet } from "@/components/ui/Sheet";
@@ -24,7 +23,6 @@ const REELS: { key: ReelKey; kind: CategoryId }[] = [
  */
 export function ShowroomReels() {
   const t = useT(home);
-  const c = useT(common);
   const [lang] = useLang();
   const other = lang === "en" ? "ta" : "en";
   const [open, setOpen] = useState<ReelKey | null>(null);
@@ -69,8 +67,7 @@ export function ShowroomReels() {
           <span className="select-all font-semibold">@{SITE.instagram}</span>
         </p>
         <div role="note" className="mt-5 rounded-[4px] border border-dashed border-maroon/30 bg-maroon/[0.04] px-4 py-3">
-          <p className="text-sm font-semibold text-maroon">{c("contactDemo")}</p>
-          <p className="mt-1 text-[13px] leading-snug text-maroon-deep/70">{t("rlSheetDemo")}</p>
+          <p className="text-[13.5px] leading-snug text-maroon-deep/80">{t("rlSheetDemo")}</p>
         </div>
       </Sheet>
     </section>

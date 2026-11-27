@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { MARKET_SELL_25NOV, OFFER, PURCHASE_RATES, RATES, SITE } from "@/lib/site.config";
 import { PRODUCTS } from "@/lib/catalog";
@@ -14,7 +13,6 @@ import { ContactSheet, type ContactTopic } from "@/components/ui/ContactSheet";
 import { ProductImage } from "@/components/ui/ProductImage";
 import { SectionHead } from "./SectionHead";
 import { useMedia } from "./useMedia";
-import { darkAction } from "./styles";
 
 /** The day the market selling rates in MARKET_SELL_25NOV were posted (the constant's name carries it). */
 const MARKET_SELL_DATE = "2026-11-25";
@@ -93,6 +91,7 @@ export function TodaysOffers() {
         {panels.map((p, i) => (
           <li
             key={p.key}
+            role={phone ? "group" : undefined}
             aria-roledescription={phone ? "slide" : undefined}
             aria-label={phone ? t("offersGoTo", { n: i + 1, total }) : undefined}
             className={`w-[86%] shrink-0 snap-start sm:w-[70%] lg:w-auto ${p.place}`}
@@ -175,7 +174,7 @@ function PrebookPanel() {
           <div className="mt-auto flex flex-wrap gap-3 pt-6">
             <Button href={routes.custom()} variant="gold">{t("pbCta")}</Button>
             <span className="hidden sm:contents">
-              <Link href={routes.shop()} className={darkAction}>{t("pbBrowse")}</Link>
+              <Button href={routes.shop()} variant="ghost-light">{t("pbBrowse")}</Button>
             </span>
           </div>
         </div>
@@ -205,7 +204,7 @@ function CoinPanel({ onAsk }: { onAsk: () => void }) {
         </ul>
         <p className="mt-4 text-[14px] leading-relaxed text-ivory/75">{c("contactIntroCoins")}</p>
         <div className="mt-auto pt-6">
-          <button type="button" onClick={onAsk} aria-haspopup="dialog" className={darkAction}>{t("coinCta")}</button>
+          <Button variant="ghost-light" onClick={onAsk} aria-haspopup="dialog">{t("coinCta")}</Button>
         </div>
       </div>
     </OrnateFrame>
@@ -237,7 +236,7 @@ function OldGoldPanel() {
                 <th scope="row" className="py-3 pr-3 font-display text-xl font-semibold text-ivory">{r.label}</th>
                 <td className="py-3 pr-3">
                   <span className="block whitespace-nowrap font-display text-[1.75rem] font-semibold leading-none text-gold-light num">{formatINR(r.pay)}</span>
-                  <span className="mt-1 block text-[12.5px] text-gold-light/85">{t("oldMore", { diff: (r.pay - r.market).toLocaleString("en-IN") })}</span>
+                  <span className="mt-1 block text-[12.5px] text-gold-light/85">{t("oldMore", { diff: formatINR(r.pay - r.market) })}</span>
                 </td>
                 <td className="py-3 align-top">
                   <span className="block whitespace-nowrap font-display text-[1.3rem] leading-none text-ivory/65 num">{formatINR(r.market)}</span>
@@ -276,7 +275,7 @@ function ReleasePanel({ onAsk }: { onAsk: () => void }) {
             <p className="text-[13px] text-ivory/60">{c("contactRelease")}</p>
             <p className="mt-0.5 whitespace-nowrap font-display text-[1.75rem] font-semibold tracking-wide text-gold-light num">{SITE.phones.goldRelease}</p>
           </div>
-          <button type="button" onClick={onAsk} aria-haspopup="dialog" className={darkAction}>{t("relCta")}</button>
+          <Button variant="ghost-light" onClick={onAsk} aria-haspopup="dialog">{t("relCta")}</Button>
         </div>
       </div>
     </OrnateFrame>

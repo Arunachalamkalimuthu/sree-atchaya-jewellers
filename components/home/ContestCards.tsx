@@ -11,6 +11,10 @@ import { SectionHead } from "./SectionHead";
 
 /** Grams in CONTEST.prize ("1 g gold coin"), so the prize can be said in Tamil too. */
 const PRIZE_G = parseFloat(CONTEST.prize);
+/** A neutral example guess: the necklace's real weight is the answer, so it never appears on the page. */
+const EXAMPLE_GUESS = "150.250";
+/** Plain grams: up to 4 whole digits, optionally up to 3 decimals (milligrams). Rejects "1e3", "0x10", "12.", "-5". */
+const GRAMS = /^\d{1,4}(?:[.,]\d{1,3})?$/;
 
 /** The two contests on plum, the colour their contest posts use: guess the necklace's weight, and the lucky draw. */
 export function ContestCards() {
@@ -36,16 +40,17 @@ function WeightGuess() {
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    const g = Number(value.replace(",", "."));
-    if (!value.trim() || !Number.isFinite(g) || g <= 0 || g > 10000) { setError(true); return; }
+    const raw = value.trim();
+    const g = GRAMS.test(raw) ? Number(raw.replace(",", ".")) : NaN;
+    if (!(g > 0)) { setError(true); return; }
     setError(false);
-    setSent(value.trim().replace(",", "."));
+    setSent(g.toFixed(3));
   };
 
   return (
     <OrnateFrame tone="plum" className="h-full">
       <h3 className="font-display text-[1.75rem] font-semibold leading-tight text-ivory sm:text-[2.1rem]">{t("wgTitle")}</h3>
-      <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-ivory/80">{t("wgBody", { g: CONTEST.necklaceGrams })}</p>
+      <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-ivory/80">{t("wgBody")}</p>
       <p className="mt-2 font-display text-[1.2rem] font-semibold leading-snug text-gold-light num sm:text-[1.35rem]">{t("wgPrize", { n: CONTEST.winners, prize })}</p>
 
       {sent === null ? (
@@ -60,12 +65,12 @@ function WeightGuess() {
               onChange={(e) => { setValue(e.target.value); setError(false); }}
               aria-invalid={error || undefined}
               aria-describedby={error ? `${inputId}-err` : undefined}
-              placeholder={CONTEST.necklaceGrams.toFixed(3)}
+              placeholder={t("wgPlaceholder", { eg: EXAMPLE_GUESS })}
               className="min-h-11 w-40 rounded-[3px] border border-gold/55 bg-plum px-3 font-display text-[1.3rem] font-semibold text-ivory num placeholder:text-ivory/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
             />
             <Button type="submit" variant="gold">{t("wgSubmit")}</Button>
           </div>
-          {error && <p id={`${inputId}-err`} className="mt-2 text-[13.5px] text-gold-light">{t("wgInvalid", { eg: CONTEST.necklaceGrams.toFixed(3) })}</p>}
+          {error && <p id={`${inputId}-err`} className="mt-2 text-[13.5px] text-gold-light">{t("wgInvalid", { eg: EXAMPLE_GUESS })}</p>}
         </form>
       ) : (
         <div role="status" className="mt-6 max-w-md border-y border-gold/40 py-4">

@@ -30,7 +30,7 @@ export function VisitUs() {
   ];
 
   return (
-    <section id="visit" aria-labelledby="visit-title" className="scroll-mt-28 border-t border-gold/40 bg-[#f5ecdb] lg:scroll-mt-32">
+    <section id="visit" aria-labelledby="visit-title" className="scroll-mt-28 border-t border-gold/40 bg-gold/10 lg:scroll-mt-32">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[1fr_1.35fr] lg:gap-14 lg:px-8">
         <div>
           <h2 id="visit-title" className="font-display text-[1.95rem] font-semibold leading-[1.1] text-maroon sm:text-[2.5rem]">{t("visitTitle")}</h2>
