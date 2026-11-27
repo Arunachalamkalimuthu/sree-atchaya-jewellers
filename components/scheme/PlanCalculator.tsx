@@ -48,11 +48,11 @@ export function PlanCalculator({ initial = 5000, onJoin, hideJoin, onChange, cla
   ];
 
   return (
-    <div className={`overflow-hidden rounded-[4px] border border-maroon/15 bg-white/60 ${className}`}>
+    <div className={`overflow-hidden rounded-[6px] border border-line bg-white ${className}`}>
       <div className="grid md:grid-cols-[1.1fr_1fr]">
         <div className="p-6 sm:p-8">
-          <label htmlFor={id} className="text-sm text-maroon-deep/75">{t("calcMonthly")}</label>
-          <p className="num mt-1 font-display text-5xl font-semibold leading-none text-maroon" data-testid="calc-monthly" aria-live="polite">{formatINR(monthly)}</p>
+          <label htmlFor={id} className="text-sm text-mute">{t("calcMonthly")}</label>
+          <p className="num mt-1 text-[36px] font-semibold leading-tight text-maroon" data-testid="calc-monthly" aria-live="polite">{formatINR(monthly)}</p>
           <input
             id={id}
             type="range"
@@ -65,7 +65,7 @@ export function PlanCalculator({ initial = 5000, onJoin, hideJoin, onChange, cla
             className="mt-6 h-2 w-full cursor-pointer appearance-none rounded-full accent-maroon focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
             style={{ background: `linear-gradient(to right, var(--maroon) ${pct}%, rgb(110 21 23 / .15) ${pct}%)` }}
           />
-          <div className="num mt-2 flex justify-between text-xs text-maroon-deep/60">
+          <div className="num mt-2 flex justify-between text-xs text-mute">
             <span>{formatINR(SCHEME.minMonthly)}</span>
             <span>{formatINR(SCHEME.maxMonthly)}</span>
           </div>
@@ -80,18 +80,18 @@ export function PlanCalculator({ initial = 5000, onJoin, hideJoin, onChange, cla
           )}
         </div>
 
-        <div className="bg-maroon p-6 text-ivory sm:p-8">
+        <div className="border-t border-line bg-cream p-6 sm:p-8 md:border-l md:border-t-0">
           <dl>
             {rows.map((r, i) => (
-              <div key={r.testid} className={`flex items-baseline justify-between gap-4 py-3.5 ${i > 0 ? "border-t border-gold/35" : ""} ${r.big ? "pt-5" : ""}`}>
-                <dt className={`text-[15px] ${r.big ? "text-gold-light" : "text-ivory/80"}`}>{r.label}</dt>
-                <dd className={`num whitespace-nowrap font-display font-semibold ${r.big ? "text-4xl text-gold-light" : "text-2xl text-ivory"}`} data-testid={r.testid}>
+              <div key={r.testid} className={`flex items-baseline justify-between gap-4 py-3.5 ${i > 0 ? "border-t border-line" : ""} ${r.big ? "pt-5" : ""}`}>
+                <dt className={`text-[15px] ${r.big ? "font-semibold text-ink" : "text-mute"}`}>{r.label}</dt>
+                <dd className={`num whitespace-nowrap font-semibold text-maroon ${r.big ? "text-[28px]" : "text-[20px]"}`} data-testid={r.testid}>
                   {formatINR(r.value)}
                 </dd>
               </div>
             ))}
           </dl>
-          <p className="mt-3 text-[13px] text-ivory/65">
+          <p className="mt-3 text-[13px] text-mute">
             {t("calcNote", { n: SCHEME.months + SCHEME.bonusInstalments, amount: formatINR(monthly) })}
           </p>
         </div>

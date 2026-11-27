@@ -11,7 +11,8 @@ import type { Appointment } from "@/lib/demo-state";
 import { Button } from "@/components/ui/Button";
 import { ContactSheet } from "@/components/ui/ContactSheet";
 import { Price } from "@/components/ui/Price";
-import { OrnateFrame } from "@/components/brand/OrnateFrame";
+import { Banner } from "@/components/ui/Banner";
+import { BANNERS } from "@/lib/images";
 import { Field, Segmented, inputCls } from "./form";
 
 type Tab = "sell" | "release";
@@ -42,39 +43,47 @@ function Page({ initial }: { initial: Tab }) {
 
   return (
     <>
-      <section className="bg-emerald text-ivory">
-        <div className="mx-auto max-w-6xl px-4 pt-12 sm:px-6 sm:pt-16 lg:px-8">
-          <h1 className="max-w-3xl font-display text-[2.25rem] font-semibold leading-[1.1] text-ivory [text-wrap:balance] sm:text-5xl">{t("pageTitle")}</h1>
-          <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-ivory/85">{t("pageIntro")}</p>
-          <div role="tablist" aria-label={t("tabsLabel")} className="mt-9 flex gap-1">
-            {(["sell", "release"] as const).map((id) => {
-              const on = tab === id;
-              return (
-                <button
-                  key={id} ref={(el) => { tabRefs.current[id] = el; }} type="button" role="tab" id={`tab-${id}`} aria-selected={on} aria-controls={`panel-${id}`}
-                  tabIndex={on ? 0 : -1}
-                  onClick={() => setTab(id)}
-                  onKeyDown={(e) => {
-                    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-                      e.preventDefault();
-                      const next: Tab = id === "sell" ? "release" : "sell";
-                      setTab(next);
-                      tabRefs.current[next]?.focus();
-                    }
-                  }}
-                  className={`min-h-12 rounded-t-[4px] px-5 text-[15px] font-medium focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-gold sm:px-7 ${
-                    on ? "bg-ivory text-maroon" : "bg-emerald-950/0 text-ivory/80 hover:bg-ivory/10"
-                  }`}
-                >
-                  {id === "sell" ? t("tabSell") : t("tabRelease")}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <Banner
+        src={BANNERS.oldgold}
+        size="hero"
+        as="h1"
+        eager
+        headline={t("pageTitle")}
+        detail={t("pageIntro")}
+        className="h-[340px] sm:h-[340px]"
+      >
+        <span aria-hidden className="absolute inset-0 -z-[5] bg-[linear-gradient(to_right,rgba(20,8,6,.75)_0%,rgba(20,8,6,.6)_45%,rgba(20,8,6,0)_70%)]" />
+      </Banner>
 
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div className="border-b border-line">
+        <div role="tablist" aria-label={t("tabsLabel")} className="mx-auto flex max-w-7xl gap-6 px-4 sm:gap-8 sm:px-6 lg:px-8">
+          {(["sell", "release"] as const).map((id) => {
+            const on = tab === id;
+            return (
+              <button
+                key={id} ref={(el) => { tabRefs.current[id] = el; }} type="button" role="tab" id={`tab-${id}`} aria-selected={on} aria-controls={`panel-${id}`}
+                tabIndex={on ? 0 : -1}
+                onClick={() => setTab(id)}
+                onKeyDown={(e) => {
+                  if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+                    e.preventDefault();
+                    const next: Tab = id === "sell" ? "release" : "sell";
+                    setTab(next);
+                    tabRefs.current[next]?.focus();
+                  }
+                }}
+                className={`-mb-px min-h-12 border-b-2 text-[15px] font-semibold focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-gold ${
+                  on ? "border-maroon text-maroon" : "border-transparent text-mute hover:text-ink"
+                }`}
+              >
+                {id === "sell" ? t("tabSell") : t("tabRelease")}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 py-8 pb-20 sm:px-6 sm:py-10 lg:px-8">
         {tab === "sell" ? (
           <div role="tabpanel" id="panel-sell" aria-labelledby="tab-sell"><SellPanel /></div>
         ) : (
@@ -102,9 +111,9 @@ function SellPanel() {
 
   return (
     <>
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-14">
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-10">
         <div>
-          <h2 className="font-display text-3xl font-semibold text-maroon">{t("sellTitle")}</h2>
+          <h2 className="text-[22px] font-semibold text-ink sm:text-[28px]">{t("sellTitle")}</h2>
           <div className="mt-7 space-y-6">
             <Field label={t("sellWeight")} error={weight !== "" && !ok ? t("weightInvalid") : null}>
               {({ id, describedBy, invalid }) => (
@@ -120,34 +129,34 @@ function SellPanel() {
               options={[{ value: "22K", label: t("sell22") }, { value: "18K", label: t("sell18") }]}
             />
           </div>
-          <p className="mt-8 max-w-md text-[15px] leading-relaxed text-ink/80">{t("sellBring")}</p>
+          <p className="mt-8 max-w-md text-[15px] leading-relaxed text-mute">{t("sellBring")}</p>
         </div>
 
-        <OrnateFrame tone="emerald">
+        <div className="self-start rounded-[6px] border border-line bg-white px-5 py-6 sm:px-8 sm:py-8">
           <div aria-live="polite">
-            <p className="text-sm text-ivory/80">{t("sellEstimate")}</p>
+            <p className="text-sm text-mute">{t("sellEstimate")}</p>
             <p className="mt-2" data-testid="sell-estimate">
-              <Price value={estimate} size="xl" className="text-gold-light" />
+              <Price value={estimate} size="xl" className="text-maroon" />
             </p>
-            <p className="mt-3 text-sm text-ivory/80">
-              {t("sellRate")}: <span className="num whitespace-nowrap font-medium text-ivory">{formatINR(rate)}{tc("perGram")}</span>
+            <p className="mt-3 text-sm text-mute">
+              {t("sellRate")}: <span className="num whitespace-nowrap font-semibold text-ink">{formatINR(rate)}{tc("perGram")}</span>
             </p>
-            <dl className="mt-6 border-t border-gold/40 pt-4 text-[15px]">
+            <dl className="mt-6 border-t border-line pt-4 text-[15px]">
               <div className="flex items-baseline justify-between gap-4 py-1.5">
-                <dt className="text-ivory/80">{t("sellMarketLabel", { date: marketDate })}</dt>
-                <dd className="num whitespace-nowrap text-ivory">{formatINR(market)}{tc("perGram")}</dd>
+                <dt className="text-mute">{t("sellMarketLabel", { date: marketDate })}</dt>
+                <dd className="num whitespace-nowrap text-ink">{formatINR(market)}{tc("perGram")}</dd>
               </div>
               <div className="flex items-baseline justify-between gap-4 py-1.5">
-                <dt className="font-medium text-gold-light">{t("sellMore")}</dt>
-                <dd className="font-display text-2xl font-semibold text-gold-light num" data-testid="sell-more">
+                <dt className="font-semibold text-ink">{t("sellMore")}</dt>
+                <dd className="num text-[20px] font-semibold text-maroon" data-testid="sell-more">
                   {t("sellMoreValue", { amount: formatINR(more) })}
                 </dd>
               </div>
             </dl>
-            <p className="mt-1 text-[13px] leading-snug text-ivory/70">{t("sellMoreNote", { grams: ok ? g : 0, date: marketDate })}</p>
-            <p className="mt-5 text-[13px] leading-snug text-ivory/80">{t("sellEstimateNote")}</p>
+            <p className="mt-1 text-[13px] leading-snug text-mute">{t("sellMoreNote", { grams: ok ? g : 0, date: marketDate })}</p>
+            <p className="mt-5 text-[13px] leading-snug text-mute">{t("sellEstimateNote")}</p>
           </div>
-        </OrnateFrame>
+        </div>
       </div>
 
       <VisitForm kind="sell" extra={ok ? { grams: g, purity } : {}} canSubmit={ok} />
@@ -173,10 +182,10 @@ function ReleasePanel() {
 
   return (
     <>
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-14">
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-10">
         <div>
-          <h2 className="font-display text-3xl font-semibold text-maroon">{t("releaseTitle")}</h2>
-          <p className="mt-3 max-w-xl text-[16px] leading-relaxed text-ink/80">{t("releaseIntro")}</p>
+          <h2 className="text-[22px] font-semibold text-ink sm:text-[28px]">{t("releaseTitle")}</h2>
+          <p className="mt-3 max-w-xl text-[16px] leading-relaxed text-mute">{t("releaseIntro")}</p>
           <div className="mt-7 space-y-6">
             <Segmented
               legend={t("releaseLender")} name="lender" value={lender} onChange={setLender}
@@ -203,40 +212,40 @@ function ReleasePanel() {
               </Field>
             </div>
           </div>
-          <p className="mt-8 max-w-md text-[15px] leading-relaxed text-ink/80">{t("releaseBring")}</p>
+          <p className="mt-8 max-w-md text-[15px] leading-relaxed text-mute">{t("releaseBring")}</p>
           <div className="mt-5">
             <Button variant="ghost" onClick={() => setTalk(true)}>{t("releaseTalk")}</Button>
           </div>
         </div>
 
-        <div className="self-start bg-maroon p-7 text-ivory sm:p-9" aria-live="polite">
+        <div className="self-start rounded-[6px] border border-line bg-white px-5 py-6 sm:px-8 sm:py-8" aria-live="polite">
           <dl className="text-[15px]">
-            <div className="flex items-baseline justify-between gap-4 border-b border-gold/30 py-2.5">
+            <div className="flex items-baseline justify-between gap-4 border-b border-line py-2.5">
               <div>
-                <dt className="text-ivory/85">{t("releaseValue")}</dt>
-                <dd className="text-[13px] text-ivory/65">{t("releaseValueNote", { grams: gOk ? g : 0, rate: formatINR(PURCHASE_RATES.g22) })}</dd>
+                <dt className="text-ink">{t("releaseValue")}</dt>
+                <dd className="text-[13px] text-mute">{t("releaseValueNote", { grams: gOk ? g : 0, rate: formatINR(PURCHASE_RATES.g22) })}</dd>
               </div>
-              <dd className="num whitespace-nowrap text-lg text-ivory" data-testid="release-value">{formatINR(value)}</dd>
+              <dd className="num whitespace-nowrap text-lg font-semibold text-ink" data-testid="release-value">{formatINR(value)}</dd>
             </div>
-            <div className="flex items-baseline justify-between gap-4 border-b border-gold/30 py-2.5">
-              <dt className="text-ivory/85">{t("releaseLoanLine")}</dt>
-              <dd className="num whitespace-nowrap text-lg text-ivory">− {formatINR(lOk ? l : 0)}</dd>
+            <div className="flex items-baseline justify-between gap-4 border-b border-line py-2.5">
+              <dt className="text-ink">{t("releaseLoanLine")}</dt>
+              <dd className="num whitespace-nowrap text-lg font-semibold text-ink">− {formatINR(lOk ? l : 0)}</dd>
             </div>
           </dl>
           {short ? (
             <div className="mt-6">
-              <p className="font-display text-2xl font-semibold text-gold-light">{t("releaseShortAmount", { amount: formatINR(-surplus) })}</p>
-              <p className="mt-2 text-[15px] leading-snug text-ivory/90" role="status">{t("releaseShort")}</p>
+              <p className="num text-[24px] font-semibold text-maroon">{t("releaseShortAmount", { amount: formatINR(-surplus) })}</p>
+              <p className="mt-2 text-[15px] leading-snug text-ink" role="status">{t("releaseShort")}</p>
             </div>
           ) : (
             <div className="mt-6">
-              <p className="text-[15px] font-medium text-ivory">{t("releaseSurplus")}</p>
+              <p className="text-[15px] font-semibold text-ink">{t("releaseSurplus")}</p>
               <p className="mt-2" data-testid="release-surplus">
-                <Price value={gOk && lOk ? surplus : 0} size="xl" className="text-gold-light" />
+                <Price value={gOk && lOk ? surplus : 0} size="xl" className="text-maroon" />
               </p>
             </div>
           )}
-          <p className="mt-5 text-[13px] leading-snug text-ivory/75">{t("releaseSurplusNote")}</p>
+          <p className="mt-5 text-[13px] leading-snug text-mute">{t("releaseSurplusNote")}</p>
         </div>
       </div>
 
@@ -288,16 +297,16 @@ function VisitForm({ kind, extra, canSubmit }: { kind: "sell" | "release"; extra
     : [];
 
   return (
-    <section className="mt-14 border-t border-gold/60 pt-10 lg:mt-20" aria-labelledby={`visit-${kind}`}>
+    <section className="mt-12 border-t border-line pt-10 lg:mt-16" aria-labelledby={`visit-${kind}`}>
       {done ? (
-        <div className="max-w-2xl border border-emerald/60 bg-white p-7 sm:p-9" role="status" data-testid="booking-done">
-          <h2 id={`visit-${kind}`} className="font-display text-3xl font-semibold text-emerald">{t("doneTitle")}</h2>
+        <div className="max-w-2xl rounded-[6px] border border-line bg-white px-5 py-6 sm:px-8 sm:py-8" role="status" data-testid="booking-done">
+          <h2 id={`visit-${kind}`} className="text-[24px] font-semibold text-ink">{t("doneTitle")}</h2>
           <p className="mt-2 text-[16px] text-ink">{t("doneBody", { name: done.name, date: formatDate(done.date, lang) })}</p>
-          <p className="mt-1 text-[14px] text-ink/70">{kind === "sell" ? t("doneKindSell") : t("doneKindRelease")}</p>
+          <p className="mt-1 text-[14px] text-mute">{kind === "sell" ? t("doneKindSell") : t("doneKindRelease")}</p>
           <dl className="mt-5 text-[15px]">
             {rows.map(([k, v]) => (
-              <div key={k} className="flex justify-between gap-4 border-b border-gold/30 py-2">
-                <dt className="text-ink/70">{k}</dt>
+              <div key={k} className="flex justify-between gap-4 border-b border-line py-2">
+                <dt className="text-mute">{k}</dt>
                 <dd className="num text-ink">{v}</dd>
               </div>
             ))}
@@ -307,8 +316,8 @@ function VisitForm({ kind, extra, canSubmit }: { kind: "sell" | "release"; extra
         </div>
       ) : (
         <form onSubmit={submit} noValidate className="max-w-2xl">
-          <h2 id={`visit-${kind}`} className="font-display text-3xl font-semibold text-maroon">{t("formTitle")}</h2>
-          <p className="mt-2 text-[15px] text-ink/75">{t("formIntro")}</p>
+          <h2 id={`visit-${kind}`} className="text-[22px] font-semibold text-ink sm:text-[28px]">{t("formTitle")}</h2>
+          <p className="mt-2 text-[15px] text-mute">{t("formIntro")}</p>
           <div className="mt-6 grid gap-5 sm:grid-cols-2">
             <Field label={t("formName")} error={tried ? nameErr : null}>
               {({ id, describedBy, invalid }) => (
@@ -333,7 +342,7 @@ function VisitForm({ kind, extra, canSubmit }: { kind: "sell" | "release"; extra
           </div>
           <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
             <Button type="submit" variant="maroon" size="lg">{t("formSubmit")}</Button>
-            <p className="text-[13px] text-ink/65">{t("demoLine")}</p>
+            <p className="text-[13px] text-mute">{t("demoLine")}</p>
           </div>
         </form>
       )}

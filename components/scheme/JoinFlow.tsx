@@ -17,7 +17,7 @@ import { Passbook } from "./Passbook";
 import { DigiBuy, DigiHoldings } from "./DigiBuy";
 
 const RELATIONS = ["Spouse", "Son", "Daughter", "Father", "Mother", "Brother", "Sister", "Other"] as const;
-const field = "mt-1 h-12 w-full border border-maroon/25 bg-white px-3 text-[16px] text-maroon-deep focus-visible:border-gold focus-visible:outline-2 focus-visible:outline-gold read-only:bg-maroon/[0.04]";
+const field = "mt-1 h-12 w-full rounded-[4px] border border-ink/20 bg-white px-3 text-[16px] text-ink focus-visible:border-maroon focus-visible:outline-2 focus-visible:outline-gold read-only:bg-cream";
 
 type Step = "details" | "amount" | "done";
 
@@ -50,25 +50,41 @@ export function JoinFlow() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-14">
-      <h1 className="font-display text-4xl font-semibold text-maroon sm:text-5xl">{t(plan === "monthly" ? "jnMonthly" : "jnDigi")}</h1>
+      <h1 className="text-[28px] font-semibold leading-tight text-ink sm:text-[36px]">{t(plan === "monthly" ? "jnMonthly" : "jnDigi")}</h1>
       {step !== "done" && (
-        <p className="mt-2 text-sm text-maroon-deep/70">{t("jnStep", { n: step === "details" ? 1 : 2, total: 2 })}</p>
+        <>
+          <p className="mt-2 text-sm text-mute">{t("jnStep", { n: step === "details" ? 1 : 2, total: 2 })}</p>
+          <ol className="mt-4 flex gap-6 border-b border-line pb-4">
+            {(["details", "amount"] as const).map((k, i) => {
+              const cur = k === step;
+              const past = step === "amount" && k === "details";
+              return (
+                <li key={k} aria-current={cur ? "step" : undefined} className={`flex items-center gap-2.5 ${cur ? "text-maroon" : past ? "text-ink" : "text-mute"}`}>
+                  <span className={`num flex size-7 shrink-0 items-center justify-center rounded-full border text-[13px] font-semibold ${cur ? "border-maroon bg-maroon text-white" : past ? "border-maroon text-maroon" : "border-current"}`}>
+                    {past ? <Icon name="check" size={14} /> : i + 1}
+                  </span>
+                  <span className="text-sm font-semibold">{t(k === "details" ? "jnDetails" : "jnAmount")}</span>
+                </li>
+              );
+            })}
+          </ol>
+        </>
       )}
-      <div className="mt-3 h-px bg-gold/60" />
+      {step === "done" && <div className="mt-3 h-px bg-line" />}
 
       {step === "details" && (
         <form
           className="mt-8"
           onSubmit={(e) => { e.preventDefault(); if (detailsOk) goAmount(); }}
         >
-          <h2 className="font-display text-2xl font-semibold text-maroon">{t("jnDetails")}</h2>
+          <h2 className="text-[20px] font-semibold text-ink">{t("jnDetails")}</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <label className="block text-sm text-maroon-deep/75">
+            <label className="block text-sm text-mute">
               {t("jnName")}
               <input className={field} value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" required />
             </label>
-            <label className="block text-sm text-maroon-deep/75">
-              {t("jnPhone")} <span className="text-maroon-deep/50">({t("jnPhoneHint")})</span>
+            <label className="block text-sm text-mute">
+              {t("jnPhone")} <span className="text-mute">({t("jnPhoneHint")})</span>
               <input
                 className={field}
                 value={phone}
@@ -85,17 +101,17 @@ export function JoinFlow() {
             {phoneOk ? (
               <OtpField phone={`+91 ${phone}`} onVerified={() => setVerified(true)} />
             ) : (
-              <p className="text-sm text-maroon-deep/60">{t("jnVerifyFirst")}</p>
+              <p className="text-sm text-mute">{t("jnVerifyFirst")}</p>
             )}
           </div>
 
-          <h2 className="mt-8 font-display text-2xl font-semibold text-maroon">{t("jnNominee")}</h2>
+          <h2 className="mt-8 text-[20px] font-semibold text-ink">{t("jnNominee")}</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <label className="block text-sm text-maroon-deep/75">
+            <label className="block text-sm text-mute">
               {t("jnNomineeName")}
               <input className={field} value={nominee} onChange={(e) => setNominee(e.target.value)} required />
             </label>
-            <label className="block text-sm text-maroon-deep/75">
+            <label className="block text-sm text-mute">
               {t("jnRelation")}
               <select className={field} value={relation} onChange={(e) => setRelation(e.target.value)} required>
                 <option value="">{t("jnRelPick")}</option>
@@ -108,20 +124,20 @@ export function JoinFlow() {
             <Button type="submit" variant="maroon" size="lg" disabled={!detailsOk}>{t("jnContinue")}</Button>
             <Button variant="ghost" onClick={() => setPlan(plan === "monthly" ? "digi" : "monthly")}>{t("jnSwitch")}</Button>
           </div>
-          <p className="mt-4 text-xs text-maroon-deep/55">{t("jnDemo")}</p>
+          <p className="mt-4 text-xs text-mute">{t("jnDemo")}</p>
         </form>
       )}
 
       {step === "amount" && (
         <div className="mt-8">
-          <h2 className="font-display text-2xl font-semibold text-maroon">{t("jnAmount")}</h2>
+          <h2 className="text-[20px] font-semibold text-ink">{t("jnAmount")}</h2>
           {plan === "monthly" ? (
             <>
               <PlanCalculator className="mt-4" initial={monthly} hideJoin onChange={setMonthly} />
-              <p className="mt-4 text-sm text-maroon-deep/75">{t("jnAmountMonthly", { left: SCHEME.months - 1 })}</p>
+              <p className="mt-4 text-sm text-mute">{t("jnAmountMonthly", { left: SCHEME.months - 1 })}</p>
               <div className="mt-5 flex flex-wrap gap-3">
                 <Button variant="ghost" size="lg" onClick={() => setStep("details")}>{t("jnBack")}</Button>
-                <Button variant="gold" size="lg" onClick={() => setPaying(true)}>{t("jnPay", { amount: formatINR(monthly) })}</Button>
+                <Button variant="maroon" size="lg" onClick={() => setPaying(true)}>{t("jnPay", { amount: formatINR(monthly) })}</Button>
               </div>
               <PaymentSheet
                 open={paying}
@@ -140,7 +156,7 @@ export function JoinFlow() {
             </>
           ) : (
             <>
-              <DigiBuy className="mt-4 border border-maroon/15" showHoldings={false} onDone={() => setStep("done")} />
+              <DigiBuy className="mt-4 rounded-[6px] border border-line" showHoldings={false} onDone={() => setStep("done")} />
               <Button variant="ghost" className="mt-4" onClick={() => setStep("details")}>{t("jnBack")}</Button>
             </>
           )}
@@ -149,15 +165,15 @@ export function JoinFlow() {
 
       {step === "done" && (
         <div className="mt-8" data-testid="join-success">
-          <p className="flex items-center gap-2 font-display text-3xl font-semibold text-emerald">
-            <Icon name="check" size={26} /> {t("jnSuccess")}
+          <p className="flex items-center gap-2 text-[24px] font-semibold text-ink">
+            <Icon name="check" size={24} className="text-maroon" /> {t("jnSuccess")}
           </p>
-          <p className="mt-2 text-[15px] text-maroon-deep/80">
+          <p className="mt-2 text-[15px] text-mute">
             {plan === "monthly" ? t("jnSuccessMonthly", { name: name || state.user?.name || "", months: SCHEME.months }) : t("jnSuccessDigi", { name: name || state.user?.name || "" })}
           </p>
-          <p className="mt-1 text-xs text-maroon-deep/55">{t("jnDemo")}</p>
+          <p className="mt-1 text-xs text-mute">{t("jnDemo")}</p>
           <div className="mt-6">
-            {plan === "monthly" && newPlan ? <Passbook plan={newPlan} /> : <DigiHoldings className="border border-maroon/15 bg-white/70 p-5" />}
+            {plan === "monthly" && newPlan ? <Passbook plan={newPlan} /> : <DigiHoldings className="rounded-[6px] border border-line bg-white p-5" />}
           </div>
           <div className="mt-6">
             <Button variant="maroon" href={routes.scheme()}>{t("jnBackToScheme")}</Button>
