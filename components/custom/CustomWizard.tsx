@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDemo } from "@/lib/use-demo";
 import { useL10n, useT } from "@/lib/i18n";
@@ -50,6 +50,11 @@ export function CustomWizard() {
   const { state, dispatch } = useDemo();
 
   const [step, setStep] = useState(1);
+  const firstStep = useRef(true);
+  useEffect(() => {
+    if (firstStep.current) { firstStep.current = false; return; }
+    document.getElementById(`s${step}`)?.focus();
+  }, [step]);
   const [photo, setPhoto] = useState<string | null>(null);
   const [photoErr, setPhotoErr] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -133,7 +138,7 @@ export function CustomWizard() {
     <>
       <section className="bg-maroon text-ivory">
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-          <h1 className="max-w-3xl font-display text-[2.25rem] font-semibold leading-[1.1] sm:text-5xl">{t("pageTitle")}</h1>
+          <h1 className="max-w-3xl font-display text-[2.25rem] font-semibold leading-[1.1] [text-wrap:balance] sm:text-5xl">{t("pageTitle")}</h1>
           <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-ivory/85">
             {t("pageIntro", { off: OFFER.prebookOffPerGram, pct: OFFER.prebookAdvancePct })}
           </p>
@@ -162,7 +167,7 @@ export function CustomWizard() {
 
             {step === 1 && (
               <section aria-labelledby="s1">
-                <h2 id="s1" className="font-display text-3xl font-semibold text-maroon">{t("photoTitle")}</h2>
+                <h2 id="s1" tabIndex={-1} className="outline-none font-display text-3xl font-semibold text-maroon">{t("photoTitle")}</h2>
                 <p className="mt-3 max-w-xl text-[16px] leading-relaxed text-ink/80">{t("photoHelp")}</p>
                 <input
                   ref={fileRef} id="ref-photo" type="file" accept="image/*" className="sr-only"
@@ -199,7 +204,7 @@ export function CustomWizard() {
 
             {step === 2 && (
               <section aria-labelledby="s2">
-                <h2 id="s2" className="font-display text-3xl font-semibold text-maroon">{t("detailsTitle")}</h2>
+                <h2 id="s2" tabIndex={-1} className="outline-none font-display text-3xl font-semibold text-maroon">{t("detailsTitle")}</h2>
                 <div className="mt-6 max-w-xl space-y-6">
                   <Field label={t("typeLabel")}>
                     {({ id }) => (
@@ -215,7 +220,7 @@ export function CustomWizard() {
                     />
                   )}
                   <div>
-                    <Field label={t("weightLabel")} hint={t("weightHint")} error={detailsTried && !weightTextOk ? t("weightHint") : null}>
+                    <Field label={t("weightLabel")} hint={t("weightHint")} error={detailsTried && !weightTextOk ? t("weightRange") : null}>
                       {({ id, describedBy, invalid }) => (
                         <div className="flex items-center gap-4">
                           <input
@@ -256,7 +261,7 @@ export function CustomWizard() {
 
             {step === 3 && (
               <section aria-labelledby="s3">
-                <h2 id="s3" className="font-display text-3xl font-semibold text-maroon">{t("quoteTitle")}</h2>
+                <h2 id="s3" tabIndex={-1} className="outline-none font-display text-3xl font-semibold text-maroon">{t("quoteTitle")}</h2>
                 <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-ink/75">{t("quoteBasis", { g: weight, purity: purityLabel })}</p>
                 <p className="mt-4 inline-block bg-emerald px-3 py-1.5 text-sm font-medium text-ivory" data-testid="quote-off">
                   {t("quoteOffApplied", { off: OFFER.prebookOffPerGram })}
@@ -277,11 +282,6 @@ export function CustomWizard() {
                         </div>
                       ))}
                     </dl>
-                    <div className="mt-5 bg-maroon p-5 text-ivory">
-                      <p className="text-sm text-ivory/85">{t("quoteAdvanceHead")}</p>
-                      <p className="mt-1 font-display text-4xl font-semibold text-gold-light num" data-testid="quote-advance">{formatINR(bd.advance)}</p>
-                      <p className="mt-2 text-[13px] leading-snug text-ivory/80">{t("quoteAdvanceNote", { pct: OFFER.prebookAdvancePct })}</p>
-                    </div>
                     {overBudget && <p role="status" className="mt-4 text-sm font-medium text-maroon">{t("quoteOverBudget")}</p>}
                   </div>
                 </div>
@@ -294,7 +294,7 @@ export function CustomWizard() {
 
             {step === 4 && (
               <section aria-labelledby="s4">
-                <h2 id="s4" className="font-display text-3xl font-semibold text-maroon">{t("verifyTitle")}</h2>
+                <h2 id="s4" tabIndex={-1} className="outline-none font-display text-3xl font-semibold text-maroon">{t("verifyTitle")}</h2>
                 <div className="mt-6 max-w-md space-y-5">
                   <Field label={t("nameLabel")} error={verifyTried && nameErr ? t("nameRequired") : null}>
                     {({ id, describedBy, invalid }) => (

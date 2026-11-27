@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useDemo } from "@/lib/use-demo";
 import { useLang, useT, formatDate } from "@/lib/i18n";
@@ -38,23 +38,29 @@ function WithTab() {
 function Page({ initial }: { initial: Tab }) {
   const t = useT(sell);
   const [tab, setTab] = useState<Tab>(initial);
+  const tabRefs = useRef<Record<Tab, HTMLButtonElement | null>>({ sell: null, release: null });
 
   return (
     <>
       <section className="bg-emerald text-ivory">
         <div className="mx-auto max-w-6xl px-4 pt-12 sm:px-6 sm:pt-16 lg:px-8">
-          <h1 className="max-w-3xl font-display text-[2.25rem] font-semibold leading-[1.1] text-ivory sm:text-5xl">{t("pageTitle")}</h1>
+          <h1 className="max-w-3xl font-display text-[2.25rem] font-semibold leading-[1.1] text-ivory [text-wrap:balance] sm:text-5xl">{t("pageTitle")}</h1>
           <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-ivory/85">{t("pageIntro")}</p>
           <div role="tablist" aria-label={t("tabsLabel")} className="mt-9 flex gap-1">
             {(["sell", "release"] as const).map((id) => {
               const on = tab === id;
               return (
                 <button
-                  key={id} type="button" role="tab" id={`tab-${id}`} aria-selected={on} aria-controls={`panel-${id}`}
+                  key={id} ref={(el) => { tabRefs.current[id] = el; }} type="button" role="tab" id={`tab-${id}`} aria-selected={on} aria-controls={`panel-${id}`}
                   tabIndex={on ? 0 : -1}
                   onClick={() => setTab(id)}
                   onKeyDown={(e) => {
-                    if (e.key === "ArrowRight" || e.key === "ArrowLeft") setTab(id === "sell" ? "release" : "sell");
+                    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+                      e.preventDefault();
+                      const next: Tab = id === "sell" ? "release" : "sell";
+                      setTab(next);
+                      tabRefs.current[next]?.focus();
+                    }
                   }}
                   className={`min-h-12 rounded-t-[4px] px-5 text-[15px] font-medium focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-gold sm:px-7 ${
                     on ? "bg-ivory text-maroon" : "bg-emerald-950/0 text-ivory/80 hover:bg-ivory/10"
@@ -124,12 +130,12 @@ function SellPanel() {
               <Price value={estimate} size="xl" className="text-gold-light" />
             </p>
             <p className="mt-3 text-sm text-ivory/80">
-              {t("sellRate")}: <span className="num font-medium text-ivory">{formatINR(rate)}</span>{tc("perGram")}
+              {t("sellRate")}: <span className="num whitespace-nowrap font-medium text-ivory">{formatINR(rate)}{tc("perGram")}</span>
             </p>
             <dl className="mt-6 border-t border-gold/40 pt-4 text-[15px]">
               <div className="flex items-baseline justify-between gap-4 py-1.5">
                 <dt className="text-ivory/80">{t("sellMarketLabel", { date: marketDate })}</dt>
-                <dd className="num text-ivory">{formatINR(market)}{tc("perGram")}</dd>
+                <dd className="num whitespace-nowrap text-ivory">{formatINR(market)}{tc("perGram")}</dd>
               </div>
               <div className="flex items-baseline justify-between gap-4 py-1.5">
                 <dt className="font-medium text-gold-light">{t("sellMore")}</dt>
@@ -210,11 +216,11 @@ function ReleasePanel() {
                 <dt className="text-ivory/85">{t("releaseValue")}</dt>
                 <dd className="text-[13px] text-ivory/65">{t("releaseValueNote", { grams: gOk ? g : 0, rate: formatINR(PURCHASE_RATES.g22) })}</dd>
               </div>
-              <dd className="num text-lg text-ivory" data-testid="release-value">{formatINR(value)}</dd>
+              <dd className="num whitespace-nowrap text-lg text-ivory" data-testid="release-value">{formatINR(value)}</dd>
             </div>
             <div className="flex items-baseline justify-between gap-4 border-b border-gold/30 py-2.5">
               <dt className="text-ivory/85">{t("releaseLoanLine")}</dt>
-              <dd className="num text-lg text-ivory">− {formatINR(lOk ? l : 0)}</dd>
+              <dd className="num whitespace-nowrap text-lg text-ivory">− {formatINR(lOk ? l : 0)}</dd>
             </div>
           </dl>
           {short ? (
