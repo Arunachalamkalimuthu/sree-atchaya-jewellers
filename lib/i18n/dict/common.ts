@@ -9,7 +9,6 @@ export const common = {
     brandName: "Sree Atchaya",
     brandSub: "Jewellers",
     brandPlace: "Coimbatore",
-    tagline: "Gold, silver and diamond",
 
     navJewellery: "Jewellery",
     navScheme: "Gold Scheme",
@@ -33,7 +32,6 @@ export const common = {
     wishAdd: "Save {name}",
     wishRemove: "Remove {name} from saved",
 
-    rateToday: "Today's rate",
     rateGold22: "22K",
     rateGold24: "24K",
     rateGold18: "18K",
@@ -47,14 +45,12 @@ export const common = {
     rateSub24: "999 coins and bars",
     rateSub18: "750 diamond settings",
     rateSubSilver: "Articles and lamps",
-    rateUnit: "per gram",
 
     footerIntro: "916 hallmarked gold, gold coins and silver from Coimbatore. Custom designs, with 0% wastage on our offers.",
     footerVisit: "Visit the showroom",
     footerAddress: "Coimbatore {pin}, Tamil Nadu",
     footerHours: "Open 10 am to 9 pm, all days",
     footerCall: "Call or WhatsApp",
-    footerGoldRelease: "Gold release",
     footerMainRelease: "Showroom and gold release",
     footerGoldCoins: "Gold coin offers",
     footerInstagram: "Instagram",
@@ -117,11 +113,8 @@ export const common = {
     payProcessingNote: "Please keep this window open.",
     payDemo: "No real payment is made in this demo",
 
-    priceFrom: "Price",
     priceInclGst: "incl. 3% GST",
-    prebookPrice: "Pre-book price",
     prebookOff: "₹{off}/g off",
-    advanceToday: "{amount} today",
     newArrival: "New",
     weightG: "{g} g",
     purity916: "22K 916",
@@ -146,7 +139,6 @@ export const common = {
     bdBalance: "Balance when you collect",
 
     fabLabel: "Chat with us",
-    placeholderNote: "Photo coming soon",
   },
   ta: {
     ribbon: "வடிவமைப்பு முன்னோட்டம். இது ஸ்ரீ அட்சயா ஜுவல்லர்ஸின் அதிகாரப்பூர்வ இணையதளம் அல்ல.",
@@ -155,7 +147,6 @@ export const common = {
     brandName: "ஸ்ரீ அட்சயா",
     brandSub: "ஜுவல்லர்ஸ்",
     brandPlace: "கோயம்புத்தூர்",
-    tagline: "தங்கம், வெள்ளி, வைரம்",
 
     navJewellery: "நகைகள்",
     navScheme: "சேமிப்பு திட்டம்",
@@ -179,7 +170,6 @@ export const common = {
     wishAdd: "{name} சேமி",
     wishRemove: "{name} சேமிப்பிலிருந்து நீக்கு",
 
-    rateToday: "இன்றைய விலை",
     rateGold22: "22K",
     rateGold24: "24K",
     rateGold18: "18K",
@@ -193,14 +183,12 @@ export const common = {
     rateSub24: "999 நாணயம், கட்டி",
     rateSub18: "750 வைர நகைகள்",
     rateSubSilver: "வெள்ளிப் பொருட்கள்",
-    rateUnit: "ஒரு கிராம்",
 
     footerIntro: "கோயம்புத்தூரிலிருந்து 916 ஹால்மார்க் தங்க நகைகள், தங்க நாணயங்கள், வெள்ளி. உங்கள் விருப்பப்படி டிசைன்; சலுகைகளில் 0% சேதாரம்.",
     footerVisit: "ஷோரூமுக்கு வாருங்கள்",
     footerAddress: "கோயம்புத்தூர் {pin}, தமிழ்நாடு",
     footerHours: "தினமும் காலை 10 முதல் இரவு 9 வரை",
     footerCall: "அழைக்க / வாட்ஸ்அப்",
-    footerGoldRelease: "நகை மீட்பு",
     footerMainRelease: "ஷோரூம், நகை மீட்பு",
     footerGoldCoins: "தங்க நாணய சலுகை",
     footerInstagram: "இன்ஸ்டாகிராம்",
@@ -263,11 +251,8 @@ export const common = {
     payProcessingNote: "இந்தத் திரையை மூட வேண்டாம்.",
     payDemo: "இந்த டெமோவில் உண்மையான பணம் எதுவும் செலுத்தப்படாது",
 
-    priceFrom: "விலை",
     priceInclGst: "3% GST உட்பட",
-    prebookPrice: "முன்பதிவு விலை",
     prebookOff: "கிராமுக்கு ₹{off} குறைவு",
-    advanceToday: "இன்று {amount}",
     newArrival: "புதியது",
     weightG: "{g} கி",
     purity916: "22K 916",
@@ -292,6 +277,5 @@ export const common = {
     bdBalance: "நகை பெறும்போது மீதி",
 
     fabLabel: "எங்களிடம் பேசுங்கள்",
-    placeholderNote: "படம் விரைவில்",
   },
 } satisfies Dict;
