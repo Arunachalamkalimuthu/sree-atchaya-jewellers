@@ -93,7 +93,7 @@ function PaymentInner({ amount, onPaid, onClose, note }: Props) {
             {options.map((o) => {
               const active = method === o.id;
               return (
-                <div key={o.id} className={`rounded-[4px] border transition-colors ${active ? "border-gold bg-white/80 shadow-[0_1px_0_rgba(201,162,74,.4)]" : "border-maroon/15 bg-white/40"}`}>
+                <div key={o.id} className={`rounded-[4px] border transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-gold ${active ? "border-gold bg-white/80 shadow-[0_1px_0_rgba(201,162,74,.4)]" : "border-maroon/15 bg-white/40"}`}>
                   <label className="flex cursor-pointer items-center gap-3.5 px-4 py-3.5">
                     <input type="radio" name="pay-method" value={o.id} checked={active} onChange={() => setMethod(o.id)} className="sr-only" />
                     <span className={`grid size-10 shrink-0 place-items-center rounded-full ${active ? "bg-maroon text-gold-light" : "bg-maroon/[0.06] text-maroon"}`}>

@@ -12,6 +12,7 @@ import { GoldRule } from "@/components/brand/GoldRule";
 import { Icon } from "@/components/ui/Icon";
 import { LangToggle } from "@/components/ui/LangToggle";
 import { ContactSheet } from "@/components/ui/ContactSheet";
+import { useModalFocus } from "@/components/ui/Sheet";
 
 type NavKey = "navJewellery" | "navScheme" | "navCustom" | "navSellGold" | "navVisit";
 
@@ -112,28 +113,28 @@ function IconLink({ href, label, icon, className = "" }: { href: string; label: 
 function MobileMenu({ open, onClose, isActive, onContact }: { open: boolean; onClose: () => void; isActive: (m?: string) => boolean; onContact: () => void }) {
   const t = useT(common);
   const pathname = usePathname();
+  const panel = useRef<HTMLDivElement>(null);
   const onCloseRef = useRef(onClose);
+  const lastPath = useRef(pathname);
 
-  // Close on navigation and on Escape; lock page scroll while open.
+  // Scroll lock, focus trap, Escape and focus restore: the same behaviour as Sheet.
+  useModalFocus(open, panel, onClose);
+  // Close when the route changes underneath (e.g. browser back). Not on mount: links already close it on click.
   useEffect(() => { onCloseRef.current = onClose; });
-  useEffect(() => { onCloseRef.current(); }, [pathname]);
   useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onCloseRef.current(); };
-    document.addEventListener("keydown", onKey);
-    return () => { document.body.style.overflow = prev; document.removeEventListener("keydown", onKey); };
-  }, [open]);
+    if (lastPath.current === pathname) return;
+    lastPath.current = pathname;
+    onCloseRef.current();
+  }, [pathname]);
 
   if (!open || typeof document === "undefined") return null;
   return createPortal(
     <div className="fixed inset-0 z-[95] xl:hidden" role="dialog" aria-modal="true" aria-label={t("menuTitle")}>
       <div aria-hidden className="sa-fade absolute inset-0 bg-maroon-deep/60" onClick={onClose} />
-      <div className="sa-drawer absolute inset-y-0 right-0 flex w-[min(88vw,380px)] flex-col overflow-y-auto bg-maroon-deep pt-7 text-ivory shadow-[-12px_0_40px_rgba(0,0,0,.3)]">
+      <div ref={panel} tabIndex={-1} className="sa-drawer absolute inset-y-0 right-0 outline-none flex w-[min(88vw,380px)] flex-col overflow-y-auto bg-maroon-deep pt-7 text-ivory shadow-[-12px_0_40px_rgba(0,0,0,.3)]">
         <div className="flex items-center justify-between border-b border-gold/30 px-5 py-4">
           <Wordmark tone="ivory" size="sm" />
-          <button type="button" onClick={onClose} aria-label={t("menuClose")} autoFocus className="grid size-11 place-items-center rounded-full text-ivory hover:text-gold-light focus-visible:outline-2 focus-visible:outline-gold">
+          <button type="button" onClick={onClose} aria-label={t("menuClose")} data-autofocus className="grid size-11 place-items-center rounded-full text-ivory hover:text-gold-light focus-visible:outline-2 focus-visible:outline-gold">
             <Icon name="close" size={24} />
           </button>
         </div>

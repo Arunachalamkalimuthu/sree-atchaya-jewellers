@@ -21,6 +21,13 @@ describe("i18n dictionaries", () => {
     expect(Object.keys(d.ta).sort()).toEqual(Object.keys(d.en).sort());
   });
 
+  it.each(dicts)("%s: {placeholders} match between English and Tamil", (_name, d) => {
+    const names = (s: string) => [...s.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort();
+    for (const k of Object.keys(d.en)) {
+      expect(names(d.ta[k] ?? ""), `ta.${k}`).toEqual(names(d.en[k]));
+    }
+  });
+
   it.each(dicts)("%s: no empty strings", (_name, d) => {
     for (const lang of ["en", "ta"] as const) {
       for (const [k, v] of Object.entries(d[lang])) {

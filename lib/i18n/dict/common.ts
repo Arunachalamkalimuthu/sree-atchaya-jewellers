@@ -3,7 +3,7 @@ import type { Dict } from "../index";
 /** Shell, overlays and shared pieces (header, rate bar, footer, contact, OTP, payment, price table). */
 export const common = {
   en: {
-    ribbon: "Design preview — not the official Sree Atchaya Jewellers website",
+    ribbon: "Design preview. This is not the official Sree Atchaya Jewellers website.",
     skipToContent: "Skip to content",
 
     brandName: "Sree Atchaya",
@@ -75,7 +75,7 @@ export const common = {
     contactWays: "Call or WhatsApp",
     contactHoursLabel: "Hours",
     contactInstagramLabel: "Instagram",
-    contactDemo: "Demo — not connected to the shop",
+    contactDemo: "This demo isn't connected to the shop",
     contactDemoNote: "In the real website these buttons would place a call or open WhatsApp.",
     copy: "Copy",
     copied: "Copied",
@@ -89,7 +89,7 @@ export const common = {
     otpVerifying: "Verifying…",
     otpVerified: "{phone} verified",
     otpWrong: "That code doesn't match. Tap Fill code to use the demo code.",
-    otpDemo: "Demo — no SMS is sent",
+    otpDemo: "No SMS is sent in this demo",
 
     payTitle: "Payment",
     payAmount: "Amount to pay",
@@ -107,7 +107,7 @@ export const common = {
     payNow: "Pay {amount}",
     payProcessing: "Processing payment…",
     payProcessingNote: "Please keep this window open.",
-    payDemo: "Demo — no real payment is made",
+    payDemo: "No real payment is made in this demo",
 
     priceFrom: "Price",
     priceInclGst: "incl. 3% GST",
@@ -141,7 +141,7 @@ export const common = {
     placeholderNote: "Photo coming soon",
   },
   ta: {
-    ribbon: "வடிவமைப்பு முன்னோட்டம் — ஸ்ரீ அட்சயா ஜுவல்லர்ஸின் அதிகாரப்பூர்வ இணையதளம் அல்ல",
+    ribbon: "வடிவமைப்பு முன்னோட்டம். இது ஸ்ரீ அட்சயா ஜுவல்லர்ஸின் அதிகாரப்பூர்வ இணையதளம் அல்ல.",
     skipToContent: "உள்ளடக்கத்திற்குச் செல்ல",
 
     brandName: "ஸ்ரீ அட்சயா",
@@ -213,7 +213,7 @@ export const common = {
     contactWays: "அழைக்க / வாட்ஸ்அப்",
     contactHoursLabel: "நேரம்",
     contactInstagramLabel: "இன்ஸ்டாகிராம்",
-    contactDemo: "டெமோ — கடையுடன் இணைக்கப்படவில்லை",
+    contactDemo: "இந்த டெமோ கடையுடன் இணைக்கப்படவில்லை",
     contactDemoNote: "உண்மையான இணையதளத்தில் இந்தப் பொத்தான்கள் நேரடியாக அழைக்கும் அல்லது வாட்ஸ்அப்பைத் திறக்கும்.",
     copy: "நகலெடு",
     copied: "நகலெடுத்தது",
@@ -227,7 +227,7 @@ export const common = {
     otpVerifying: "சரிபார்க்கிறது…",
     otpVerified: "{phone} சரிபார்க்கப்பட்டது",
     otpWrong: "OTP பொருந்தவில்லை. டெமோ குறியீட்டுக்கு ‘OTP நிரப்பு’ அழுத்தவும்.",
-    otpDemo: "டெமோ — SMS அனுப்பப்படாது",
+    otpDemo: "இந்த டெமோவில் SMS அனுப்பப்படாது",
 
     payTitle: "பணம் செலுத்துதல்",
     payAmount: "செலுத்த வேண்டிய தொகை",
@@ -245,7 +245,7 @@ export const common = {
     payNow: "{amount} செலுத்து",
     payProcessing: "பணம் செலுத்தப்படுகிறது…",
     payProcessingNote: "இந்தத் திரையை மூட வேண்டாம்.",
-    payDemo: "டெமோ — உண்மையான பணம் எதுவும் செலுத்தப்படாது",
+    payDemo: "இந்த டெமோவில் உண்மையான பணம் எதுவும் செலுத்தப்படாது",
 
     priceFrom: "விலை",
     priceInclGst: "3% GST உட்பட",

@@ -10,7 +10,7 @@ export type ContactTopic = "general" | "goldRelease" | "goldCoins";
 
 /**
  * `<ContactSheet open onClose topic?>`: every Call / WhatsApp / "Ask on WhatsApp" action opens this.
- * Numbers are plain text (copyable), never phone-dialler or WhatsApp links. Always says "Demo — not connected to the shop".
+ * Numbers are plain text (copyable), never phone-dialler or WhatsApp links. Always says the demo isn't connected to the shop (common.contactDemo).
  */
 export function ContactSheet({ open, onClose, topic = "general" }: { open: boolean; onClose: () => void; topic?: ContactTopic }) {
   const t = useT(common);

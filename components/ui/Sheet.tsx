@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useId, useRef, useSyncExternalStore, type ReactNode } from "react";
+import { useEffect, useId, useRef, useSyncExternalStore, type ReactNode, type RefObject } from "react";
 import { createPortal } from "react-dom";
 import { useT } from "@/lib/i18n";
 import { common } from "@/lib/i18n/dict/common";
@@ -19,6 +19,46 @@ interface SheetProps {
 }
 
 const noop = () => () => {};
+const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])';
+
+/**
+ * Modal behaviour shared by Sheet and the header's mobile menu: while `open`, lock page scroll, move focus into
+ * `panel` (its first [autofocus] element, else the panel), keep Tab inside it, close on Escape (unless `locked`),
+ * and give focus back to whatever had it when the modal closes.
+ */
+export function useModalFocus(open: boolean, panel: RefObject<HTMLElement | null>, onClose: () => void, locked = false) {
+  const closeRef = useRef(onClose);
+  const lockedRef = useRef(locked);
+  useEffect(() => { closeRef.current = onClose; lockedRef.current = locked; });
+
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.activeElement as HTMLElement | null;
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+    const raf = requestAnimationFrame(() => {
+      const el = panel.current;
+      (el?.querySelector<HTMLElement>("[autofocus],[data-autofocus]") ?? el)?.focus();
+    });
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && !lockedRef.current) { e.stopPropagation(); closeRef.current(); }
+      if (e.key !== "Tab" || !panel.current) return;
+      const f = panel.current.querySelectorAll<HTMLElement>(FOCUSABLE);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === panel.current)) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      cancelAnimationFrame(raf);
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = overflow;
+      if (previous?.isConnected) previous.focus();
+    };
+  }, [open, panel]);
+}
 const widths = { sm: "sm:max-w-sm", md: "sm:max-w-md", lg: "sm:max-w-xl" };
 
 /**
@@ -30,35 +70,7 @@ export function Sheet({ open, onClose, title, children, footer, width = "md", lo
   const titleId = useId();
   const panel = useRef<HTMLDivElement>(null);
   const mounted = useSyncExternalStore(noop, () => true, () => false);
-  const closeRef = useRef(onClose);
-  const lockedRef = useRef(locked);
-
-  useEffect(() => { closeRef.current = onClose; lockedRef.current = locked; });
-
-  useEffect(() => {
-    if (!open) return;
-    const previous = document.activeElement as HTMLElement | null;
-    const { overflow } = document.body.style;
-    document.body.style.overflow = "hidden";
-    const raf = requestAnimationFrame(() => panel.current?.focus());
-
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && !lockedRef.current) { e.stopPropagation(); closeRef.current(); }
-      if (e.key !== "Tab" || !panel.current) return;
-      const f = panel.current.querySelectorAll<HTMLElement>('a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])');
-      if (!f.length) return;
-      const first = f[0], last = f[f.length - 1];
-      if (e.shiftKey && (document.activeElement === first || document.activeElement === panel.current)) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    };
-    document.addEventListener("keydown", onKey);
-    return () => {
-      cancelAnimationFrame(raf);
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = overflow;
-      previous?.focus?.();
-    };
-  }, [open]);
+  useModalFocus(open, panel, onClose, locked);
 
   if (!mounted || !open) return null;
 
