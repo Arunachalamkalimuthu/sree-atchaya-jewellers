@@ -34,6 +34,7 @@ export const custom = {
     puritySilver: "Silver",
     weightLabel: "Approximate weight",
     weightSlider: "Approximate weight, slider",
+    weightRange: "Enter a weight between 2 g and 200 g.",
     weightHint: "Between 2 g and 200 g. We confirm the exact weight when the design is approved.",
     weightUnit: "g",
     budgetLabel: "Budget (optional)",
@@ -51,8 +52,6 @@ export const custom = {
     quoteSummaryBudget: "Your budget",
     quotePhotoYes: "Reference photo attached",
     quotePhotoNo: "No reference photo",
-    quoteAdvanceHead: "Pay today",
-    quoteAdvanceNote: "{pct}% of the total locks today's rate. The balance is paid when you collect.",
     quoteOverBudget: "This quote is above the budget you entered. You can go back and change the weight or purity.",
 
     verifyTitle: "Verify your phone, then pay the advance",
@@ -66,7 +65,7 @@ export const custom = {
     payAdvance: "Pay advance {amount}",
     payNote: "Advance for your custom design",
     payFirst: "Verify your phone to continue",
-    demoLine: "Demo — no real order or payment is made",
+    demoLine: "No real order or payment is made in this demo.",
 
     back: "Back",
     next: "Continue",
@@ -108,6 +107,7 @@ export const custom = {
     puritySilver: "வெள்ளி",
     weightLabel: "தோராய எடை",
     weightSlider: "தோராய எடை, ஸ்லைடர்",
+    weightRange: "2 கிராம் முதல் 200 கிராம் வரை எடையை எழுதுங்கள்.",
     weightHint: "2 கிராம் முதல் 200 கிராம் வரை. டிசைன் உறுதியானதும் சரியான எடையைச் சொல்வோம்.",
     weightUnit: "கி",
     budgetLabel: "பட்ஜெட் (விருப்பம்)",
@@ -125,8 +125,6 @@ export const custom = {
     quoteSummaryBudget: "உங்கள் பட்ஜெட்",
     quotePhotoYes: "மாதிரிப் படம் இணைக்கப்பட்டுள்ளது",
     quotePhotoNo: "மாதிரிப் படம் இல்லை",
-    quoteAdvanceHead: "இன்று செலுத்த வேண்டியது",
-    quoteAdvanceNote: "மொத்தத்தில் {pct}% செலுத்தினால் இன்றைய விலை உறுதியாகும். மீதியை நகையை வாங்கும் நாளில் செலுத்தலாம்.",
     quoteOverBudget: "இந்த விலை நீங்கள் தந்த பட்ஜெட்டை விட அதிகம். பின்னால் சென்று எடை அல்லது தரத்தை மாற்றலாம்.",
 
     verifyTitle: "போனை சரிபார்த்து முன்பணம் செலுத்துங்கள்",
@@ -140,7 +138,7 @@ export const custom = {
     payAdvance: "முன்பணம் {amount} செலுத்த",
     payNote: "உங்கள் கஸ்டம் டிசைனுக்கான முன்பணம்",
     payFirst: "தொடர போனை சரிபார்க்கவும்",
-    demoLine: "டெமோ — உண்மையான ஆர்டரோ பணம் செலுத்தலோ நடக்காது",
+    demoLine: "இந்த டெமோவில் உண்மையான ஆர்டரோ பணம் செலுத்தலோ நடக்காது.",
 
     back: "பின்செல்",
     next: "தொடர்க",

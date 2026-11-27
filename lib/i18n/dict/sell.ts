@@ -53,7 +53,7 @@ export const sell = {
     dateRequired: "Choose the day you will visit.",
     weightInvalid: "Enter a weight above 0 g.",
     loanInvalid: "Enter the loan amount as a number.",
-    demoLine: "Demo — no real appointment is made",
+    demoLine: "No real appointment is made in this demo.",
 
     doneTitle: "Your visit is booked",
     doneBody: "{name}, we will expect you on {date}.",
@@ -65,7 +65,7 @@ export const sell = {
     doneLender: "Lender",
     doneLoan: "Loan",
     doneAgain: "Make another booking",
-    doneDemo: "Demo — no real appointment was made. The shop has not been told.",
+    doneDemo: "No real appointment was made in this demo. The shop has not been told.",
   },
   ta: {
     pageTitle: "பழைய தங்கத்தை விற்க அல்லது அடகு நகையை மீட்க",
@@ -118,7 +118,7 @@ export const sell = {
     dateRequired: "வரும் நாளைத் தேர்ந்தெடுங்கள்.",
     weightInvalid: "0 கிராமுக்கு மேல் எடையை எழுதுங்கள்.",
     loanInvalid: "கடன் தொகையை எண்ணாக எழுதுங்கள்.",
-    demoLine: "டெமோ — உண்மையான முன்பதிவு நடக்காது",
+    demoLine: "இந்த டெமோவில் உண்மையான முன்பதிவு நடக்காது.",
 
     doneTitle: "உங்கள் வருகை பதிவு செய்யப்பட்டது",
     doneBody: "{name}, {date} அன்று உங்களை எதிர்பார்க்கிறோம்.",
@@ -130,6 +130,6 @@ export const sell = {
     doneLender: "கடன் வழங்கியவர்",
     doneLoan: "கடன்",
     doneAgain: "இன்னொரு முன்பதிவு செய்ய",
-    doneDemo: "டெமோ — உண்மையான முன்பதிவு நடக்கவில்லை. கடைக்குத் தெரிவிக்கப்படவில்லை.",
+    doneDemo: "இந்த டெமோவில் உண்மையான முன்பதிவு நடக்கவில்லை. கடைக்குத் தெரிவிக்கப்படவில்லை.",
   },
 } satisfies Dict;
