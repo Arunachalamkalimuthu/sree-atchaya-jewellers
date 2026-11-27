@@ -66,7 +66,7 @@ export function BuyBox({ product: p, compact = false, cartHref = routes.cart() }
       <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-2">
         <p className="text-[15px] text-ink/70">{purity}, {tc("weightG", { g: p.weightG })}</p>
         {p.purity === "22K" && <HallmarkBadge label={t("hallmarkBadge")} />}
-        {p.isNew && <span className="font-display text-[15px] italic text-maroon">{tc("newArrival")}</span>}
+        {p.isNew && <span className="font-display text-[15px] font-semibold text-maroon">{tc("newArrival")}</span>}
       </div>
 
       {p.prebookable && (
@@ -125,7 +125,7 @@ export function BuyBox({ product: p, compact = false, cartHref = routes.cart() }
 
       <div className={`mt-6 flex gap-3 ${compact ? "flex-col" : "flex-col sm:flex-row sm:flex-wrap"}`}>
         <Button variant="maroon" size="lg" onClick={add} className={compact ? "w-full" : "sm:min-w-56"}>
-          {prebook ? t("ctaPrebook", { amount: formatINR(b.advance) }) : t("ctaBuy")}
+          {prebook ? t("ctaPrebook", { pct: OFFER.prebookAdvancePct, amount: formatINR(b.advance) }) : t("ctaBuy")}
         </Button>
         <Button variant="ghost" size="lg" onClick={() => setContact(true)} className={compact ? "w-full" : ""} aria-haspopup="dialog">
           {t("ctaWhatsApp")}
