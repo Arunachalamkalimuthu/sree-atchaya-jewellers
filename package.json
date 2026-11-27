@@ -4,10 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "predev": "node scripts/gen-image-manifest.mjs",
     "build": "next build",
+    "prebuild": "node scripts/gen-image-manifest.mjs",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "images": "node scripts/gen-image-manifest.mjs"
   },
   "dependencies": {
     "next": "^16.4.6",
