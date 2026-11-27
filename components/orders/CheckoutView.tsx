@@ -12,24 +12,23 @@ import { common } from "@/lib/i18n/dict/common";
 import { Button } from "@/components/ui/Button";
 import { OtpField } from "@/components/ui/OtpField";
 import { PaymentSheet, type PayMethod } from "@/components/ui/PaymentSheet";
-import { GoldRule } from "@/components/brand/GoldRule";
 import { useHydrated } from "./useHydrated";
 import { Totals } from "./Totals";
 
 type Fulfilment = "pickup" | "delivery";
 
 const field =
-  "mt-1.5 block min-h-11 w-full rounded-[3px] border border-maroon/25 bg-white/70 px-3.5 text-[16px] text-ink " +
-  "placeholder:text-ink/35 focus-visible:border-gold focus-visible:outline-2 focus-visible:outline-gold";
+  "mt-1.5 block min-h-11 w-full rounded-[4px] border border-line bg-white px-3.5 text-[16px] text-ink " +
+  "placeholder:text-mute/60 focus-visible:border-gold focus-visible:outline-2 focus-visible:outline-gold";
 
 function Step({ n, title, children }: { n: number; title: string; children: React.ReactNode }) {
   return (
-    <section className="border-t border-gold/50 py-8 first:border-t-0 first:pt-0">
-      <h2 className="flex items-center gap-3 font-display text-2xl font-semibold text-maroon-deep">
-        <span className="num grid size-8 shrink-0 place-items-center rounded-full bg-maroon text-base text-gold-light">{n}</span>
+    <section className="rounded-[6px] border border-line bg-white p-5 sm:p-6">
+      <h2 className="flex items-center gap-3 text-[20px] font-semibold text-ink">
+        <span className="grid size-8 shrink-0 place-items-center rounded-full bg-maroon text-[15px] font-semibold text-white">{n}</span>
         {title}
       </h2>
-      <div className="mt-5 sm:pl-11">{children}</div>
+      <div className="mt-5">{children}</div>
     </section>
   );
 }
@@ -75,25 +74,24 @@ export function CheckoutView() {
   };
 
   if (!hydrated) {
-    return <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8"><p className="text-ink/60" role="status">{t("loading")}</p></div>;
+    return <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8"><p className="text-mute" role="status">{t("loading")}</p></div>;
   }
   if (placing) {
-    return <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8"><p className="font-display text-2xl text-maroon" role="status">{t("placing")}</p></div>;
+    return <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8"><p className="text-[22px] font-semibold text-maroon" role="status">{t("placing")}</p></div>;
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-      <h1 className="font-display text-3xl font-semibold text-maroon sm:text-5xl">{t("checkoutTitle")}</h1>
-      <GoldRule className="mt-5 max-w-md" />
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+      <h1 className="text-[28px] font-semibold leading-tight text-ink sm:text-[36px]">{t("checkoutTitle")}</h1>
 
       {lines.length === 0 ? (
         <div className="mt-10 max-w-xl">
-          <p className="text-[17px] text-ink/80">{t("checkoutEmpty")}</p>
+          <p className="text-[16px] text-mute">{t("checkoutEmpty")}</p>
           <Button href={routes.shop()} variant="maroon" size="lg" className="mt-6">{t("cartEmptyCta")}</Button>
         </div>
       ) : (
-        <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_24rem] lg:gap-14">
-          <div>
+        <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_22rem] lg:gap-12">
+          <div className="space-y-5">
             <Step n={1} title={t("stepSignIn")}>
               {user ? (
                 <div className="flex flex-wrap items-center justify-between gap-3">
@@ -101,7 +99,7 @@ export function CheckoutView() {
                   <button
                     type="button"
                     onClick={() => { dispatch({ type: "signOut" }); setCodeSent(false); }}
-                    className="min-h-10 text-[14px] text-maroon underline decoration-gold decoration-1 underline-offset-4 focus-visible:outline-2 focus-visible:outline-gold"
+                    className="min-h-10 text-[14px] text-maroon underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-gold"
                   >
                     {t("changeUser")}
                   </button>
@@ -109,15 +107,15 @@ export function CheckoutView() {
               ) : (
                 <div className="max-w-lg">
                   <Button variant="maroon" onClick={() => dispatch({ type: "signInDemo" })}>{t("useDemo")}</Button>
-                  <p className="mt-2 text-[14px] text-ink/65">{t("useDemoNote", { name: demoSeed.user!.name })}</p>
+                  <p className="mt-2 text-[14px] text-mute">{t("useDemoNote", { name: demoSeed.user!.name })}</p>
 
-                  <p className="mt-8 font-display text-xl text-maroon-deep">{t("orPhone")}</p>
+                  <p className="mt-8 text-[16px] font-semibold text-ink">{t("orPhone")}</p>
                   <div className="mt-3 grid gap-4 sm:grid-cols-2">
-                    <label className="block text-[14px] text-maroon-deep/85">
+                    <label className="block text-[14px] text-ink">
                       {t("nameLabel")}
                       <input className={field} value={name} autoComplete="name" disabled={codeSent} onChange={(e) => setName(e.target.value)} />
                     </label>
-                    <label className="block text-[14px] text-maroon-deep/85">
+                    <label className="block text-[14px] text-ink">
                       {t("phoneLabel")}
                       <input
                         className={field}
@@ -129,13 +127,13 @@ export function CheckoutView() {
                       />
                     </label>
                   </div>
-                  <p className="mt-2 text-[13px] text-ink/60">{t("phoneHint")}</p>
+                  <p className="mt-2 text-[13px] text-mute">{t("phoneHint")}</p>
                   {showErr && !(nameOk && phoneOk) && <p role="alert" className="mt-2 text-[14px] text-maroon">{t("signInInvalid")}</p>}
                   {!codeSent ? (
                     <Button variant="ghost" onClick={sendCode} className="mt-4">{t("sendCode")}</Button>
                   ) : (
                     <>
-                    <button type="button" onClick={() => setCodeSent(false)} className="mt-4 min-h-10 text-[14px] text-maroon underline decoration-gold decoration-1 underline-offset-4 focus-visible:outline-2 focus-visible:outline-gold">{t("changeNumber")}</button>
+                    <button type="button" onClick={() => setCodeSent(false)} className="mt-4 min-h-10 text-[14px] text-maroon underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-gold">{t("changeNumber")}</button>
                     <OtpField
                       phone={`+91 ${phone}`}
                       className="mt-5"
@@ -152,27 +150,27 @@ export function CheckoutView() {
                 {(["pickup", "delivery"] as const).map((f) => (
                   <label
                     key={f}
-                    className={`block cursor-pointer border p-4 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-gold ${
-                      fulfil === f ? "border-maroon bg-maroon/[0.05]" : "border-maroon/25 hover:border-gold"
+                    className={`block cursor-pointer rounded-[4px] border p-4 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-gold ${
+                      fulfil === f ? "border-maroon bg-maroon/[0.04]" : "border-line hover:border-maroon/50"
                     }`}
                   >
                     <input type="radio" name="fulfil" value={f} checked={fulfil === f} onChange={() => setFulfil(f)} className="sr-only" />
-                    <span className="block font-display text-xl font-semibold text-maroon-deep">{t(f === "pickup" ? "pickup" : "delivery")}</span>
-                    <span className="mt-1 block text-[14px] leading-snug text-ink/70">{t(f === "pickup" ? "pickupNote" : "deliveryNote")}{f === "pickup" ? ` ${c("footerHours")}.` : ""}</span>
+                    <span className="block text-[16px] font-semibold text-ink">{t(f === "pickup" ? "pickup" : "delivery")}</span>
+                    <span className="mt-1 block text-[14px] leading-snug text-mute">{t(f === "pickup" ? "pickupNote" : "deliveryNote")}{f === "pickup" ? ` ${c("footerHours")}.` : ""}</span>
                   </label>
                 ))}
               </div>
               {fulfil === "delivery" && (
                 <div className="mt-5 grid max-w-2xl gap-4 sm:grid-cols-2">
-                  <label className="block text-[14px] text-maroon-deep/85 sm:col-span-2">
+                  <label className="block text-[14px] text-ink sm:col-span-2">
                     {t("addrLine")}
                     <input className={field} value={addr.line} autoComplete="street-address" onChange={(e) => setAddr({ ...addr, line: e.target.value })} />
                   </label>
-                  <label className="block text-[14px] text-maroon-deep/85">
+                  <label className="block text-[14px] text-ink">
                     {t("addrCity")}
                     <input className={field} value={addr.city} autoComplete="address-level2" onChange={(e) => setAddr({ ...addr, city: e.target.value })} />
                   </label>
-                  <label className="block text-[14px] text-maroon-deep/85">
+                  <label className="block text-[14px] text-ink">
                     {t("addrPin")}
                     <input
                       className={field}
@@ -187,11 +185,11 @@ export function CheckoutView() {
             </Step>
 
             <Step n={3} title={t("stepPay")}>
-              <p className="max-w-xl text-[16px] leading-relaxed text-ink/80">{t("payStepBody", { amount: formatINR(totals.payNow) })}</p>
-              <Button variant="gold" size="lg" disabled={!ready} onClick={() => setPayOpen(true)} className="mt-5 min-w-64">
+              <p className="max-w-xl text-[15px] leading-relaxed text-mute">{t("payStepBody", { amount: formatINR(totals.payNow) })}</p>
+              <Button variant="maroon" size="lg" disabled={!ready} onClick={() => setPayOpen(true)} className="mt-5 min-w-64">
                 {c("payNow", { amount: formatINR(totals.payNow) })}
               </Button>
-              {!ready && <p className="mt-2 text-[14px] text-ink/60">{t("payBlocked")}</p>}
+              {!ready && <p className="mt-2 text-[14px] text-mute">{t("payBlocked")}</p>}
             </Step>
           </div>
 
