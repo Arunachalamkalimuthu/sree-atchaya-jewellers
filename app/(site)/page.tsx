@@ -1,42 +1,31 @@
-import { RateBoard } from "@/components/site/RateBar";
-import { GoldRule } from "@/components/brand/GoldRule";
-import { TodaysOffers } from "@/components/home/TodaysOffers";
-import { CategoryGrid } from "@/components/home/CategoryGrid";
-import { NewArrivals } from "@/components/home/NewArrivals";
-import { SchemeCallout } from "@/components/home/SchemeCallout";
-import { ServicesStrip } from "@/components/home/ServicesStrip";
+import { HeroSlider } from "@/components/home/HeroSlider";
+import { CategoryBar } from "@/components/home/CategoryBar";
+import { NewArrivals, TempleBridal } from "@/components/home/HomeRows";
+import { PromoPair } from "@/components/home/PromoPair";
+import { TrustStrip } from "@/components/home/TrustStrip";
+import { CoinBand } from "@/components/home/CoinBand";
 import { ContestCards } from "@/components/home/ContestCards";
-import { ShowroomReels } from "@/components/home/ShowroomReels";
+import { InstagramStrip } from "@/components/home/InstagramStrip";
 import { VisitUs } from "@/components/home/VisitUs";
 
 /**
- * Home. Opens on the shop's rate board (the signature), then today's offers in their poster frames. The rest
- * follows the spec order: categories, new arrivals, scheme, services, contests, reels, visit (#visit).
+ * Home (design v2, "premium retailer"): photo banner slider, round category thumbnails, new arrivals, the two promo
+ * banners, temple and bridal, the trust strip, gold coins, contests, the Instagram strip and Visit us (#visit).
+ * Today's rates live in the ticker above the header.
  */
 export default function Home() {
   return (
     <>
-      <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 sm:pt-10 lg:px-8">
-        <RateBoard />
-      </div>
-      <TodaysOffers />
-      <Divider />
-      <CategoryGrid />
-      <Divider />
+      <HeroSlider />
+      <CategoryBar />
       <NewArrivals />
-      <SchemeCallout />
-      <ServicesStrip />
+      <PromoPair />
+      <TempleBridal />
+      <TrustStrip />
+      <CoinBand />
       <ContestCards />
-      <ShowroomReels />
+      <InstagramStrip />
       <VisitUs />
     </>
-  );
-}
-
-function Divider() {
-  return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <GoldRule />
-    </div>
   );
 }
